@@ -1,0 +1,28 @@
+
+.inputfile + span {
+    font-size: 14px;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #3b7bff;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    z-index: -1;
+}
+
+ .inputfile {
+
+    opacity: 0;
+    // overflow: hidden;
+    // position: absolute;
+    cursor: pointer;
+
+}
+
+.fileDropContainer{
+    // height: 250px;
+    // position: relative;
+    // top: 50%;
+    // transform: translateY(45%);
+}

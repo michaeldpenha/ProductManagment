@@ -8,3 +8,4 @@ export * from './grid';
 export * from './modal-dialog';
 export * from './pagination';
 export * from './tabs';
+export * from './cards';

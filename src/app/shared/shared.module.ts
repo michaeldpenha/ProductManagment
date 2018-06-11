@@ -10,7 +10,8 @@ import {
   FileUploadComponent,
   DragDropComponent,
   TabsComponent,
-  ModalDialogComponent
+  ModalDialogComponent,
+  CardsComponent,
 } from './components/index';
 import { RouterModule } from '@angular/router';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
@@ -22,7 +23,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
   ],
   exports: [
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    DropDownComponent
   ],
   declarations: [
     HeaderComponent,
@@ -35,7 +37,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     DragDropComponent,
     TabsComponent,
     ModalDialogComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    CardsComponent,
   ]
 })
 export class SharedModule { }

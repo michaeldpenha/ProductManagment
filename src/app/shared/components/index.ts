@@ -5,7 +5,6 @@ export * from './drag-drop';
 export * from './drop-down';
 export * from './file-upload';
 export * from './grid';
-export * from './loader';
 export * from './modal-dialog';
 export * from './pagination';
 export * from './tabs';

@@ -5,22 +5,26 @@ import {RouterModule} from '@angular/router';
 import {
   LoginComponent,
   NotFoundComponent,
-  SignUpComponent
-} from './components/index';
+  SignUpComponent,
+  LoaderComponent
+} from './components';
 import {
   AuthGuardService,
-  HttpInterceptorService
-} from './services/index';
+  HttpInterceptorService,
+  LoaderService
+} from './services';
+
 
 @NgModule({
   imports: [
     CommonModule,
     CoreRoutingModule
   ],
-  declarations: [LoginComponent, NotFoundComponent,SignUpComponent],
-  providers : [],
+  declarations: [LoginComponent, NotFoundComponent,SignUpComponent, LoaderComponent],
+  providers : [LoaderService],
   exports : [
-    RouterModule
+    RouterModule,
+    LoaderComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

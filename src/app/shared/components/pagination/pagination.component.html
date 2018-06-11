@@ -1,3 +1,21 @@
-<p>
-  pagination works!
-</p>
+<div class="container pagination-panel">
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <span class="count-text">Showing  {{currentPageCount}} of {{count}}</span><span class="show-drop">Show: 
+        <select (change)="onPageSelect($event.target.value)">
+            <ng-container *ngFor="let item of pageLimitArray">
+                <option value="{{item}}">{{item}}</option>
+            </ng-container>
+        </select> 
+       </span>
+    </div>
+
+    <div class="col-sm-12 col-md-7 text-right pagination-navigate">
+        <i class="fa fa-angle-double-left"></i>
+        <button (click)="onPrev()" [disabled]="page === 1">Previous</button>
+        <button *ngFor="let pageNum of getPages()" (click)="onPage(pageNum)">{{pageNum}}</button>
+        <button (click)="onNext()" [disabled]="lastPage()">Next</button>
+        <i class="fa fa-angle-double-right"></i>
+    </div>
+</div>
+</div>

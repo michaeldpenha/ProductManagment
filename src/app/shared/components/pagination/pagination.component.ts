@@ -11,13 +11,13 @@ export class PaginationComponent implements OnInit {
   @Input() perPage: number; // how many items we want to show per page
   @Input() pagesToShow: number; // how many pages between next/prev
   @Input() pageLimitArray: any = []; //Number of Records per page
- 
+
   @Output() goPrev = new EventEmitter<boolean>(); // Event emitted when click on previous
   @Output() goNext = new EventEmitter<boolean>(); // Event emitted when click on next 
   @Output() goPage = new EventEmitter<number>(); // Event emitted when click on the page number
   @Output() changeInPerPage = new EventEmitter<number>(); // Event emitted when change in no of records per page
 
-  public currentPageCount : number;
+  public currentPageCount: number;
   constructor() { }
 
   ngOnInit() {
@@ -104,14 +104,13 @@ export class PaginationComponent implements OnInit {
    */
   public getPages = (): number[] => {
     const totalPages = this.totalPages();
-    //const c = Math.ceil(this.count / this.perPage);
     const page = this.page || 1;
     const pagesToShow = this.pagesToShow || 9;
     const pages: number[] = [];
     pages.push(page);
     const iteration = pagesToShow - 1;
     for (let i = 0; i < iteration; i++) {
-      (pages && pages.length < pagesToShow && Math.min.apply(null, pages) > 1) ? pages.push(Math.min.apply(null, pages) - 1) : (pages.length < pagesToShow && Math.max.apply(null, pages) < totalPages) ? pages.push(Math.max.apply(null, pages) + 1) : '' ;
+      (pages && pages.length < pagesToShow && Math.min.apply(null, pages) > 1) ? pages.push(Math.min.apply(null, pages) - 1) : (pages.length < pagesToShow && Math.max.apply(null, pages) < totalPages) ? pages.push(Math.max.apply(null, pages) + 1) : '';
     }
     pages.sort((a, b) => a - b);
     return pages;

@@ -1,4 +1,4 @@
-<table [ngClass]="{'gridCls' : true}">
+<table [ngClass]="gridClass()">
   <thead>
     <tr>
       <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [checked]="allItemsSelected"></th>

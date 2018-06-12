@@ -34,7 +34,8 @@ export class SearchOrdersComponent implements OnInit {
     this.gridConfig = new GridConfiguration({
       displayCheckBox: true,
       enableCellEdit: true,
-      allItemsSelected: false
+      allItemsSelected: false,
+      gridCls : ''
     });
   }
   /**

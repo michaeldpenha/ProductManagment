@@ -1,5 +1,14 @@
-<app-header></app-header>
-<app-sidebar></app-sidebar>
-<section class="main-container">
-    <router-outlet></router-outlet>
-</section>
+<div class="wrapper">
+
+    <!-- Header -->
+    <app-header></app-header>
+
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Page Content -->
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
+    
+</div>

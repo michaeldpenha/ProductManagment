@@ -16,6 +16,8 @@ export interface ColumnConfig {
     enableSorting ? : boolean;
     actionItems? : any;
     sortDirection? : string;
+    editable ? : Function;
+    cellEdit ? : any;
 }
 
 export interface ActionGridItemsConfig {
@@ -23,4 +25,15 @@ export interface ActionGridItemsConfig {
     actionClass ? : string;
     click  : Function;
     disable ? : Function;
+}
+
+export interface CellEditConfig {
+    type : string;
+    options ? : any;
+    blur ? : Function;
+    change ? : Function;
+    placeholder ? : string;
+    disabled ? : Function;
+    displayCellEdit? : boolean;
+    errorMsg ?: string;
 }

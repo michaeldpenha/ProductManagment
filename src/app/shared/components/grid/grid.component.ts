@@ -46,9 +46,9 @@ export class GridComponent implements OnInit {
   /**
    * customTemplate
    */
-  public customTemplate = (rec, colDef) => {
+  public customTemplate = (rec : any, colDef : any ,index : number) => {
     let result: any;
-    (colDef.render) ? result = colDef.render(rec,colDef.name) : result = rec[colDef.name];
+    (colDef.render) ? result = colDef.render(rec,colDef.name,index) : result = rec[colDef.name];
     return result;
   }
   /**
@@ -94,4 +94,47 @@ export class GridComponent implements OnInit {
   public gridClass = () => {
     return this.gridCls;
   }
+  /**
+   * isEditable
+   */
+  public isEditable = (item : any , cfg: any) : boolean => {
+    let result : boolean;
+    result = cfg.editable ? cfg.editable(item) : false;
+    return result;
+  }
+  /**
+   * printValue
+   */
+  public printValue = (item : any, dataIndex:any) : string => {
+    return item[dataIndex] ? item[dataIndex] : '';
+  }
+  /**
+   * onBlur 
+   */
+  public onBlur = (e,item : any, cfg:any) => {
+    cfg.cellEdit.config.blur ? cfg.cellEdit.config.blur(e,item,cfg) : '';
+  }
+  /**
+   * It will disable input field
+   */
+  public disableField = (item : any, cfg:any) : any =>{
+    let result : any ;
+    result = cfg.cellEdit.config.disabled ? cfg.cellEdit.config.disabled(item,cfg) : false; 
+    return result;
+  }
+  /**
+   * checkTypeofEditableField
+   */
+  public checkTypeofEditableField = (type : string,cfg : any) : boolean => {
+    let result : boolean;
+    result = cfg.cellEdit.config.type.toLowerCase() == type;
+    return result;
+  }
+  /**
+   * Wll return options value for dropdown
+   */
+  public printOptonsValue = (cfg : any) : any => {
+    return cfg.cellEdit.options ? cfg.cellEdit.options : []; 
+  }
+  
 }

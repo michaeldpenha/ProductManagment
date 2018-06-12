@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
   GridColoumnConfig,
-  GridConfiguration
+  GridConfiguration,
+  GridActionsConfig
 } from '@app/shared/model';
 @Component({
   selector: 'app-search-orders',
@@ -33,9 +34,8 @@ export class SearchOrdersComponent implements OnInit {
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
       displayCheckBox: true,
-      enableCellEdit: true,
-      allItemsSelected: false,
-      gridCls : ''
+      enableCellEdit: false,
+      allItemsSelected: false
     });
   }
   /**
@@ -43,17 +43,22 @@ export class SearchOrdersComponent implements OnInit {
    */
   public populateColoumnConfig = () => {
     this.coloumnConfig = [
-      new GridColoumnConfig({ name: 'orderId', title: 'Order Id #', enableSorting: true,sortDirection : 'ASC' }),
+      new GridColoumnConfig({ name: 'orderId', title: 'Order Id #', enableSorting: true, sortDirection: 'ASC' }),
       new GridColoumnConfig({ name: 'divisionId', title: 'Division' }),
       new GridColoumnConfig({ name: 'customerId', title: 'Customer Id #' }),
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
       new GridColoumnConfig({ name: 'itemQty', title: 'Total Quantity' }),
       new GridColoumnConfig({ name: 'orderType', title: 'Order Type' }),
-      new GridColoumnConfig({ name: 'status', title: 'Status', render: (item,dataIndex) => { return `<div class="sachin">${item[dataIndex]}</div>`; } }),
-      new GridColoumnConfig({ name: 'createdDate', title: 'Created Date', enableSorting: true,sortDirection : 'DESC' }),
-      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', enableSorting: true,sortDirection : 'DESC' }),
-      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', enableSorting: true,sortDirection : 'DESC'}),
-      new GridColoumnConfig({ name: 'actions', actionItems: [{ text: '', click: (item,actionCfg) => {console.log('Test')} }] })
+      new GridColoumnConfig({ name: 'status', title: 'Status', render: (item, dataIndex) => { return `<div class="sachin">${item[dataIndex]}</div>`; } }),
+      new GridColoumnConfig({ name: 'createdDate', title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({
+          name: 'actions', 
+          actionItems: [
+          new GridActionsConfig({ label: '', click: (item, actionCfg) => { console.log('Test') } })
+        ]
+      })
     ]
   }
   /**

@@ -7,7 +7,7 @@
           <div (click)="triggerSort(colDef.config)">
             {{colDef.config.title}}
             <ng-container *ngIf="colDef.config.enableSorting">
-                <i class="fa fa-sort"></i>
+              <i class="fa fa-sort"></i>
             </ng-container>
           </div>
         </th>
@@ -16,9 +16,9 @@
   </thead>
   <tbody>
 
-    <ng-container *ngFor="let data of gridData">
+    <ng-container *ngFor="let data of gridData; let index = index">
       <tr>
-        <td><input type="checkbox" [disabled]="disableCheckBox(data)" (click)="rowSelection(data)" [checked]="data.selected"></td>
+        <td *ngIf="displayCheckBox"><input type="checkbox" [disabled]="disableCheckBox(data)" (click)="rowSelection(data)" [checked]="data.selected"></td>
 
         <ng-container *ngFor="let colDef of columnDefs">
           <ng-container *ngIf="colDef.config.name === 'actions'">
@@ -30,7 +30,18 @@
 
           </ng-container>
           <td>
-            <div class="" (click)="cellClick(data,colDef.config)" [innerHtml]="customTemplate(data,colDef.config)"></div>
+            <ng-container *ngIf="!isEditable(data,colDef.config)">
+              <div class="" (click)="cellClick(data,colDef.config)" [innerHtml]="customTemplate(data,colDef.config,index)"></div>
+            </ng-container>
+            <ng-container *ngIf="isEditable(data,colDef.config)">
+              <ng-container *ngIf="checkTypeofEditableField('i',colDef.config)">
+                <input type="text" [value]="printValue(data,colDef.config.name)" (blur)="onBlur($event,data,colDef.config)" [disabled]="disableField(data,colDef.config)"
+                />
+              </ng-container>
+              <ng-container *ngIf="checkTypeofEditableField('s',colDef.config)">
+                <app-drop-down [receivedInputData]="printOptonsValue(colDef.config)" (selectedInputData)="onChange($event,colDef.config)"></app-drop-down>
+              </ng-container>
+            </ng-container>
           </td>
         </ng-container>
       </tr>

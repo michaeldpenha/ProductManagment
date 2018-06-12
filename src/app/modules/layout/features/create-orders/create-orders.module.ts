@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CreateOrdersRoutingModule } from './create-orders-routing.module';
+import {SharedModule} from '@app/shared';
 import {
   SingleOrderComponent,
   BulkOrderComponent,
@@ -11,6 +12,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     CreateOrdersRoutingModule
   ],
   declarations: [

@@ -1,3 +1,4 @@
+import { TabComponent } from './components/tabs/tab.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -24,7 +25,9 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
   exports: [
     HeaderComponent,
     SidebarComponent,
-    DropDownComponent
+    DropDownComponent,
+    TabsComponent,
+    TabComponent
   ],
   declarations: [
     HeaderComponent,
@@ -39,6 +42,7 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     ModalDialogComponent,
     DatepickerComponent,
     CardsComponent,
+    TabComponent
   ]
 })
 export class SharedModule { }

@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* Header --------------- */
+/* ---------------------- */
+#sidebar,
+#content {
+    margin-top: 3.5rem;
+}
+
+/* Sidebar --------------- */
+/* ---------------------- */
+app-sidebar {
+    display: flex;
+}
+
+/* Common --------------- */
+/* ---------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+#content {
+    padding: 20px;
+}

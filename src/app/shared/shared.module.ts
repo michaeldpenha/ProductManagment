@@ -24,10 +24,12 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
   ],
   exports: [
     HeaderComponent,
+    GridComponent,
     SidebarComponent,
     DropDownComponent,
     TabsComponent,
-    TabComponent
+    TabComponent,
+    ButtonComponent
   ],
   declarations: [
     HeaderComponent,

@@ -1,11 +1,14 @@
-<app-header></app-header>
-<app-drop-down></app-drop-down> 
-<app-sidebar></app-sidebar>
-<section class="main-container">
-    <router-outlet></router-outlet>
-</section>
+<div class="wrapper">
 
-<app-tabs>
-    <app-tab tabTitle="Tab 1">Tab 1 Content</app-tab>
-    <app-tab tabTitle="Tab 2">Tab 2 Content</app-tab>
-</app-tabs>
+    <!-- Header -->
+    <app-header></app-header>
+
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Page Content -->
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
+    
+</div>

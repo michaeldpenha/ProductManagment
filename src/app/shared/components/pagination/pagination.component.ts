@@ -12,8 +12,8 @@ export class PaginationComponent implements OnInit {
   @Input() pagesToShow: number; // how many pages between next/prev
   @Input() pageLimitArray: any = []; //Number of Records per page
 
-  @Output() goPrev = new EventEmitter<boolean>(); // Event emitted when click on previous
-  @Output() goNext = new EventEmitter<boolean>(); // Event emitted when click on next 
+  @Output() goPrev = new EventEmitter<null>(); // Event emitted when click on previous
+  @Output() goNext = new EventEmitter<null>(); // Event emitted when click on next 
   @Output() goPage = new EventEmitter<number>(); // Event emitted when click on the page number
   @Output() changeInPerPage = new EventEmitter<number>(); // Event emitted when change in no of records per page
 
@@ -69,15 +69,15 @@ export class PaginationComponent implements OnInit {
   public onPrev = (): void => {
     this.page = this.page - 1;
     this.calculateCurrentPageCount();
-    this.goPrev.emit(true);
+    this.goPrev.emit();
   }
   /**
    * onNext 
    */
-  public onNext = (next: boolean): void => {
+  public onNext = (): void => {
     this.page = this.page + 1;
     this.calculateCurrentPageCount();
-    this.goNext.emit(next);
+    this.goNext.emit();
   }
   /**
    * totalPages

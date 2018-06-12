@@ -14,7 +14,7 @@
         <i class="fa fa-angle-double-left"></i>
         <button (click)="onPrev()" [disabled]="page === 1">Previous</button>
         <button *ngFor="let pageNum of getPages()" (click)="onPage(pageNum)">{{pageNum}}</button>
-        <button (click)="onNext()" [disabled]="lastPage()">Next</button>
+        <button (click)="onNext(true)" [disabled]="lastPage()">Next</button>
         <i class="fa fa-angle-double-right"></i>
     </div>
 </div>

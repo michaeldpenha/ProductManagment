@@ -28,14 +28,14 @@ export class DropDownComponent implements OnInit {
   public getSelectStyle = (styleTo: any) => {
     if (styleTo == 'ul') {
       return {
-        height: this.defaultSelectHeight = this.defaultSelectHeight ? this.defaultSelectHeight : '18px',
-        width: this.defaultSelectWidth = this.defaultSelectWidth ? this.defaultSelectWidth : '150px',
+        height: this.defaultSelectHeight ? this.defaultSelectHeight : '18px',
+        width: this.defaultSelectWidth ? this.defaultSelectWidth : '150px',
       }
     }
     else {
       return {
-        height: this.defaultSelectHeight = this.defaultSelectHeight ? this.defaultSelectHeight : '100px',
-        width: this.defaultSelectWidth = this.defaultSelectWidth ? this.defaultSelectWidth : '300px'
+        height: this.defaultSelectHeight ? this.defaultSelectHeight : '100px',
+        width: this.defaultSelectWidth ? this.defaultSelectWidth : '300px'
       }
     }
   }

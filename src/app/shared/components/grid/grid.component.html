@@ -1,3 +1,44 @@
-<p>
-  grid works!
-</p>
+<table [ngClass]="{'gridCls' : true}">
+  <thead>
+    <tr>
+      <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [checked]="allItemsSelected"></th>
+      <ng-container *ngFor="let colDef of columnDefs">
+        <th>
+          <div (click)="triggerSort(colDef.config)">
+            {{colDef.config.title}}
+            <ng-container *ngIf="colDef.config.enableSorting">
+                <i class="fa fa-sort"></i>
+            </ng-container>
+          </div>
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+
+    <ng-container *ngFor="let data of gridData">
+      <tr>
+        <td><input type="checkbox" [disabled]="disableCheckBox(data)" (click)="rowSelection(data)" [checked]="data.selected"></td>
+
+        <ng-container *ngFor="let colDef of columnDefs">
+          <ng-container *ngIf="colDef.config.name === 'actions'">
+            <td>
+              <ng-container *ngFor="let action of colDef.config.actionItems">
+                <app-button (onButtonClick)="action.config.click(data,action)" [text]=""></app-button>
+              </ng-container>
+            </td>
+
+          </ng-container>
+          <td>
+            <div class="" (click)="cellClick(data,colDef.config)" [innerHtml]="customTemplate(data,colDef.config)"></div>
+          </td>
+        </ng-container>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="gridData.length == 0">
+      <td colspan="9">
+        <p>{{noRecord}}</p>
+      </td>
+    </ng-container>
+  </tbody>
+</table>

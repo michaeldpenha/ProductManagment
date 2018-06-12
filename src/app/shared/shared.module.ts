@@ -23,8 +23,10 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
   ],
   exports: [
     HeaderComponent,
+    GridComponent,
     SidebarComponent,
-    DropDownComponent
+    DropDownComponent,
+    ButtonComponent
   ],
   declarations: [
     HeaderComponent,

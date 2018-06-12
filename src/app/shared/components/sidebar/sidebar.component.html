@@ -1,23 +1,12 @@
 <nav id="sidebar">
-        <!-- Sidebar Header -->
-        <!-- <div class="sidebar-header">
-            <h3>Collapsible Sidebar</h3>
-        </div> -->
+    <ul class="list-unstyled components">
+        <li *ngFor="let item of sidebarData; let i = index">
+            <a [routerLink]="item.link" *ngIf="item.sub == null">{{item.name}}</a>
 
-        <!-- Sidebar Links -->
-        <ul class="list-unstyled components">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-
-            <li><!-- Link with dropdown items -->
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li><a href="#">Page</a></li>
-                    <li><a href="#">Page</a></li>
-                    <li><a href="#">Page</a></li>
-                </ul>
-
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
+            <a href="#{{i}}" data-toggle="collapse" aria-expanded="false" *ngIf="item.sub">{{item.name}}</a>
+            <ul class="collapse list-unstyled" id="{{i}}" *ngIf="item.sub">
+                <li *ngFor="let subItem of item.sub"><a [routerLink]="subItem.link">{{subItem.name}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

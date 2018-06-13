@@ -1,41 +1,22 @@
 <nav class="navbar navbar-expand-sm d-flex justify-content-between">
 
   <div class="navbar-header">
-    <a>
-      <img class="hide-on-mobile" src="../../../../assets/images/logo.png" /> 
+     <a [routerLink]="headerData.logo.link">
+      <img [class]="headerData.logo.imgClass" [src]="headerData.logo.path" /> 
     </a>
-    <a class="sidebarBtn" (click)="sidebarCollapse()">
-      <i class="fa fa-bars" aria-hidden="true"></i>
-    </a>
+    <a *ngFor="let item of headerData.leftLinks" [routerLink]="item.link" [class]="item.class" (click)="item.click(e)">
+      <i [class]="item.icon" aria-hidden="true"></i>
+    </a> 
   </div>
 
-  <ul class="navbar-nav justify-content-end">
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="mail" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-envelope" aria-hidden="true"></i>
+  <ul class="navbar-nav justify-content-end;">
+    <li class="nav-item dropdown" *ngFor="let item of headerData.rightLinks">
+      <a class="nav-link dropdown-toggle" [routerLink]="item.link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i [class]="item.icon" aria-hidden="true"></i>
+        <span class="hide-on-mobile">{{item.name}}</span>
       </a>
-      <div class="dropdown-menu" aria-labelledby="mail">
-        <a class="dropdown-item" href="#">Mail 1</a>
-        <a class="dropdown-item" href="#">Mail 2</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-bell-o" aria-hidden="true"></i>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="notification">
-        <a class="dropdown-item" href="#">Notification 1</a>
-        <a class="dropdown-item" href="#">Notification 2</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-user-o" aria-hidden="true"></i>
-        <span class="hide-on-mobile">John Smith</span>
-      </a>
-      <div class="dropdown-menu" aria-labelledby="notification">
-        <a class="dropdown-item" href="#">Notification 1</a>
-        <a class="dropdown-item" href="#">Notification 2</a>
+      <div class="dropdown-menu" *ngIf="item.dropdown">
+        <a class="dropdown-item" [routerLink]="subItem.link" *ngFor="let subItem of item.dropdown;">{{subItem.name}}</a>
       </div>
     </li>
   </ul>

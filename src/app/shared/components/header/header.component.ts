@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
+import { HeaderConfig } from '@app/shared/config';
 
 @Component({
   selector: 'app-header',
@@ -10,16 +11,19 @@ import * as $ from 'jquery';
 })
 export class HeaderComponent implements OnInit {
 
+  public headerData: any;
+
   constructor() { }
 
   ngOnInit() {
+    this.defaultConfig();
   }
 
   /**
-   * sidebarCollapse
+   * defaultConfig
    */
-  public sidebarCollapse = () => {
-    $('#sidebar').toggleClass('active');
+  public defaultConfig = () => {
+    this.headerData = HeaderConfig;
   }
 
 }

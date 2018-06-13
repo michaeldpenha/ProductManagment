@@ -1,12 +1,18 @@
 <nav id="sidebar">
     <ul class="list-unstyled components">
         <li *ngFor="let item of sidebarData; let i = index;" (click)="listClick(item)">
-            <a [routerLink]="item.link" [ngClass]="{'active': selectedItem == item}" *ngIf="item.sub == null">{{item.name}}</a>
+            <a [routerLink]="item.link" [ngClass]="{'active': selectedItem == item}" *ngIf="item.sub == null">
+                <i [class]="item.icon" aria-hidden="true" *ngIf="item.icon"></i> {{item.name}}
+            </a>
 
-            <a href="#{{i}}" data-toggle="collapse" aria-expanded="false" *ngIf="item.sub">{{item.name}}</a>
+            <a href="#{{i}}" data-toggle="collapse" aria-expanded="false" *ngIf="item.sub">
+                <i [class]="item.icon" aria-hidden="true" *ngIf="item.icon"></i> {{item.name}}
+            </a>
             <ul class="collapse list-unstyled" id="{{i}}" *ngIf="item.sub">
                 <li *ngFor="let subItem of item.sub; let i = index" (click)="subListClick(subItem)">
-                    <a [routerLink]="subItem.link" [ngClass]="{'active': selectedSubItem == subItem}">{{subItem.name}}</a>
+                    <a [routerLink]="subItem.link" [ngClass]="{'active': selectedSubItem == subItem}">
+                        <i [class]="subItem.icon" aria-hidden="true" *ngIf="subItem.icon"></i> {{subItem.name}}
+                    </a>
                 </li>
             </ul>
         </li>

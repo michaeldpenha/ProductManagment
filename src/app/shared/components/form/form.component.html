@@ -1,0 +1,29 @@
+<form [formGroup]="form">
+  <div class="row">
+    <ng-container *ngFor="let item of formFields">
+      <div [ngClass]="formFieldWidth(item.config)">
+        <div [ngClass]="displayLabelInline(item.config)">
+          <ng-container *ngIf="item.config.label || item.config.renderLabel">
+            <div [innerHtml]="printFieldLabel(item.config)" [ngClass]="fieldLabelCls(item.config)"></div>
+          </ng-container>
+          <div [ngClass]="fieldWidth(item.config)">
+            <ng-container *ngIf="item.config.type.toLowerCase() == 'i'">
+              <input [type]="getInputSubType(item.config)" (blur)="onBlur($event,item.config)" [ngClass]="inputClass(item.config)" [name]="item.config.formName"
+                [formControlName]="item.config.formName" [value]="" (keyup)="onKeyUp($event,item.config)" (keypress)="onKeyPress($event,item.config)"
+                [readonly]="isReadOnly(item.config)" />
+            </ng-container>
+            <ng-container *ngIf="item.config.type.toLowerCase() == 's'">
+              <app-drop-down [name]="item.config.formName" [receivedInputData]="item.config.options" [ngClass]="" [defaultValue]="item.config.defaultValue"
+                [hidden]="isHidden(item.config)" (selectedInputData)="onChange($event,item.config)" [disabled]="isDisabled(item.config)"></app-drop-down>
+            </ng-container>
+            <ng-container *ngIf="item.config.errorMessages">
+              <div class="error" *ngIf="toDisplayError(item.config)">
+                {{toDisplayErrorMessage(item.config)}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</form>

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
 import {
   GridColoumnConfig,
   GridConfiguration,
   GridActionsConfig,
-  CellEditConfiguration
+  CellEditConfiguration,
+  FormFieldConfig
 } from '@app/shared/model';
 @Component({
   selector: 'app-single-order',
@@ -14,15 +16,56 @@ export class SingleOrderComponent implements OnInit {
   public gridConfig: any = [];
   public coloumnConfig: any = [];
   public data: any = [];
+  public form : any;
+  public fromFields : any = [];
+  public submitText : string = 'Submit';
   constructor() { }
 
   ngOnInit() {
+    this.initializeForm();
     this.initializeGrid();
   }
   public initializeGrid = () => {
     this.populateGridConfig();
     this.populateColoumnConfig();
     this.initalizeGridData();
+  }
+  /**
+   * initializeForm();
+   */
+  public initializeForm = () => {
+    this.fromFields = [
+      new FormFieldConfig({type:'s',formName:'orderType',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",fieldWidth:"col-md-8",validation :[Validators.required],renderLabel : (item) =>{
+        return '';
+      },change : (e : any) =>{
+        console.log(e);
+      }}),
+      new FormFieldConfig({type:'i',subtype : 'text',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",formName:'customerId',validation :[Validators.required],renderLabel : (item) =>{
+        return 'Customer id*';
+      },blur : (e : any , item:any) =>{
+        console.log(e.target.value);
+      },errorMessages : true,isErrorMessageVisible : (item : any) =>{
+        return !this.form.get(item.formName).valid && this.form.get(item.formName).touched
+      },displayErrorMessage : () => {
+        return 'Required';
+      }}),
+      new FormFieldConfig({type:'i',formName:'supplierId',disabled : true,readOnly: ()=>{
+        return false;
+      },label : 'Supplier',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'s',formName:'transferType',label : 'Transfer Type',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'i',formName:'refDocNum',label : 'Ref Doc',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'i',formName:'routeId', label: 'Route Id',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'i',formName:'routeCode',validation :[Validators.required],renderLabel : (item) =>{
+        return 'Route Code *';
+      },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'i',formName:'stop', label : 'Stop',fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",})
+      // new FormFieldConfig({type:'d',formName:'releaseDate',validation :[Validators.required],renderLabel : (item) =>{
+      //   return '';
+      // },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      // new FormFieldConfig({type:'d',formName:'deliveryDate',validation :[Validators.required],renderLabel : (item) =>{
+      //   return '';
+      // },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",})
+    ]
   }
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
@@ -81,6 +124,31 @@ export class SingleOrderComponent implements OnInit {
     result = ary.map(element => {
       let key: string = element.config.name;
       return { key: '' };
+    });
+    return result;
+  }
+  /**
+   * onSubmit
+   */
+  public onSubmit= (e) => {
+    debugger;
+  }
+  public isDisabled = () : boolean =>{
+    return !this.form.valid && this.checkGridValues();
+  }
+  /**
+   * fetchForm = 
+   */
+  public fetchForm = (form : any) => {
+    this.form = form;
+  }
+  /**
+   * checkGridValues
+   */
+  public checkGridValues = () => {
+    let result = false;
+    this.data.forEach(element => {
+      result = result || (element.itemNumber != '' && element.quantity != '')
     });
     return result;
   }

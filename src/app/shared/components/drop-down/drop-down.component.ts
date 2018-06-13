@@ -7,9 +7,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./drop-down.component.scss']
 })
 export class DropDownComponent implements OnInit {
-
   constructor() { }
   public styleObject;
+  @Input() name : string;
+  @Input() formControlName : string;
+  @Input() disabled : string;
+  @Input() hidden : string;
+  @Input() required : string;
   @Input('receivedInputData') receivedInputData: any;
   @Input('defaultValue') defaultValue: any;
   @Input('defaultSelectHeight') defaultSelectHeight: any;

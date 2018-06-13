@@ -1,5 +1,6 @@
 <ng-container>
-  <select     [ngStyle]="getSelectStyle('ul')" (change)="onChange($event.target.value)">
+  <select [ngStyle]="getSelectStyle('ul')" (change)="onChange($event.target.value)" [name]="name" [disabled]="disabled" [hidden]="hidden"
+    [required]="required">
       <option [ngStyle]="getSelectStyle('li')" value="" selected>{{defaultValue}}</option>
       <option [ngStyle]="getSelectStyle('li')" *ngFor="let data of receivedInputData" [value]="data">{{data}}</option>
   </select>

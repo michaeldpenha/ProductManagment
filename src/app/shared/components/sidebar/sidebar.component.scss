@@ -24,7 +24,8 @@
     position: relative;
 }
 
-#sidebar a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+#sidebar a[aria-expanded="false"]::before, 
+#sidebar a[aria-expanded="true"]::before {
     content: '\f105';
     display: block;
     position: absolute;
@@ -36,13 +37,6 @@
 #sidebar a[aria-expanded="true"]::before {
     content: '\f107';
 }
-
-/* 
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #1565c0;
-}
-*/
 
 #sidebar ul.components {
     border-bottom: 1px solid #1565c0;
@@ -60,7 +54,7 @@
     font-size: 1rem;
     display: block;
     color: #eaeaea;
-    border-bottom: 1px solid #0559b9;
+    border-bottom: 1px solid #0c73e6;
 }
 #sidebar ul ul a {
     font-size: 0.9rem !important;
@@ -74,7 +68,11 @@
     text-decoration: none;
 }
 
-#sidebar ul li.active > a, a[aria-expanded="true"] {
+#sidebar ul li > a.active
+ {
     color: #fff;
+    background: #05448a;
+}
+#sidebar ul li a[aria-expanded="true"] {
     background: #1259a9;
 }

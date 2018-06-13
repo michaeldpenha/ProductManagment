@@ -9,6 +9,8 @@ import {SideBarConfig} from '@app/shared/config';
 export class SidebarComponent implements OnInit {
 
   public sidebarData: any;
+  public selectedItem: any;
+  public selectedSubItem: any;
 
   constructor() { }
 
@@ -20,7 +22,20 @@ export class SidebarComponent implements OnInit {
    * defaultGrid
    */
   public defaultGrid = () => {
-    this.sidebarData = SideBarConfig
+    this.sidebarData = SideBarConfig;
+    // By default select first element
+    this.selectedItem = this.sidebarData[0];
+  }
+
+  listClick(newValue) {
+    if (!newValue.sub) {
+      this.selectedSubItem = "";
+      this.selectedItem = newValue;
+    }
+  }
+  subListClick(newSubValue) {
+    this.selectedItem = "";
+    this.selectedSubItem = newSubValue;
   }
 
 }

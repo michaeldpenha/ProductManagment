@@ -18,5 +18,9 @@ app-sidebar {
     align-items: stretch;
 }
 #content {
+    overflow: auto;
+    position: relative;
+    display: block;
+    width: 100%;
     padding: 20px;
 }

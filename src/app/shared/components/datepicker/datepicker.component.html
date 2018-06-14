@@ -1,3 +1,14 @@
-<p>
-  datepicker works!
-</p>
+<ng-container>
+    {{datePickerPlaceholder}}
+    <input type="text" 
+        [ngClass]="datepickerCls" 
+        [placeholder]="placeholder" 
+        [bsValue]="defaultDate" 
+        [disabled]="isDisabled"
+        [minDate]="getMinDate"
+        [maxDate]="getMaxDate"
+        (bsValueChange)="onValueChange($event)"
+        [bsConfig]="dateFormat"
+        bsDatepicker>
+</ng-container>    
+

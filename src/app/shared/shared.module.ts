@@ -1,6 +1,8 @@
 import { TabComponent } from './components/tabs/tab.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+
 import {
   HeaderComponent,
   SidebarComponent,
@@ -20,7 +22,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    BsDatepickerModule.forRoot()
   ],
   exports: [
     HeaderComponent,
@@ -29,7 +32,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     DropDownComponent,
     TabsComponent,
     TabComponent,
-    ButtonComponent
+    ButtonComponent,
+    DatepickerComponent
   ],
   declarations: [
     HeaderComponent,

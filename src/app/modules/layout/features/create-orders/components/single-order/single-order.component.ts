@@ -9,7 +9,7 @@ import {
   CellEditConfiguration,
   FormFieldConfig
 } from '@app/shared/model';
-import {SupplierInfoService} from '@app/shared/services';
+import { OrdersService } from '@app/shared/services';
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
@@ -22,8 +22,8 @@ export class SingleOrderComponent implements OnInit {
   public form: any;
   public fromFields: any = [];
   public submitText: string = 'Submit';
-  public supplierObj : any[]= [];
-  constructor(private singleOrderService: SingleOrderService,private supplierServices : SupplierInfoService) { }
+  public supplierObj: any[] = [];
+  constructor(private singleOrderService: SingleOrderService, private orderService: OrdersService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -60,9 +60,9 @@ export class SingleOrderComponent implements OnInit {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayErrorMsg(item);
-        },keyPress : (e : any,cfg : any) => {
+        }, keyPress: (e: any, cfg: any) => {
           (this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId) ? this.form.get('supplierId').setValue('') : '';
-        },keyUp : (e : any,cfg : any) => {
+        }, keyUp: (e: any, cfg: any) => {
           (this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId) ? this.form.get('supplierId').setValue('') : '';
         }
       }),
@@ -78,38 +78,38 @@ export class SingleOrderComponent implements OnInit {
       }),
       new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'dropdown', defaultValue: 'Select Transfer Type',options: this.singleOrderService.transferTypeOptions,formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        type: 'dropdown', defaultValue: 'Select Transfer Type', options: this.singleOrderService.transferTypeOptions, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
         renderLabel: (item: any) => {
           let result: boolean = this.form.get('orderType').value === 'transfer';
           return this.renderLabel(item, result);
         }, change: (e: any, item: any) => {
           this.onOrderTypeChange(e, item);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.form.get('transferType').value == ''  && this.form.get('transferType').touched && this.form.get('orderType').value === 'transfer';
+          return this.form.get('transferType').value == '' && this.form.get('transferType').touched && this.form.get('orderType').value === 'transfer';
         }, displayErrorMessage: (item: any) => {
           return this.form.get('orderType').value === 'transfer' ? this.displayErrorMsg(item) : '';
         }
       }),
       new FormFieldConfig({
-        type: 'datefield', minDate : () =>{return new Date()}, maxDate : () =>{
+        type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form.get('deliveryDate').value;
-        }, formName: 'releaseDate', defaultValue: new Date(), label : 'Release Date',validation: [Validators.required], renderLabel: (item) => {
+        }, formName: 'releaseDate', defaultValue: new Date(), label: 'Release Date', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
-        },change: (e: any, item :any)=>{
-          this.onDateChange(e,item);
+        }, change: (e: any, item: any) => {
+          this.onDateChange(e, item);
         }, readOnly: () => {
           return 'readonly';
-        },fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'datefield',minDate :()=>{
+        type: 'datefield', minDate: () => {
           return this.form.get('releaseDate').value;
-        },maxDate : () => {}, defaultValue: moment(new Date()).add(7,'days'),formName: 'deliveryDate', label : 'Delivery Date',validation: [Validators.required], renderLabel: (item) => {
+        }, maxDate: () => { }, defaultValue: moment(new Date()).add(7, 'days'), formName: 'deliveryDate', label: 'Delivery Date', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
-        },  readOnly: () => {
+        }, readOnly: () => {
           return 'readonly';
-        },fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
   }
@@ -125,14 +125,20 @@ export class SingleOrderComponent implements OnInit {
    */
   public populateColoumnConfig = () => {
     this.coloumnConfig = [
-      new GridColoumnConfig({ name: '', title: '#', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', errorMsg: '', displayCellEdit: true, blur: (e, item, col) => { console.log('Blur') } }), render: (item, col, i) => { return i + 1; } }),
-      new GridColoumnConfig({ name: 'itemNumber', cellEdit: new CellEditConfiguration({ type: 'I', blur: () => { }, displayCellEdit: true }), title: 'Item No.' }),
-      new GridColoumnConfig({ name: 'pack', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { } }), title: 'Pack' }),
-      new GridColoumnConfig({ name: 'size', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true }), title: 'Size' }),
-      new GridColoumnConfig({ name: 'description', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true }), title: 'Description' }),
-      new GridColoumnConfig({ name: 'tixhi', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true }), title: 'TixHi' }),
-      new GridColoumnConfig({ name: 'upc', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true }), title: 'UPC' }),
-      new GridColoumnConfig({ name: 'quantity', cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true }), title: 'Quantity' }),
+      new GridColoumnConfig({ name: '', title: '#', editable: (item) => { return false; }, render: (item, col, i) => { return i + 1; } }),
+      new GridColoumnConfig({
+        name: 'itemNumber', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+          type: 'I', blur: (e: any, item: any, cfg: any, index: number) => {
+            e.target.value == "" ? this.fillValues(index,{}) : this.fetchTargetInfo(e.target.value,index);
+          }, displayCellEdit: true, disabled: () => { return false; }
+        }), title: 'Item No.'
+      }),
+      new GridColoumnConfig({ name: 'pack', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'Pack' }),
+      new GridColoumnConfig({ name: 'size', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'Size' }),
+      new GridColoumnConfig({ name: 'description', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'Description' }),
+      new GridColoumnConfig({ name: 'tixhi', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'TixHi' }),
+      new GridColoumnConfig({ name: 'upc', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
+      new GridColoumnConfig({ name: 'quantity', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemId'] == ''; } }), title: 'Quantity' }),
       new GridColoumnConfig({
         name: 'actions',
         title: 'Action',
@@ -141,6 +147,23 @@ export class SingleOrderComponent implements OnInit {
         ]
       })
     ]
+  }
+  /**
+   * fetchTargetInfo
+   */
+  public fetchTargetInfo = (val : string,index :number) => {
+    this.orderService.getItemDetails(val).subscribe(element =>{
+      this.fillValues(index,element);
+    });
+  }
+  /**
+   * fillValues
+   */
+  public fillValues = (index: number,obj : any) => {
+    let item : any = this.data[index];
+    Object.keys(item).forEach(element => {
+      item[element] = obj[element];
+    });
   }
   /**
    * initalizeGridData
@@ -166,10 +189,10 @@ export class SingleOrderComponent implements OnInit {
    * TODO 
    */
   public createObjectWithBlankValues = (ary: any[]): any => {
-    let result: any;
-    result = ary.map(element => {
+    let result: any = {};
+    ary.forEach(element => {
       let key: string = element.config.name;
-      return { key: '' };
+      result[key] = '';
     });
     return result;
   }
@@ -210,7 +233,7 @@ export class SingleOrderComponent implements OnInit {
   public onOrderTypeChange = (e: any, cfg: any) => {
     this.markAsFiledTouched(cfg);
   }
-  public onDateChange = (e :any , cfg : any) => {
+  public onDateChange = (e: any, cfg: any) => {
 
   }
   /**
@@ -223,10 +246,10 @@ export class SingleOrderComponent implements OnInit {
    * onBlur
    */
   public fetchSupplierInfo = (e: any, item: any) => {
-    let mock = [{"customerId": 273, "customerName": "Adela Bonciu","supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada"}];
+    let mock = [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }];
     this.supplierObj = mock;
     (mock[0].customerId == e.target.value) ? this.form.get('supplierId').setValue(mock[0].supplierId) : this.form.get('supplierId').setValue('');
-    // this.supplierServices.getSupplierInfo(e).subscribe((data)=>{
+    // this.orderService.getSupplierInfo(e).subscribe((data)=>{
 
     // });
   }

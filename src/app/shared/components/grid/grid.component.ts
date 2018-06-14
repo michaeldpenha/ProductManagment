@@ -111,15 +111,22 @@ export class GridComponent implements OnInit {
   /**
    * onBlur 
    */
-  public onBlur = (e,item : any, cfg:any) => {
-    cfg.cellEdit.config.blur ? cfg.cellEdit.config.blur(e,item,cfg) : '';
+  public onBlur = (e,item : any, cfg:any,index :number) => {
+    this.updateGridData(index,cfg.name,e.target.value);
+    cfg.cellEdit.config.blur ? cfg.cellEdit.config.blur(e,item,cfg,index) : '';
+  }
+  /**
+   * updateGridData
+   */
+  public updateGridData = (i : number , dataIndex : string,value : string) => {
+    this.gridData[i][dataIndex] = value;
   }
   /**
    * It will disable input field
    */
-  public disableField = (item : any, cfg:any) : any =>{
+  public disableField = (item : any, cfg:any,index : number) : any =>{
     let result : any ;
-    result = cfg.cellEdit.config.disabled ? cfg.cellEdit.config.disabled(item,cfg) : false; 
+    result = cfg.cellEdit.config.disabled ? cfg.cellEdit.config.disabled(item,cfg,index) : false; 
     return result;
   }
   /**
@@ -134,7 +141,12 @@ export class GridComponent implements OnInit {
    * Wll return options value for dropdown
    */
   public printOptonsValue = (cfg : any) : any => {
-    return cfg.cellEdit.options ? cfg.cellEdit.options : []; 
+    return cfg.cellEdit.config.options ? cfg.cellEdit.config.options : []; 
   }
-  
+  /**
+   * getInputSubType
+   */
+  public getInputSubType = (cfg :any) => {
+    return cfg && cfg.cellEdit.config.subType ? cfg.cellEdit.config.subType : 'text';
+  }
 }

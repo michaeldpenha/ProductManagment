@@ -36,4 +36,5 @@ export interface CellEditConfig {
     disabled ? : Function;
     displayCellEdit? : boolean;
     errorMsg ?: string;
+    subType ? : string;
 }

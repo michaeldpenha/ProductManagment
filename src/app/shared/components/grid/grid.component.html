@@ -35,11 +35,11 @@
             </ng-container>
             <ng-container *ngIf="isEditable(data,colDef.config)">
               <ng-container *ngIf="checkTypeofEditableField('i',colDef.config)">
-                <input type="text" [value]="printValue(data,colDef.config.name)" (blur)="onBlur($event,data,colDef.config)" [disabled]="disableField(data,colDef.config)"
+                <input [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)" (blur)="onBlur($event,data,colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
                 />
               </ng-container>
               <ng-container *ngIf="checkTypeofEditableField('s',colDef.config)">
-                <app-drop-down [receivedInputData]="printOptonsValue(colDef.config)" (selectedInputData)="onChange($event,colDef.config)"></app-drop-down>
+                <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
               </ng-container>
             </ng-container>
           </td>

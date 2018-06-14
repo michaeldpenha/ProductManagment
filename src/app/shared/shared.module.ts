@@ -19,11 +19,8 @@ import {
   DatepickerComponent,
   FormComponent
 } from './components/index';
-import {SupplierInfoService} from './services';
+import {OrdersService} from './services';
 import { RouterModule } from '@angular/router';
-import { FormButtonComponent } from './components/dynamic-form/form-button/form-button.component';
-import { FormInputComponent } from './components/dynamic-form/form-input/form-input.component';
-import { FormSelectComponent } from './components/dynamic-form/form-select/form-select.component';
 
 @NgModule({
   imports: [
@@ -61,11 +58,8 @@ import { FormSelectComponent } from './components/dynamic-form/form-select/form-
     DatepickerComponent,
     CardsComponent,
     TabComponent,
-    FormComponent,
-    FormButtonComponent,
-    FormInputComponent,
-    FormSelectComponent
+    FormComponent
   ],
-  providers:[SupplierInfoService]
+  providers:[OrdersService]
 })
 export class SharedModule { }

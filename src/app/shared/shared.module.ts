@@ -2,7 +2,7 @@ import { TabComponent } from './components/tabs/tab.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   HeaderComponent,
   SidebarComponent,
@@ -15,15 +15,22 @@ import {
   TabsComponent,
   ModalDialogComponent,
   CardsComponent,
+  DatepickerComponent,
+  FormComponent
 } from './components/index';
 import { RouterModule } from '@angular/router';
-import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { FormButtonComponent } from './components/dynamic-form/form-button/form-button.component';
+import { FormInputComponent } from './components/dynamic-form/form-input/form-input.component';
+import { FormSelectComponent } from './components/dynamic-form/form-select/form-select.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent,
@@ -33,7 +40,8 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     TabsComponent,
     TabComponent,
     ButtonComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    FormComponent
   ],
   declarations: [
     HeaderComponent,
@@ -48,7 +56,11 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
     ModalDialogComponent,
     DatepickerComponent,
     CardsComponent,
-    TabComponent
+    TabComponent,
+    FormComponent,
+    FormButtonComponent,
+    FormInputComponent,
+    FormSelectComponent
   ]
 })
 export class SharedModule { }

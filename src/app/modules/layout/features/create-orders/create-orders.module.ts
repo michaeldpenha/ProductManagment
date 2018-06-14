@@ -8,7 +8,7 @@ import {
   BulkOrderComponent,
   BulkOrderInboxComponent
 } from './components';
-
+import { SingleOrderService } from "./components/single-order/single-order.service";
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +19,7 @@ import {
     SingleOrderComponent,
     BulkOrderComponent,
     BulkOrderInboxComponent
-  ]
+  ],
+  providers : [SingleOrderService]
 })
 export class CreateOrdersModule { }

@@ -1,14 +1,22 @@
 <ng-container>
-    {{datePickerPlaceholder}}
-    <input type="text" 
-        [ngClass]="datepickerCls" 
-        [placeholder]="placeholder" 
-        [bsValue]="defaultDate" 
-        [disabled]="isDisabled"
-        [minDate]="getMinDate"
-        [maxDate]="getMaxDate"
-        (bsValueChange)="onValueChange($event)"
-        [bsConfig]="dateFormat"
-        bsDatepicker>
+    <div class="row datepickerContent">
+        <div class="dpInput">
+            <input type="text" 
+                [ngClass]="datepickerCls" 
+                [placeholder]="placeholder" 
+                [bsValue]="defaultDate" 
+                [isDisabled]="isDisabled"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                (bsValueChange)="onValueChange($event)"
+                [bsConfig]="dateFormat"
+                [readonly]="readonly"
+                #dp="bsDatepicker"
+                bsDatepicker>
+        </div>
+        <div class="dbButton showBg">
+            <i class="fa fa-calendar" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen"></i>
+        </div>  
+    </div>  
 </ng-container>    
 

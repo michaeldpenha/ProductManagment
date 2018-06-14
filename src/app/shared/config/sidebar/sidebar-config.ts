@@ -1,5 +1,5 @@
 export interface MenuItems {
-    link: string;
+    link?: string;
     titlei18n?: string;
     expanded?: boolean;
     icon?: string;
@@ -8,7 +8,7 @@ export interface MenuItems {
     name : string;
 }
 export interface SubMenuItems {
-    link: string;
+    link?: string;
     titlei18n?: string;
     expanded?: boolean;
     icon?: string;
@@ -17,12 +17,12 @@ export interface SubMenuItems {
     name : string;
 }
 export const SideBarConfig: MenuItems[] = [
-    { name: 'Manage Orders', link: '#', icon: "fa fa-search-plus", sub: null },
+    { name: 'Manage Orders', link: '/manage-order', icon: "fa fa-search-plus", sub: null },
     {
-        name: 'Create Order', link: '#', icon: "fa fa-cart-arrow-down", sub:
+        name: 'Create Order', icon: "fa fa-cart-arrow-down", sub:
             [
-                { name: 'Single Order', link: '#', sub: null },
-                { name: 'Bulk Order', link: '#', sub: null }
+                { name: 'Single Order', link: '/create-order/single-order', sub: null },
+                { name: 'Bulk Order', link: '/create-order/bulk-order', sub: null }
             ]
     }
 ];

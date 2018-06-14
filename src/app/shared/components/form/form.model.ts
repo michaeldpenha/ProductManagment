@@ -14,7 +14,7 @@ export interface FormConfig {
     renderLabel ? : Function;
     blur ? : Function;
     hidden ? : string;
-    disabled ? : boolean;
+    disabled ? : Function;
     keyUp ? : Function;
     keypress ? : Function;
     change ? :Function;
@@ -24,4 +24,6 @@ export interface FormConfig {
     inputClass ? : string; 
     fieldWidth ? : string;
     readOnly? : Function;
+    minDate ? : Function;
+    maxDate ? : Function;
 }

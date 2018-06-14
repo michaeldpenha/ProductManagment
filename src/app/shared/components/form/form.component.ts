@@ -127,7 +127,7 @@ export class FormComponent implements OnInit {
    * toDisplayError
    */
   public toDisplayErrorMessage = (item : any) => {
-    return item && item.displayErrorMessage ? item.displayErrorMessage() : 'Required';
+    return item && item.displayErrorMessage ? item.displayErrorMessage(item) : 'Required';
   }
   /**
    * printPlaceHolder 

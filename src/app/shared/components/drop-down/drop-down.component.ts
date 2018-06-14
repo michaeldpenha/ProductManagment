@@ -21,7 +21,7 @@ export class DropDownComponent implements OnInit {
   @Output('selectedInputData') selectedInputData = new EventEmitter<any>();
 
   ngOnInit() {
-    this.receivedInputData = ['TEST1', 'TEST2', 'TEST3'];
+    this.receivedInputData = this.receivedInputData ? this.receivedInputData : [{label : 'TEST1',value : 'test1'},{label : 'TEST2',value:'test2'}];
     this.defaultValue = this.defaultValue ? this.defaultValue : 'Select';
   }
 

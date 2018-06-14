@@ -101,13 +101,13 @@ export class FormComponent implements OnInit {
    * onKeyUp
    */
   public onKeyUp= (e:any,item : any) => {
-    return item && item.keyUp ? item.keyUp() : '';
+    return item && item.keyUp ? item.keyUp(e,item) : '';
   }
   /**
    * onKeyPress
    */
   public onKeyPress = (e:any,item : any) => {
-    return item && item.keypress ? item.keyPress() : '';
+    return item && item.keyPress ? item.keyPress(e,item) : '';
     
   }
   /**

@@ -3,11 +3,18 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SingleOrderService {
   public _orderTypeOptions : any;
+  public _transferTypeOptions : any;
   get orderTypeOptions ():any {
     return this._orderTypeOptions; 
   }
   set orderTypeOptions (options : any){
     this._orderTypeOptions = options;
+  }
+  get transferTypeOptions () :any {
+    return this._transferTypeOptions;
+  }
+  set transferTypeOptions(options : any){
+    this._transferTypeOptions = options;
   }
   constructor() { 
     this.orderTypeOptions = [{
@@ -19,6 +26,13 @@ export class SingleOrderService {
     },{
       label : 'Standing',
       value : 'standing'
+    }];
+    this._transferTypeOptions = [{
+      label : 'M1',
+      value : 'M1'
+    },{
+      label : 'M2',
+      value : 'M2'
     }]
   }
 }

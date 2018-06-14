@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { SingleOrderService } from './single-order.service';
+import * as moment from 'moment';
 import {
   GridColoumnConfig,
   GridConfiguration,
@@ -8,6 +9,7 @@ import {
   CellEditConfiguration,
   FormFieldConfig
 } from '@app/shared/model';
+import {SupplierInfoService} from '@app/shared/services';
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
@@ -20,7 +22,8 @@ export class SingleOrderComponent implements OnInit {
   public form: any;
   public fromFields: any = [];
   public submitText: string = 'Submit';
-  constructor(private singleOrderService: SingleOrderService) { }
+  public supplierObj : any[]= [];
+  constructor(private singleOrderService: SingleOrderService,private supplierServices : SupplierInfoService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -52,11 +55,15 @@ export class SingleOrderComponent implements OnInit {
         type: 'input', subtype: 'text', label: 'Customer', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
-          this.onBlur(e, item);
+          (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayErrorMsg(item);
+        },keyPress : (e : any,cfg : any) => {
+          (this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId) ? this.form.get('supplierId').setValue('') : '';
+        },keyUp : (e : any,cfg : any) => {
+          (this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId) ? this.form.get('supplierId').setValue('') : '';
         }
       }),
       new FormFieldConfig({
@@ -71,7 +78,7 @@ export class SingleOrderComponent implements OnInit {
       }),
       new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'dropdown', defaultValue: 'Select Transfer Type',formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        type: 'dropdown', defaultValue: 'Select Transfer Type',options: this.singleOrderService.transferTypeOptions,formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
         renderLabel: (item: any) => {
           let result: boolean = this.form.get('orderType').value === 'transfer';
           return this.renderLabel(item, result);
@@ -84,21 +91,25 @@ export class SingleOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'datefield', minDate : () =>{}, maxDate : () =>{
+        type: 'datefield', minDate : () =>{return new Date()}, maxDate : () =>{
           return this.form.get('deliveryDate').value;
-        }, formName: 'releaseDate', label : 'Release Date',validation: [Validators.required], renderLabel: (item) => {
+        }, formName: 'releaseDate', defaultValue: new Date(), label : 'Release Date',validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         },change: (e: any, item :any)=>{
           this.onDateChange(e,item);
+        }, readOnly: () => {
+          return 'readonly';
         },fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
         type: 'datefield',minDate :()=>{
           return this.form.get('releaseDate').value;
-        }, formName: 'deliveryDate', label : 'Delivery Date',validation: [Validators.required], renderLabel: (item) => {
+        },maxDate : () => {}, defaultValue: moment(new Date()).add(7,'days'),formName: 'deliveryDate', label : 'Delivery Date',validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
-        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        },  readOnly: () => {
+          return 'readonly';
+        },fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
   }
@@ -198,7 +209,6 @@ export class SingleOrderComponent implements OnInit {
    */
   public onOrderTypeChange = (e: any, cfg: any) => {
     this.markAsFiledTouched(cfg);
-    console.log(e);
   }
   public onDateChange = (e :any , cfg : any) => {
 
@@ -212,8 +222,13 @@ export class SingleOrderComponent implements OnInit {
   /**
    * onBlur
    */
-  public onBlur = (e: any, item: any) => {
-    console.log(e.target.value);
+  public fetchSupplierInfo = (e: any, item: any) => {
+    let mock = [{"customerId": 273, "customerName": "Adela Bonciu","supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada"}];
+    this.supplierObj = mock;
+    (mock[0].customerId == e.target.value) ? this.form.get('supplierId').setValue(mock[0].supplierId) : this.form.get('supplierId').setValue('');
+    // this.supplierServices.getSupplierInfo(e).subscribe((data)=>{
+
+    // });
   }
   /**
    * displayErrorMsg

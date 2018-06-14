@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import {
   HeaderComponent,
   SidebarComponent,
@@ -18,6 +19,7 @@ import {
   DatepickerComponent,
   FormComponent
 } from './components/index';
+import {SupplierInfoService} from './services';
 import { RouterModule } from '@angular/router';
 import { FormButtonComponent } from './components/dynamic-form/form-button/form-button.component';
 import { FormInputComponent } from './components/dynamic-form/form-input/form-input.component';
@@ -27,6 +29,7 @@ import { FormSelectComponent } from './components/dynamic-form/form-select/form-
   imports: [
     CommonModule,
     RouterModule,
+    HttpClientModule,
     BsDatepickerModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
@@ -41,7 +44,8 @@ import { FormSelectComponent } from './components/dynamic-form/form-select/form-
     TabComponent,
     ButtonComponent,
     DatepickerComponent,
-    FormComponent
+    FormComponent,
+    HttpClientModule
   ],
   declarations: [
     HeaderComponent,
@@ -61,6 +65,7 @@ import { FormSelectComponent } from './components/dynamic-form/form-select/form-
     FormButtonComponent,
     FormInputComponent,
     FormSelectComponent
-  ]
+  ],
+  providers:[SupplierInfoService]
 })
 export class SharedModule { }

@@ -29,7 +29,7 @@ export class DatepickerComponent implements OnInit {
     this.isDisabled = this.isDisabled ? true : false;
     this.minDate = this.minDate ? this.minDate : '';
     this.maxDate = this.maxDate ? this.maxDate : '';
-    this.readonly = this.readonly ? "readonly" : '';
+    this.readonly = this.readonly ? 'readonly' : '';
     this.dateFormat = this.dateFormat ? this.dateFormat : 'mm/dd/yyyy';
     this.defaultDate = this.value ? new Date(this.value) : new Date();
   }

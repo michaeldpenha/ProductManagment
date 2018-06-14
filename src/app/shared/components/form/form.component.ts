@@ -71,7 +71,7 @@ export class FormComponent implements OnInit {
    * printFieldLabel
    */
   public printFieldLabel = (item: any) => {
-    return item && item.renderLabel ? item.renderLabel() : item.label ? item.label : '';
+    return item && item.renderLabel ? item.renderLabel(item) : item.label ? item.label : '';
   }
   /**
    * get Input sub type
@@ -95,7 +95,7 @@ export class FormComponent implements OnInit {
    * isDisabled
    */
   public isDisabled = (item : any) : boolean => {
-    return item && item.disabled ? item.disabled : false;
+    return item && item.disabled ? item.disabled(item) : false;
   }
   /**
    * onKeyUp
@@ -115,7 +115,7 @@ export class FormComponent implements OnInit {
    */
   public onChange = (e:any,item : any) => {
     this.form.get(item.formName).setValue(e);
-    return item && item.change ? item.change(e) : '';
+    return item && item.change ? item.change(e,item) : '';
   }
   /**
    * toDisplayErrorMessage
@@ -134,5 +134,17 @@ export class FormComponent implements OnInit {
    */
   public printPlaceHolder = (cfg : any) : string => {
     return cfg.placeholder ? cfg.placeholder : 'Enter Value';
+  }
+  /**
+   * fetchMaxDate
+   */
+  public fetchMaxDate = (cfg :any) => {
+    return cfg && cfg.maxDate ? cfg.maxDate(cfg) : '';
+  }
+  /**
+   * minDate
+   */
+  public fetchMinDate = (cfg :any) => {
+    return cfg && cfg.minDate ? cfg.minDate(cfg) : '';
   }
 }

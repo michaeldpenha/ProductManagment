@@ -4,9 +4,9 @@
         [ngClass]="datepickerCls" 
         [placeholder]="placeholder" 
         [bsValue]="defaultDate" 
-        [disabled]="isDisabled"
-        [minDate]="getMinDate"
-        [maxDate]="getMaxDate"
+        [disabled]="disabled"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
         (bsValueChange)="onValueChange($event)"
         [bsConfig]="dateFormat"
         bsDatepicker>

@@ -8,13 +8,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class DatepickerComponent implements OnInit {
 
- // defaultDate = new Date();
+  public defaultDate = new Date();
   @Input() datepickerCls : string;
   @Input() placeholder: any;
   @Input() disabled : boolean = false;
-  @Input() getMinDate : any;
-  @Input() getMaxDate : any;
+  @Input() minDate : any;
+  @Input() maxDate : any;
   @Input() dateFormat: any;
+  @Input() value : any;
   @Output() change = new EventEmitter<any>();
 
 
@@ -24,9 +25,8 @@ export class DatepickerComponent implements OnInit {
   ngOnInit() {
     this.placeholder = this.placeholder ? this.placeholder : "Select Date";
     this.datepickerCls = this.datepickerCls ? this.datepickerCls : "form-control";
-    this.getMinDate = this.getMinDate ? this.getMinDate : '';
-    this.getMaxDate = this.getMaxDate ? this.getMaxDate : '';
-    this.dateFormat = this.dateFormat ? this.dateFormat : '';
+    this.dateFormat = this.dateFormat ? this.dateFormat : 'mm/dd/yyyy';
+    this.defaultDate = this.value ? new Date(this.value) : new Date();
   }
 
   /**

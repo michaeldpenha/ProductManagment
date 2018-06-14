@@ -37,7 +37,7 @@ export class SingleOrderComponent implements OnInit {
   public initializeForm = () => {
     this.fromFields = [
       new FormFieldConfig({
-        type: 'dropdown', formName: 'orderType', options:this.singleOrderService.orderTypeOptions,fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
+        type: 'dropdown', formName: 'orderType', label:'Order Type',defaultValue : 'Select Order Types',options:this.singleOrderService.orderTypeOptions,fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, change: (e: any) => {
           this.onOrderTypeChange(e);
@@ -71,13 +71,13 @@ export class SingleOrderComponent implements OnInit {
           return 'Route Code *';
         }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", })
-      // new FormFieldConfig({type:'d',formName:'releaseDate',validation :[Validators.required],renderLabel : (item) =>{
-      //   return '';
-      // },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
-      // new FormFieldConfig({type:'d',formName:'deliveryDate',validation :[Validators.required],renderLabel : (item) =>{
-      //   return '';
-      // },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",})
+      new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({type:'datefield',formName:'releaseDate',validation :[Validators.required],renderLabel : (item) =>{
+        return '';
+      },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",}),
+      new FormFieldConfig({type:'datefield',formName:'deliveryDate',validation :[Validators.required],renderLabel : (item) =>{
+        return '';
+      },fieldWidthCls:'col-md-6',displayLabelCls:'form-group required row',fieldLabelClass:'col-md-3 col-form-label',inputClass:"form-control form-control-sm",})
     ]
   }
   public populateGridConfig = () => {
@@ -193,6 +193,7 @@ export class SingleOrderComponent implements OnInit {
    * basicFieldValidation
    */
   public basicFieldValidation = (item: any): boolean => {
+    console.log(!this.form.get(item.formName).valid && this.form.get(item.formName).touched)
     return !this.form.get(item.formName).valid && this.form.get(item.formName).touched
   }
 }

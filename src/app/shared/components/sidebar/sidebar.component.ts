@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {SideBarConfig} from '@app/shared/config';
+import * as $ from 'jquery';
+import { Location } from '@angular/common';
+import { SideBarConfig } from '@app/shared/config';
+
 @Component({
   selector: 'app-sidebar',
 
@@ -10,32 +13,50 @@ export class SidebarComponent implements OnInit {
 
   public sidebarData: any;
   public selectedItem: any;
-  public selectedSubItem: any;
+  public locationPath: any;
+  public href: any;
+  public counter: number = 0;
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
-    this.defaultGrid();
+    this.defaultData();
   }
 
   /**
-   * defaultGrid
+   * defaultData
    */
-  public defaultGrid = () => {
+  public defaultData = () => {
+    this.counter++;
     this.sidebarData = SideBarConfig;
-    // By default select first element
-    this.selectedItem = this.sidebarData[0];
+    
+    // on Refresh page set current menu active
+    this.locationPath = window.location.pathname;
+    this.sidebarData.forEach(element => {
+      if (this.locationPath === element.link) {
+        this.selectedItem = element;
+      } else if(element.sub) {
+        (element.sub).forEach(subElement => {
+          if (this.locationPath === subElement.link) {
+            this.selectedItem = subElement;
+            setTimeout(() => {
+              $("a[href$='#" + this.counter + "']").attr("aria-expanded","true");
+              $("#" + this.counter).parent().find("ul").addClass("show");
+            }, 500);
+          }
+        });
+      }
+    });
   }
 
-  listClick(newValue) {
+  /**
+   * menuClick
+   */
+  menuClick(newValue) {
     if (!newValue.sub) {
-      this.selectedSubItem = "";
+      this.selectedItem = "";
       this.selectedItem = newValue;
     }
-  }
-  subListClick(newSubValue) {
-    this.selectedItem = "";
-    this.selectedSubItem = newSubValue;
   }
 
 }

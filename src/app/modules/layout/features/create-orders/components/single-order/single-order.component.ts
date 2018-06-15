@@ -9,7 +9,10 @@ import {
   CellEditConfiguration,
   FormFieldConfig
 } from '@app/shared/model';
-import { OrdersService } from '@app/shared/services';
+import {
+  OrdersService,
+  MessagesService
+} from '@app/shared/services';
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
@@ -23,7 +26,9 @@ export class SingleOrderComponent implements OnInit {
   public fromFields: any = [];
   public submitText: string = 'Submit';
   public supplierObj: any[] = [];
-  constructor(private singleOrderService: SingleOrderService, private orderService: OrdersService) { }
+  constructor(private singleOrderService: SingleOrderService,
+    private orderService: OrdersService,
+    private msgService: MessagesService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -52,7 +57,7 @@ export class SingleOrderComponent implements OnInit {
       }),
       new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'input', subtype: 'text', label: 'Customer', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
+        type: 'input', subtype: 'text', label: 'Customer Id', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
           (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
@@ -67,8 +72,12 @@ export class SingleOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'routeCode', validation: [Validators.required], renderLabel: (item) => {
+        type: 'input', formName: 'routeCode', validation: [Validators.required,Validators.minLength(2)], renderLabel: (item) => {
           return 'Route Code *';
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
@@ -99,6 +108,10 @@ export class SingleOrderComponent implements OnInit {
           this.onDateChange(e, item);
         }, readOnly: () => {
           return 'readonly';
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
@@ -109,6 +122,10 @@ export class SingleOrderComponent implements OnInit {
           return this.renderLabel(item, true);
         }, readOnly: () => {
           return 'readonly';
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
@@ -129,7 +146,7 @@ export class SingleOrderComponent implements OnInit {
       new GridColoumnConfig({
         name: 'itemNumber', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'I', blur: (e: any, item: any, cfg: any, index: number) => {
-            e.target.value == "" ? this.fillValues(index,{}) : this.fetchTargetInfo(e.target.value,index);
+            e.target.value == "" ? this.fillValues(index, {}) : this.fetchTargetInfo(e.target.value, index);
           }, displayCellEdit: true, disabled: () => { return false; }
         }), title: 'Item No.'
       }),
@@ -151,16 +168,16 @@ export class SingleOrderComponent implements OnInit {
   /**
    * fetchTargetInfo
    */
-  public fetchTargetInfo = (val : string,index :number) => {
-    this.orderService.getItemDetails(val).subscribe(element =>{
-      this.fillValues(index,element);
+  public fetchTargetInfo = (val: string, index: number) => {
+    this.orderService.getItemDetails(val).subscribe(element => {
+      this.fillValues(index, element);
     });
   }
   /**
    * fillValues
    */
-  public fillValues = (index: number,obj : any) => {
-    let item : any = this.data[index];
+  public fillValues = (index: number, obj: any) => {
+    let item: any = this.data[index];
     Object.keys(item).forEach(element => {
       item[element] = obj[element];
     });
@@ -248,16 +265,17 @@ export class SingleOrderComponent implements OnInit {
   public fetchSupplierInfo = (e: any, item: any) => {
     let mock = [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }];
     this.supplierObj = mock;
-    (mock[0].customerId == e.target.value) ? this.form.get('supplierId').setValue(mock[0].supplierId) : this.form.get('supplierId').setValue('');
-    // this.orderService.getSupplierInfo(e).subscribe((data)=>{
-
-    // });
+    this.form.get('supplierId').setValue('');
+    (mock[0].customerId == e.target.value) ? this.form.get('supplierId').setValue(mock[0].supplierId) : (e.target.value != '') ?  this.form.get(item.formName).setErrors({ validation: true }) : '';
   }
   /**
    * displayErrorMsg
    */
   public displayErrorMsg = (cfg: any) => {
-    return 'Required';
+    let key = cfg.formName;
+    let errorType = this.form.get(cfg.formName).errors ? Array.isArray(this.form.get(cfg.formName).errors) ? Object.keys(this.form.get(cfg.formName).errors[0])[0] :Object.keys(this.form.get(cfg.formName).errors)[0] : '';
+
+    return this.msgService.fetchMessage(key , errorType);
   }
   /**
    * basicFieldValidation
@@ -271,5 +289,13 @@ export class SingleOrderComponent implements OnInit {
   public disableTransferType = (): boolean => {
     (this.form && this.form.get('orderType').value === 'transfer') ? this.form.get('transferType').setValidators([Validators.required]) : this.form.get('transferType').clearValidators();
     return this.form && this.form.get('orderType').value === 'transfer' ? false : true;
+  }
+  /**
+   * errorCustomerKey
+   */
+  public errorCustomerKey = (cfg): string => {
+    let result: string;
+    result = this.form.get('supplierId').value === '' && this.form.get(cfg.formName).value != '' ? 'customerNotFound' : 'customerIsRequired';
+    return result;
   }
 }

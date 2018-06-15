@@ -83,7 +83,7 @@ export class FormComponent implements OnInit {
    * onBlur
    */
   public onBlur = (e : any,item : any) => {
-    (item && item.blur) ? item.blur(e) : '';
+    (item && item.blur) ? item.blur(e,item) : '';
   }
   /**
    * hidden

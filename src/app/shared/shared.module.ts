@@ -19,7 +19,10 @@ import {
   DatepickerComponent,
   FormComponent
 } from './components/index';
-import {OrdersService} from './services';
+import {
+  OrdersService,
+  MessagesService
+} from './services';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -60,6 +63,9 @@ import { RouterModule } from '@angular/router';
     TabComponent,
     FormComponent
   ],
-  providers:[OrdersService]
+  providers: [
+    OrdersService,
+    MessagesService
+  ]
 })
 export class SharedModule { }

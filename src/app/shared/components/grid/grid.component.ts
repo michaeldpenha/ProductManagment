@@ -149,4 +149,10 @@ export class GridComponent implements OnInit {
   public getInputSubType = (cfg :any) => {
     return cfg && cfg.cellEdit.config.subType ? cfg.cellEdit.config.subType : 'text';
   }
+  /**
+   * getInputSubType
+   */
+  public getInputClass = (cfg :any) => {
+    return cfg && cfg.cellEdit.config.inputClass ? cfg.cellEdit.config.inputClass : 'form-control';
+  }
 }

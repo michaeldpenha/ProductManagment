@@ -14,11 +14,13 @@
       </ng-container>
     </tr>
   </thead>
-  <tbody>
 
+  <tbody>
     <ng-container *ngFor="let data of gridData; let index = index">
       <tr>
-        <td *ngIf="displayCheckBox"><input type="checkbox" [disabled]="disableCheckBox(data)" (click)="rowSelection(data)" [checked]="data.selected"></td>
+        <td *ngIf="displayCheckBox">
+          <input type="checkbox" [disabled]="disableCheckBox(data)" (click)="rowSelection(data)" [checked]="data.selected">
+        </td>
 
         <ng-container *ngFor="let colDef of columnDefs">
           <ng-container *ngIf="colDef.config.name === 'actions'">
@@ -27,7 +29,6 @@
                 <app-button (onButtonClick)="action.config.click(data,action)" [text]=""></app-button>
               </ng-container>
             </td>
-
           </ng-container>
           <td>
             <ng-container *ngIf="!isEditable(data,colDef.config)">
@@ -35,8 +36,7 @@
             </ng-container>
             <ng-container *ngIf="isEditable(data,colDef.config)">
               <ng-container *ngIf="checkTypeofEditableField('i',colDef.config)">
-                <input [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)" (blur)="onBlur($event,data,colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
-                />
+                <input [type]="getInputSubType(colDef.config,index)" [ngClass]="getInputClass(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)" (blur)="onBlur($event,data,colDef.config,index)" [disabled]="disableField(data,colDef.config,index)" />
               </ng-container>
               <ng-container *ngIf="checkTypeofEditableField('s',colDef.config)">
                 <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>

@@ -55,10 +55,9 @@ export class SingleOrderComponent implements OnInit {
           return this.displayErrorMsg(item);
         }
       }),
-      new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'input', subtype: 'text', label: 'Customer Id', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
-          return this.renderLabel(item, true);
+        type: 'input', subtype: 'text', label: 'Customer', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {          return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
           (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
@@ -74,20 +73,15 @@ export class SingleOrderComponent implements OnInit {
       new FormFieldConfig({
         type: 'input', formName: 'routeCode', validation: [Validators.required,Validators.minLength(2)], renderLabel: (item) => {
           return 'Route Code *';
-        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.basicFieldValidation(item);
-        }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
         type: 'input', formName: 'supplierId', disabled: () => { return true; }, readOnly: () => {
           return true;
-        }, label: 'Supplier', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, label: 'Supplier', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'dropdown', defaultValue: 'Select Transfer Type', options: this.singleOrderService.transferTypeOptions, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        type: 'dropdown', defaultValue: 'Select Transfer Type', options: this.singleOrderService.transferTypeOptions, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8",  inputClass: "form-control form-control-sm",
         renderLabel: (item: any) => {
           let result: boolean = this.form.get('orderType').value === 'transfer';
           return this.renderLabel(item, result);
@@ -108,13 +102,8 @@ export class SingleOrderComponent implements OnInit {
           this.onDateChange(e, item);
         }, readOnly: () => {
           return 'readonly';
-        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.basicFieldValidation(item);
-        }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
         type: 'datefield', minDate: () => {
           return this.form.get('releaseDate').value;
@@ -122,11 +111,6 @@ export class SingleOrderComponent implements OnInit {
           return this.renderLabel(item, true);
         }, readOnly: () => {
           return 'readonly';
-        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.basicFieldValidation(item);
-        }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
   }
@@ -155,7 +139,7 @@ export class SingleOrderComponent implements OnInit {
       new GridColoumnConfig({ name: 'description', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'Description' }),
       new GridColoumnConfig({ name: 'tixhi', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'TixHi' }),
       new GridColoumnConfig({ name: 'upc', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
-      new GridColoumnConfig({ name: 'quantity', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemId'] == ''; } }), title: 'Quantity' }),
+      new GridColoumnConfig({ name: 'quantity', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'number', inputClass: 'form-control', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemId'] == ''; } }), title: 'Quantity' }),
       new GridColoumnConfig({
         name: 'actions',
         title: 'Action',

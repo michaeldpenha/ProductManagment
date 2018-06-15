@@ -1,29 +1,3 @@
-/*
-*   Date picker style
-*/
-
-.datepickerContent{
-    display: table;
-    table-layout: fixed;
-    width: 30%;
-    & > div {
-        display:  table-cell;
-    }
-    .dpInput input[type=text] {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-    .dbButton {
-        width: 35px;
-        text-align:  center;
-        cursor:  pointer;
-        &.showBg{
-            background: #dadada;
-            color: #615d5d;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
-    }
+.background-white {
+    background: transparent !important;
 }
-
-

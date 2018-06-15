@@ -14,6 +14,7 @@ export class DropDownComponent implements OnInit {
   @Input() disabled : string;
   @Input() hidden : string;
   @Input() required : string;
+  @Input() inputClass : string;
   @Input('receivedInputData') receivedInputData: any;
   @Input('defaultValue') defaultValue: any;
   @Input('defaultSelectHeight') defaultSelectHeight: any;
@@ -27,20 +28,5 @@ export class DropDownComponent implements OnInit {
 
   public onChange = (selectedValue: any) => {
     this.selectedInputData.emit(selectedValue);
-  }
-
-  public getSelectStyle = (styleTo: any) => {
-    if (styleTo == 'ul') {
-      return {
-        height: this.defaultSelectHeight ? this.defaultSelectHeight : '18px',
-        width: this.defaultSelectWidth ? this.defaultSelectWidth : '150px',
-      }
-    }
-    else {
-      return {
-        height: this.defaultSelectHeight ? this.defaultSelectHeight : '100px',
-        width: this.defaultSelectWidth ? this.defaultSelectWidth : '300px'
-      }
-    }
   }
 }

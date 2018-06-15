@@ -55,9 +55,9 @@ export class SingleOrderComponent implements OnInit {
           return this.displayErrorMsg(item);
         }
       }),
-      new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'input', subtype: 'text', label: 'Customer', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {          return this.renderLabel(item, true);
+        type: 'input', subtype: 'text', label: 'Customer Id', fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {          return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
           (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
@@ -73,6 +73,11 @@ export class SingleOrderComponent implements OnInit {
       new FormFieldConfig({
         type: 'input', formName: 'routeCode', validation: [Validators.required,Validators.minLength(2)], renderLabel: (item) => {
           return 'Route Code *';
+          }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
         type: 'input', formName: 'supplierId', disabled: () => { return true; }, readOnly: () => {
@@ -102,6 +107,11 @@ export class SingleOrderComponent implements OnInit {
           this.onDateChange(e, item);
         }, readOnly: () => {
           return 'readonly';
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8',  displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
@@ -111,6 +121,11 @@ export class SingleOrderComponent implements OnInit {
           return this.renderLabel(item, true);
         }, readOnly: () => {
           return 'readonly';
+          }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return this.displayErrorMsg(item);
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8',  displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
   }

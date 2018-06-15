@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-grid',
@@ -23,7 +23,7 @@ export class GridComponent implements OnInit {
   public checkBoxDisable: Function;
   public columnDefs : any;
 
-  constructor() { }
+  constructor(private elRef:ElementRef) { }
 
   ngOnInit() {
     this.defaultGridSettings()
@@ -54,7 +54,7 @@ export class GridComponent implements OnInit {
   /**
    * cellClick
    */
-  public cellClick = (rec, colDef) => {
+  public cellClick = (rec, colDef,index : number) => {
     if (!colDef.enableCellClick) {
       return false;
     }
@@ -79,7 +79,7 @@ export class GridComponent implements OnInit {
   /**
    * To DisableCheckBox
    */
-  public disableCheckBox = (item: any): boolean => {
+  public disableCheckBox = (item: any,index : number): boolean => {
     return this.checkBoxDisable(item);
   }
   /**
@@ -97,7 +97,7 @@ export class GridComponent implements OnInit {
   /**
    * isEditable
    */
-  public isEditable = (item : any , cfg: any) : boolean => {
+  public isEditable = (item : any , cfg: any,index : number) : boolean => {
     let result : boolean;
     result = cfg.editable ? cfg.editable(item) : false;
     return result;
@@ -105,7 +105,7 @@ export class GridComponent implements OnInit {
   /**
    * printValue
    */
-  public printValue = (item : any, dataIndex:any) : string => {
+  public printValue = (item : any, dataIndex:any,index : number) : string => {
     return item[dataIndex] ? item[dataIndex] : '';
   }
   /**
@@ -132,7 +132,7 @@ export class GridComponent implements OnInit {
   /**
    * checkTypeofEditableField
    */
-  public checkTypeofEditableField = (type : string,cfg : any) : boolean => {
+  public checkTypeofEditableField = (type : string,cfg : any,index : number) : boolean => {
     let result : boolean;
     result = cfg.cellEdit.config.type.toLowerCase() == type;
     return result;
@@ -140,19 +140,42 @@ export class GridComponent implements OnInit {
   /**
    * Wll return options value for dropdown
    */
-  public printOptonsValue = (cfg : any) : any => {
+  public printOptonsValue = (cfg : any,index : number) : any => {
     return cfg.cellEdit.config.options ? cfg.cellEdit.config.options : []; 
   }
   /**
    * getInputSubType
    */
-  public getInputSubType = (cfg :any) => {
+  public getInputSubType = (cfg :any,index : number) => {
     return cfg && cfg.cellEdit.config.subType ? cfg.cellEdit.config.subType : 'text';
   }
   /**
+   * toDisplayError
+   */
+  public toDisplayError = (cfg,index : any) :boolean => {
+    let errorField = document.getElementsByName(`${cfg.name}_${index}`)[0];
+    return cfg && cfg.cellEdit.config.showErrorMsg ? cfg.cellEdit.config.showErrorMsg(cfg,index,errorField) : false;
+  }
+  /**
+   * toDisplayErrorMessage */
+  public toDisplayErrorMessage = (cfg : any,index : number) : string => {
+    let errorField = document.getElementsByName(`${cfg.name}_${index}`)[0];
+    return cfg && cfg.cellEdit.config.printErrorMsg ? cfg.cellEdit.config.printErrorMsg(cfg,index,errorField) : ''; 
+  }
+  public onInputFocus = (cfg: any , index :number) =>{
+    return cfg && cfg.cellEdit.config.focus ? cfg.cellEdit.config.focus(cfg,index) : '';
+  }
+  /**
+   * inputIdentifier
+   */
+  public inputIdentifier = (cfg : any, i: number) => {
+    return `${cfg.name}_${i}`;
+  }
+/**
    * getInputSubType
    */
   public getInputClass = (cfg :any) => {
     return cfg && cfg.cellEdit.config.inputClass ? cfg.cellEdit.config.inputClass : 'form-control';
+
   }
 }

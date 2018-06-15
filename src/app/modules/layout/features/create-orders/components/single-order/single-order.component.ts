@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { SingleOrderService } from './single-order.service';
 import * as moment from 'moment';
@@ -26,6 +26,7 @@ export class SingleOrderComponent implements OnInit {
   public fromFields: any = [];
   public submitText: string = 'Submit';
   public supplierObj: any[] = [];
+  public displayGridErrorMessage : boolean = false;
   constructor(private singleOrderService: SingleOrderService,
     private orderService: OrdersService,
     private msgService: MessagesService) { }
@@ -52,7 +53,7 @@ export class SingleOrderComponent implements OnInit {
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
+          return this.displayFormErrorMsg(item);
         }
       }),
       new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
@@ -63,7 +64,7 @@ export class SingleOrderComponent implements OnInit {
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
+          return this.displayFormErrorMsg(item);
         }, keyPress: (e: any, cfg: any) => {
           (this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId) ? this.form.get('supplierId').setValue('') : '';
         }, keyUp: (e: any, cfg: any) => {
@@ -76,7 +77,7 @@ export class SingleOrderComponent implements OnInit {
           }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
+          return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
@@ -95,13 +96,13 @@ export class SingleOrderComponent implements OnInit {
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.form.get('transferType').value == '' && this.form.get('transferType').touched && this.form.get('orderType').value === 'transfer';
         }, displayErrorMessage: (item: any) => {
-          return this.form.get('orderType').value === 'transfer' ? this.displayErrorMsg(item) : '';
+          return this.form.get('orderType').value === 'transfer' ? this.displayFormErrorMsg(item) : '';
         }
       }),
       new FormFieldConfig({
         type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form.get('deliveryDate').value;
-        }, formName: 'releaseDate', defaultValue: new Date(), label: 'Release Date', validation: [Validators.required], renderLabel: (item) => {
+        }, formName: 'releaseDate', defaultValue: new Date(), label: 'Process Date', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, change: (e: any, item: any) => {
           this.onDateChange(e, item);
@@ -110,7 +111,7 @@ export class SingleOrderComponent implements OnInit {
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
+          return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8',  displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
@@ -124,7 +125,7 @@ export class SingleOrderComponent implements OnInit {
           }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return this.displayErrorMsg(item);
+          return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8',  displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       })
     ]
@@ -144,41 +145,81 @@ export class SingleOrderComponent implements OnInit {
       new GridColoumnConfig({ name: '', title: '#', editable: (item) => { return false; }, render: (item, col, i) => { return i + 1; } }),
       new GridColoumnConfig({
         name: 'itemNumber', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
-          type: 'I', blur: (e: any, item: any, cfg: any, index: number) => {
-            e.target.value == "" ? this.fillValues(index, {}) : this.fetchTargetInfo(e.target.value, index);
-          }, displayCellEdit: true, disabled: () => { return false; }
+          type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
+            e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
+            e.target.value == "" ? this.fillGridObjectValues(index, {}) : this.isDuplicateRec(index) ? this.fillGridObjectValues(index, {}) : this.fetchItemsInfo(e.target.value, index,e);
+          }, displayCellEdit: true, disabled: () => { return false; }, printErrorMsg: (cfg, i, errEl) => {
+            return this.itemNumberErrorMessage(cfg, i,errEl);
+          }, showErrorMsg: (cfg, i, errEl) => {
+            return this.showItemNumberErrorMsg(i, (errEl && errEl.getAttribute('dirty') == "true"));
+
+          }, focus: (cfg: any, index: number) => {
+
+          },
+          dirty: false
         }), title: 'Item No.'
       }),
-      new GridColoumnConfig({ name: 'pack', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'Pack' }),
-      new GridColoumnConfig({ name: 'size', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'Size' }),
-      new GridColoumnConfig({ name: 'description', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'Description' }),
-      new GridColoumnConfig({ name: 'tixhi', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', displayCellEdit: true, disabled: () => { return true; } }), title: 'TixHi' }),
-      new GridColoumnConfig({ name: 'upc', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
-      new GridColoumnConfig({ name: 'quantity', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'I', subType: 'number', inputClass: 'form-control', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemId'] == ''; } }), title: 'Quantity' }),
+      new GridColoumnConfig({ name: 'pack', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'Pack' }),
+      new GridColoumnConfig({ name: 'size', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', displayCellEdit: true, disabled: () => { return true; } }), title: 'Size' }),
+      new GridColoumnConfig({ name: 'description', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', displayCellEdit: true, disabled: () => { return true; } }), title: 'Description' }),
+      new GridColoumnConfig({ name: 'tixhi', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', displayCellEdit: true, disabled: () => { return true; } }), title: 'TixHi' }),
+      new GridColoumnConfig({ name: 'upc', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
+      new GridColoumnConfig({
+        name: 'quantity', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+          type: 'input',blur: (e: any, item: any, cfg: any, index: number) => {
+            e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
+            },
+          printErrorMsg: (cfg, i, errEl) => {
+            return this.msgService.fetchMessage(cfg.name, 'required');
+          }, showErrorMsg: (cfg, i, errEl) => {
+            return this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true";
+
+          }, subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemNumber'] == '' ? true : this.showItemNumberErrorMsg(index, true); }
+        }), title: 'Quantity'
+      }),
       new GridColoumnConfig({
         name: 'actions',
         title: 'Action',
         actionItems: [
-          new GridActionsConfig({ label: '', click: (item, actionCfg) => { console.log('Test') } })
+          new GridActionsConfig({ label: '', click: (item :any, actionCfg : any,index : number) => { 
+            this.displayGridErrorMessage = false;
+            (this.data.length == 1) ?  this.displayGridErrorMessage = true : this.data.splice(index,1);
+          }})
         ]
       })
     ]
   }
   /**
-   * fetchTargetInfo
+   * showItemNumberErrorMsg
    */
-  public fetchTargetInfo = (val: string, index: number) => {
+  public showItemNumberErrorMsg = (i: number, dirty: boolean) => {
+    let result = false;
+    result = !(this.data[i]['description'] && this.data[i]['description'] != '') && dirty;
+    return result ? result : false;
+  }
+  /**
+   * fetchItemsInfo
+   */
+  public fetchItemsInfo = (val: string, index: number,el:any) => {
     this.orderService.getItemDetails(val).subscribe(element => {
-      this.fillValues(index, element);
+      (element['description'] && element['description'].toLowerCase() == "no matching item found") ? this.noItemNumberFound(index,el) : this.fillGridObjectValues(index, element);
+      this.data[index]['itemNumber'] = val;
     });
   }
   /**
-   * fillValues
+   * noItemNumberFound
    */
-  public fillValues = (index: number, obj: any) => {
+  public noItemNumberFound = (index :number ,el : any) => {
+    el.target.setAttribute('error',this.msgService.fetchMessage('itemNumber','notFound')) ;
+    this.fillGridObjectValues(index, {}) 
+  }
+  /**
+   * fillGridObjectValues
+   */
+  public fillGridObjectValues = (index: number, obj: any) => {
     let item: any = this.data[index];
     Object.keys(item).forEach(element => {
-      item[element] = obj[element];
+      (element != 'itemNumber') ? item[element] = obj[element] ? obj[element] : '' : '';
     });
   }
   /**
@@ -197,7 +238,15 @@ export class SingleOrderComponent implements OnInit {
    * addLine
    */
   public addRow = () => {
-    this.pushBlankObjectInGrid();
+    this.displayGridErrorMessage = false;
+    (this.data.length == 5) ? this.displayGridErrorMessage = true: this.pushBlankObjectInGrid();
+  }
+  /**
+   * displayMinAndMaxErrorMsg
+   */
+  public displayMinAndMaxErrorMsg = ()  :string => {
+    return this.data.length === 1 ? this.msgService.fetchMessage('minItemLimitForCreation') : this.data.length == 5 ? this.msgService.fetchMessage('maxItemLimitForCreation'): '';
+
   }
   /**
    * 
@@ -218,8 +267,24 @@ export class SingleOrderComponent implements OnInit {
   public onSubmit = (e) => {
     debugger;
   }
+  /**
+   * itemNumberErrorMessage 
+   */
+  public itemNumberErrorMessage = (cfg: any, i: number , el : any): string => {
+    return !this.data[i][cfg.name] || this.data[i][cfg.name] == '' ? this.msgService.fetchMessage(cfg.name, 'required') : this.isDuplicateRec(i) ? this.msgService.fetchMessage(cfg.name, 'duplicate') : el.getAttribute('error');
+  }
+  /**
+   * isDuplicateRec
+   */
+  public isDuplicateRec = (i: number): boolean => {
+    let result: boolean;
+    this.data.forEach((element, index) => {
+      result = result || (element['itemNumber'] == this.data[i]['itemNumber'] && i != index && !(this.data[i]['description'] && this.data[i]['description'] != ''))
+    });
+    return result;
+  }
   public isDisabled = (): boolean => {
-    return !this.form.valid && this.checkGridValues();
+    return !this.form.valid || !this.checkGridValues();
   }
   /**
    * fetchForm = 
@@ -231,9 +296,9 @@ export class SingleOrderComponent implements OnInit {
    * checkGridValues
    */
   public checkGridValues = () => {
-    let result = false;
+    let result = true;
     this.data.forEach(element => {
-      result = result || (element.itemNumber != '' && element.quantity != '')
+      result = result && (element.itemNumber != '' && element.quantity != '')
     });
     return result;
   }
@@ -268,9 +333,9 @@ export class SingleOrderComponent implements OnInit {
     (mock[0].customerId == e.target.value) ? this.form.get('supplierId').setValue(mock[0].supplierId) : (e.target.value != '') ?  this.form.get(item.formName).setErrors({ validation: true }) : '';
   }
   /**
-   * displayErrorMsg
+   * displayFormErrorMsg
    */
-  public displayErrorMsg = (cfg: any) => {
+  public displayFormErrorMsg = (cfg: any) => {
     let key = cfg.formName;
     let errorType = this.form.get(cfg.formName).errors ? Array.isArray(this.form.get(cfg.formName).errors) ? Object.keys(this.form.get(cfg.formName).errors[0])[0] :Object.keys(this.form.get(cfg.formName).errors)[0] : '';
 

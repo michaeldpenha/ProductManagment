@@ -2,6 +2,6 @@
 <hr />
 
 <app-form (fetchForm) = "fetchForm($event)" [formFields]="fromFields"></app-form>
-<button (click)="addRow()">Add Line</button>
+<span *ngIf="displayGridErrorMessage">{{displayMinAndMaxErrorMsg()}}</span><button (click)="addRow()">Add Line</button>
 <app-grid [gridConfig] = "gridConfig" [coloumnConfig] = "coloumnConfig" [gridData]="data"></app-grid>
 <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [disabled]="isDisabled()"></app-button>

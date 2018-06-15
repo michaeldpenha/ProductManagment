@@ -10,7 +10,7 @@ export class MessagesService {
    * */
   public fetchMessage = (key : string ,subKey ? : string) : string => {
     let result : string ;
-    result = subKey ? Messages[key] ? Messages[key][subKey] : Messages[key] ? Messages[key] : '' : '';
+    result = subKey && Messages[key]  ? Messages[key][subKey] : Messages[key] ? Messages[key] : '' ;
     return result;
   }
 }

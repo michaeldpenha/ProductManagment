@@ -15,6 +15,16 @@ export const Messages = {
     'releaseDate': { 'required': 'Please select release date' },
 
     'deliveryDate':
-    { 'required': 'Please select delivery date' }
+    { 'required': 'Please select delivery date' },
+    'itemNumber': {
+        'required': 'Item Number is reqiured',
+        'notFound': 'Item Number not found',
+        'duplicate' : 'Duplicate Item found'
+    },
+    'quantity' : {
+        'required': 'Quantity is reqiured'
+    },
+    'maxItemLimitForCreation' : 'You can add only upto 50 records!',
+    'minItemLimitForCreation' : 'Atleast one record is mandatory'
 
 }

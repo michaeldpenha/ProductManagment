@@ -24,7 +24,7 @@ export class SingleOrderComponent implements OnInit {
   public data: any = [];
   public form: any;
   public fromFields: any = [];
-  public submitText: string = 'Submit';
+  public submitText: string = 'Create';
   public supplierObj: any[] = [];
   public displayGridErrorMessage: boolean = false;
   constructor(private singleOrderService: SingleOrderService,
@@ -80,7 +80,12 @@ export class SingleOrderComponent implements OnInit {
    * onSubmit
    */
   public onSubmit = (e) => {
-    debugger;
+    let requestData: any = {};
+    requestData = JSON.parse(JSON.stringify(this.form.getRawValue()));
+    requestData['itemDetails'] = this.data;
+    requestData['deliveryDate'] = moment(requestData['deliveryDate']).format('MM/DD/YYYY');
+    requestData['releaseDate'] = moment(requestData['releaseDate']).format('MM/DD/YYYY');
+    requestData['orderType'] === 'rush' ? delete requestData['transferType'] : '';
   }
   public isDisabled = (): boolean => {
     return this.form && !this.form.valid || !this.validateTransferType() || !this.checkGridValues();
@@ -95,7 +100,7 @@ export class SingleOrderComponent implements OnInit {
    * validateTransferType
    */
   public validateTransferType = () => {
-    return this.form && this.form.get('transferType').value === "rush" ? true : (this.form && this.form.get('transferType').value != 'Select Transfer Type' && this.form.get('transferType').value != '') && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing');
+    return this.form && this.form.get('orderType').value === "rush" ? true : (this.form && this.form.get('transferType').value != 'Select Transfer Type' && this.form.get('transferType').value != '') && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing');
   }
   /**
    * checkGridValues

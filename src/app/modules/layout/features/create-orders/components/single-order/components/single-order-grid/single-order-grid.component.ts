@@ -97,7 +97,7 @@ export class SingleOrderGridComponent implements OnInit {
     let item: any = this.coloumnConfig;
     item.forEach(element => {
       let itemObj : any = this.data[index];
-      (element['config']['name'] != 'itemNumber') ? itemObj[element['config']['name']] = obj[element['config']['name']] : '';
+      (element['config']['name']  != 'actions'|| element['config']['name'] != '' || element['config']['name'] != 'itemNumber') ? itemObj[element['config']['name']] = obj[element['config']['name']] : '';
     });
   }
   /**

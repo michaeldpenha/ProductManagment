@@ -12,12 +12,12 @@ import * as moment from 'moment';
 })
 export class SingleOrderFormComponent implements OnInit {
   supplierObj: any[];
-  @Input() form : FormGroup;
+  @Input() form: FormGroup;
   @Output() fetchForm = new EventEmitter<any>();
-  
+
   public formFields: any;
 
-  constructor(private singleOrderService: SingleOrderService,private msgService: MessagesService) { }
+  constructor(private singleOrderService: SingleOrderService, private msgService: MessagesService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -52,13 +52,13 @@ export class SingleOrderFormComponent implements OnInit {
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
         }, keyPress: (e: any, cfg: any) => {
-          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ?  this.form.get('supplierId').setValue('') : '';
+          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.form.get('supplierId').setValue('') : '';
         }, keyUp: (e: any, cfg: any) => {
           (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.form.get('supplierId').setValue('') : '';
         }
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'routeCode', label : 'Route Code',validation: [Validators.minLength(2)], renderLabel: (item) => {
+        type: 'input', formName: 'routeCode', label: 'Route Code', validation: [Validators.minLength(2)], renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
@@ -104,7 +104,7 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
-        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate', label: 'Delivery Date',renderLabel: (item) => {
+        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate', label: 'Delivery Date', renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';
@@ -146,10 +146,10 @@ export class SingleOrderFormComponent implements OnInit {
    */
   public displayFormErrorMsg = (cfg: any) => {
     let key = cfg.formName;
-    let errorType = this.form && this.form.get(cfg.formName).errors ? Array.isArray(this.form.get(cfg.formName).errors) ? Object.keys(this.form.get(cfg.formName).errors)[0] :Object.keys(this.form.get(cfg.formName).errors)[0] : '';
+    let errorType = this.form && this.form.get(cfg.formName).errors ? Array.isArray(this.form.get(cfg.formName).errors) ? Object.keys(this.form.get(cfg.formName).errors)[0] : Object.keys(this.form.get(cfg.formName).errors)[0] : '';
 
-    return this.msgService.fetchMessage(key , errorType);
-  } 
+    return this.msgService.fetchMessage(key, errorType);
+  }
   /**
    * onBlur
    */
@@ -157,7 +157,7 @@ export class SingleOrderFormComponent implements OnInit {
     let mock = [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }];
     this.supplierObj = mock;
     this.form ? this.form.get('supplierId').setValue('') : '';
-    (mock[0].customerId == e.target.value && this.form) ? this.form.get('supplierId').setValue(mock[0].supplierId) : (e.target.value != '' && this.form) ?  this.form.get(item.formName).setErrors({ validation: true }) : '';
+    (mock[0].customerId == e.target.value && this.form) ? this.form.get('supplierId').setValue(mock[0].supplierId) : (e.target.value != '' && this.form) ? this.form.get(item.formName).setErrors({ validation: true }) : '';
   }
   /**
    * disableTransferType

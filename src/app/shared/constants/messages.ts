@@ -9,7 +9,7 @@ export const Messages = {
     'transferType': { 'required': 'Please select an transfer type' },
     'routeCode': {
         'required': 'Route code is required',
-        'maxlength': 'Route code must be max 2 characters only.'
+        'minLength': 'Route code must be max 2 characters only.'
     },
 
     'releaseDate': { 'required': 'Please select release date' },

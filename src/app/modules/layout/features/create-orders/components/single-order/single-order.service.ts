@@ -29,10 +29,10 @@ export class SingleOrderService {
     }];
     this._transferTypeOptions = [{
       label : 'M1',
-      value : 'M1'
+      value : 'm1'
     },{
       label : 'M2',
-      value : 'M2'
+      value : 'm2'
     }]
   }
 }

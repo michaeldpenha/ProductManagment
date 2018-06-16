@@ -6,7 +6,9 @@ import {SharedModule} from '@app/shared';
 import {
   SingleOrderComponent,
   BulkOrderComponent,
-  BulkOrderInboxComponent
+  BulkOrderInboxComponent,
+  SingleOrderGridComponent,
+  SingleOrderFormComponent
 } from './components';
 import { SingleOrderService } from "./components/single-order/single-order.service";
 @NgModule({
@@ -18,7 +20,9 @@ import { SingleOrderService } from "./components/single-order/single-order.servi
   declarations: [
     SingleOrderComponent,
     BulkOrderComponent,
-    BulkOrderInboxComponent
+    BulkOrderInboxComponent,
+    SingleOrderGridComponent,
+    SingleOrderFormComponent
   ],
   providers : [SingleOrderService]
 })

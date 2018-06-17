@@ -9,7 +9,7 @@
           <div [ngClass]="fieldWidth(item.config)">
             <ng-container *ngIf="item.config.type.toLowerCase() == 'input'">
               <input [type]="getInputSubType(item.config)" (blur)="onBlur($event,item.config)" [ngClass]="inputClass(item.config)" [name]="item.config.formName"
-                [formControlName]="item.config.formName" [value]="" (keyup)="onKeyUp($event,item.config)" (keypress)="onKeyPress($event,item.config)"
+                [formControlName]="item.config.formName" [value]="" (keyup)="onKeyUp($event,item.config)"  (keypress)="onKeyPress($event,item.config)"
                 [readonly]="isReadOnly(item.config)" />
             </ng-container>
             <ng-container *ngIf="item.config.type.toLowerCase() == 'dropdown'">

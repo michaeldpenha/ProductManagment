@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HeaderComponent,
   SidebarComponent,
@@ -24,6 +24,7 @@ import {
   MessagesService
 } from './services';
 import { RouterModule } from '@angular/router';
+import { HttpInterceptorsService } from "@app/core/services";
 
 @NgModule({
   imports: [
@@ -63,7 +64,11 @@ import { RouterModule } from '@angular/router';
     TabComponent,
     FormComponent
   ],
-  providers: [
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorsService,
+    multi: true
+  },
     OrdersService,
     MessagesService
   ]

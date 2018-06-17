@@ -1,0 +1,18 @@
+.overlay-screen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(33, 32, 32, 0.5);
+    text-align: center; 
+    z-index: 100000;
+}
+.loader-image{
+  
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    font-size: 60px;
+
+}

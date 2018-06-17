@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GridConfiguration, GridColoumnConfig, CellEditConfiguration, GridActionsConfig } from "@app/shared/model";
 import { OrdersService, MessagesService } from "@app/shared/services";
+import { LoaderService } from "@app/core/services";
 
 @Component({
   selector: 'app-single-order-grid',
@@ -12,7 +13,7 @@ export class SingleOrderGridComponent implements OnInit {
   @Input() data: any = [];
   @Input() coloumnConfig : any;
   @Input() gridConfig : any;
-  constructor(private orderService : OrdersService,private msgService : MessagesService) { }
+  constructor(private orderService : OrdersService,private msgService : MessagesService,private loaderService : LoaderService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -115,6 +116,7 @@ export class SingleOrderGridComponent implements OnInit {
    */
   public fetchItemsInfo = (val: string, index: number,el:any) => {
     this.orderService.getItemDetails(val).subscribe(element => {
+      this.loaderService.hide();
       (element['description'] && element['description'].toLowerCase() == "no matching item found") ? this.noItemNumberFound(index,el) : this.fillGridObjectValues(index, element);
       this.data[index]['itemNumber'] = val;
     });

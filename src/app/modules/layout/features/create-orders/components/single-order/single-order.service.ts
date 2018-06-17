@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SingleOrderService {
-  public _orderTypeOptions : any;
-  public _transferTypeOptions : any;
+  public _orderTypeOptions : any = [];
+  public _transferTypeOptions : any = [];
   get orderTypeOptions ():any {
     return this._orderTypeOptions; 
   }

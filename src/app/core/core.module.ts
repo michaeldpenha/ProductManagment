@@ -10,9 +10,10 @@ import {
 } from './components';
 import {
   AuthGuardService,
-  HttpInterceptorService,
+  HttpInterceptorsService,
   LoaderService
 } from './services';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
 
 @NgModule({
@@ -21,7 +22,11 @@ import {
     CoreRoutingModule
   ],
   declarations: [LoginComponent, NotFoundComponent,SignUpComponent, LoaderComponent],
-  providers : [LoaderService],
+  providers : [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorsService,
+    multi: true
+  },LoaderService],
   exports : [
     RouterModule,
     LoaderComponent

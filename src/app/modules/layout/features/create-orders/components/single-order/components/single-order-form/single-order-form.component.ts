@@ -34,6 +34,7 @@ export class SingleOrderFormComponent implements OnInit {
         type: 'dropdown', formName: 'orderType', label: 'Order Type', defaultValue: 'Select Order Types', options: this.singleOrderService.orderTypeOptions, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, change: (e: any, item: any) => {
+          this.disableRefDoc(e);
           this.onOrderTypeChange(e, item);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
@@ -100,7 +101,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'refDocNum', label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled : () =>{return true;},label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
         type: 'datefield', minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
@@ -164,5 +165,11 @@ export class SingleOrderFormComponent implements OnInit {
    */
   public disableTransferType = (): boolean => {
     return this.form && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing') ? false : true;
+  }
+  /**
+   * disableRefDoc
+   */
+  public disableRefDoc = (e:any) => {
+    (e == '' || e =='rush' && this.form) ? this.form.get('refDocNum').disable({onlySelf : true}) : (this.form) ? this.form.get('refDocNum').enable({onlySelf : true}) : '';
   }
 }

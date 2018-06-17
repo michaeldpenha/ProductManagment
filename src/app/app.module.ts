@@ -7,7 +7,6 @@ import {CoreModule} from '@app/core';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
-
 @NgModule({
   declarations: [
     AppComponent

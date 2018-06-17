@@ -7,11 +7,13 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent implements OnInit {
- 
-  @Input() cardDetail:Object;
-  @Input() cls:string;
+
+  @Input() cardDetail: Object;
+  @Input() cardTitle: string;
+  @Input() headerStyleClass: string;
+  @Input() cls: string;
   @Input() isCheckBoxtoChild: boolean;
-  @Input() selectionType : string = "checkbox";
+  @Input() selectionType: string = 'checkbox';
   @Output() cardIsSelected: EventEmitter<string> = new EventEmitter<string>();
   @Output() recordSelected = new EventEmitter<any>();
   constructor() { }
@@ -21,7 +23,7 @@ export class CardsComponent implements OnInit {
   /**
    * selected
    */
-  public selected = (item  : any) => {
+  public selected = (item: any) => {
     this.recordSelected.emit(item);
   }
 

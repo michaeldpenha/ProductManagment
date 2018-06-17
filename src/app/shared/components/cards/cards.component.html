@@ -3,6 +3,7 @@
     <input (click)="selected(cardDetail)" name="radio" type="radio" />
   </span>
   <div class="card" [ngClass]="cls">
+    <div class="card-header" [ngClass]="headerStyleClass">{{cardTitle}}</div>
     <div class="card-body">
       <div class="text-right">
         <span *ngIf="!isCheckBoxtoChild && selectionType.toLowerCase() ==='checkbox'">

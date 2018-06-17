@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ManageOrdersRoutingModule } from './manage-orders-routing.module';
-import {SharedModule} from '@app/shared/index';
+import { SharedModule } from '@app/shared/index';
 import {
   SearchOrdersComponent,
   HeaderUpdateComponent,

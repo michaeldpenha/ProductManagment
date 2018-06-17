@@ -3,7 +3,8 @@ import * as $ from 'jquery';
 export interface logo {
     path: string;
     link: string;
-    imgClass: string;
+	imgClass: string;
+	alt: string;
 }
 
 export interface leftLinks {
@@ -11,7 +12,8 @@ export interface leftLinks {
     link?: string;
     class?: string;
     click: Function;
-    dropdown: any;
+	dropdown: any;
+	title?: string;
 }
 
 export interface rightLinks {
@@ -23,10 +25,10 @@ export interface rightLinks {
 
 
 export const HeaderConfig = {
-    logo: {path: '../../../../assets/images/logo.png', imgClass: 'hide-on-mobile', link: '#'},
+    logo: {path: '../../../../assets/images/logo.png', imgClass: 'hide-on-mobile', alt: 'ScopeRetail Logo', link: '#'},
     leftLinks: 
         [
-            { icon: 'fa fa-bars', class: 'sidebarBtn',click:() =>{ $('#sidebar').toggleClass('active'); }, dropdown: null }
+            { icon: 'fa fa-bars', title: 'Toggle Menu', class: 'sidebarBtn',click:() =>{ $('#sidebar').toggleClass('active'); }, dropdown: null }
         ],
 	rightLinks: 
 		[

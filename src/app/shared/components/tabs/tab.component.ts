@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   styles: [
     `
     .pane{
-      padding: 1em;
+      padding: 1em 0;
     }
   `
   ],

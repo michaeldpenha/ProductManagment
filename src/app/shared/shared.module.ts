@@ -45,6 +45,7 @@ import { RouterModule } from '@angular/router';
     ButtonComponent,
     DatepickerComponent,
     FormComponent,
+    CardsComponent,
     HttpClientModule
   ],
   declarations: [

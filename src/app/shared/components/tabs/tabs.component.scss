@@ -23,6 +23,7 @@
   a {
     color: #337ab7;
     text-decoration: none;
+    cursor: pointer;
   }
   
   .nav-tabs {
@@ -30,13 +31,13 @@
     > li {
       &.active > a {
         color: #555;
-        cursor: default;
+        cursor: pointer;
         background-color: #fff;
         border: 1px solid #ddd;
         border-bottom-color: transparent;
         &:focus, &:hover {
           color: #555;
-          cursor: default;
+          cursor: pointer;
           background-color: #fff;
           border: 1px solid #ddd;
           border-bottom-color: transparent;

@@ -2,9 +2,9 @@
 
   <div class="navbar-header">
      <a [routerLink]="headerData.logo.link">
-      <img [class]="headerData.logo.imgClass" [src]="headerData.logo.path" /> 
+      <img [class]="headerData.logo.imgClass" [src]="headerData.logo.path" [alt]="headerData.logo.alt" /> 
     </a>
-    <a *ngFor="let item of headerData.leftLinks" [routerLink]="item.link" [class]="item.class" (click)="item.click(e)">
+    <a *ngFor="let item of headerData.leftLinks" [routerLink]="item.link" [class]="item.class" [title]="item.title" (click)="item.click(e)">
       <i [class]="item.icon" aria-hidden="true"></i>
     </a> 
   </div>

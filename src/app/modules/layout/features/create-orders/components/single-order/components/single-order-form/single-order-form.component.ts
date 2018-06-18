@@ -59,7 +59,11 @@ export class SingleOrderFormComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'routeCode', label: 'Route Code', validation: [Validators.minLength(2)], renderLabel: (item) => {
+        type: 'input', formName: 'routeCode', label: 'Route Code', keyPress : (e: any,cfg : any) => {
+          if(e.target.value.length === 2){
+            return false;
+          }
+        },renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);

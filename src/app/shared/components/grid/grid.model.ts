@@ -9,6 +9,7 @@ export interface GridConfig {
 }
 
 export interface ColumnConfig {
+    width?: number;
     name: string;
     title?: string;
     render?: Function;

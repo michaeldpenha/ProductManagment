@@ -3,7 +3,7 @@
     <tr>
       <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [checked]="allItemsSelected"></th>
       <ng-container *ngFor="let colDef of columnDefs">
-        <th>
+        <th [width]="colDef.config.width">
           <div (click)="triggerSort(colDef.config)">
             {{colDef.config.title}}
             <ng-container *ngIf="colDef.config.enableSorting">
@@ -28,25 +28,28 @@
               </ng-container>
             </td>
           </ng-container>
-          <td>
-            <ng-container *ngIf="!isEditable(data,colDef.config,index)">
-              <div class="" (click)="cellClick(data,colDef.config,index)" [innerHtml]="customTemplate(data,colDef.config,index)"></div>
-            </ng-container>
-            <ng-container *ngIf="isEditable(data,colDef.config,index)">
-              <ng-container *ngIf="checkTypeofEditableField('input',colDef.config,index)">
-                <input dirty="false" error ="" (focus)="onInputFocus(colDef.config,index)" [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)" (blur)="onBlur($event,data,colDef.config,index)"
-                  [name]="inputIdentifier(colDef.config,index)" [disabled]="disableField(data,colDef.config,index)" [ngClass]="getInputClass(colDef.config,index)" />
+          <ng-container *ngIf="colDef.config.name != 'actions'">
+            <td>
+              <ng-container *ngIf="!isEditable(data,colDef.config,index)">
+                <div class="" (click)="cellClick(data,colDef.config,index)" [innerHtml]="customTemplate(data,colDef.config,index)"></div>
               </ng-container>
-              <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
-                <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
+              <ng-container *ngIf="isEditable(data,colDef.config,index)">
+                <ng-container *ngIf="checkTypeofEditableField('input',colDef.config,index)">
+                  <input dirty="false" error="" (focus)="onInputFocus(colDef.config,index)" [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)"
+                    (blur)="onBlur($event,data,colDef.config,index)" [name]="inputIdentifier(colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
+                    [ngClass]="getInputClass(colDef.config,index)" />
+                </ng-container>
+                <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
+                  <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
+                </ng-container>
+                <ng-container *ngIf="toDisplayError(colDef.config,index)">
+                  <div class="error">
+                    {{toDisplayErrorMessage(colDef.config,index)}}
+                  </div>
+                </ng-container>
               </ng-container>
-              <ng-container *ngIf="toDisplayError(colDef.config,index)">
-                <div class="error">
-                  {{toDisplayErrorMessage(colDef.config,index)}}
-                </div>
-            </ng-container>
-            </ng-container>
-          </td>
+            </td>
+          </ng-container>
         </ng-container>
       </tr>
     </ng-container>

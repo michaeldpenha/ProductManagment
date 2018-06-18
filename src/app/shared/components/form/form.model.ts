@@ -13,7 +13,7 @@ export interface FormConfig {
     displayLabelCls?: string;
     renderLabel ? : Function;
     blur ? : Function;
-    hidden ? : string;
+    hidden ? : Function;
     disabled ? : Function;
     keyUp ? : Function;
     keyPress ? : Function;

@@ -57,11 +57,13 @@ export class SearchOrdersComponent implements OnInit {
       new FormFieldConfig({ type: 'input', formName: 'itemNumber', label: StaticText.itemNumber, placeholder: StaticText.itemNumber, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({ type: 'input', formName: 'customerId', label: StaticText.customerId, placeholder: StaticText.customerId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', formName: 'dateType', label: StaticText.date, defaultValue: StaticText.date, options: () => { return this.ordersService.datesTypes }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'label',defaultOptionsValue: 'value', formName: 'dateType', label: StaticText.date, defaultValue: StaticText.date, options: () => { return this.ordersService.datesTypes }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", change: (e: any, item: any) => {
           this.displayDatePickers(e, item);
         }
       }), new FormFieldConfig({
-        type: 'datefield', minDate: () => { return null }, maxDate: () => {
+        type: 'datefield', minDate: () => { return null }, hidden : () =>{
+          return this.form && this.form.get('dateType').value == '' || this.form.get('dateType').value.toLowerCase() == StaticText.date.toLowerCase();
+        }, maxDate: () => {
           return this.form && this.form.get('toDate').value ? this.form.get('toDate').value : null;
         }, formName: 'fromDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: StaticText.from,
         readOnly: () => {
@@ -69,7 +71,9 @@ export class SearchOrdersComponent implements OnInit {
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'datefield', minDate: () => { return this.form && this.form.get('fromDate').value ? this.form.get('fromDate').value : new Date(); }, maxDate: () => {
+        type: 'datefield',  hidden : () =>{
+          return this.form && this.form.get('dateType').value == '' || this.form.get('dateType').value.toLowerCase() == StaticText.date.toLowerCase();
+        }, minDate: () => { return this.form && this.form.get('fromDate').value ? this.form.get('fromDate').value : new Date(); }, maxDate: () => {
           return null;
         }, formName: 'toDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: StaticText.to,
         readOnly: () => {
@@ -79,7 +83,7 @@ export class SearchOrdersComponent implements OnInit {
       new FormFieldConfig({ type: 'input', formName: 'supplierId', label: StaticText.supplier, placeholder: StaticText.supplier, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
         type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', formName: 'divisionType', label: StaticText.division, defaultValue: StaticText.division, options: () => { return this.ordersService.divisionTypes }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", change: (e: any, item: any) => {
-          this.displayDatePickers(e, item);
+         // this.displayDatePickers(e, item);
         }
       }), new FormFieldConfig({
         type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType', label: StaticText.orderType, defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.ordersService.orderTypeOptions }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8"

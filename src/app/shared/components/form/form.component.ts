@@ -89,7 +89,7 @@ export class FormComponent implements OnInit {
    * hidden
    */
   public isHidden = (item : any)  : string => {
-    return (item && item.hidden) ? 'hidden' : '' ;
+    return (item && item.hidden) ? item.hidden(item) : false ;
   }
   /**
    * isDisabled

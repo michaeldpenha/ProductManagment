@@ -13,7 +13,7 @@
                 [readonly]="isReadOnly(item.config)" />
             </ng-container>
             <ng-container *ngIf="item.config.type.toLowerCase() == 'dropdown'">
-              <app-drop-down [name]="item.config.formName" [receivedInputData]="item.config.options" [inputClass]="item.config.inputClass" [defaultValue]="item.config.defaultValue"
+              <app-drop-down [name]="item.config.formName" [defaultOptionsValue]="item.config.defaultOptionsValue" [defaultDisplayLabel]="item.config.defaultDisplayLabel" [receivedInputData]="fetchOptions(item.config)" [inputClass]="item.config.inputClass" [defaultValue]="item.config.defaultValue"
                 [hidden]="isHidden(item.config)" (selectedInputData)="onChange($event,item.config)" [disabled]="isDisabled(item.config)"></app-drop-down>
             </ng-container>
             <ng-container *ngIf="item.config.type.toLowerCase() == 'datefield'">

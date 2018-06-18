@@ -1,1 +1,4 @@
-<app-grid [gridConfig] = "gridConfig" [coloumnConfig] = "coloumnConfig" [gridData]="data"></app-grid>
+<h3 class="text-muted">Search</h3>
+<app-search-orders-form></app-search-orders-form>
+<app-button [text]="headerUpdateText" (click)="headerUpdate()"></app-button>
+<app-search-orders-grid [gridData]="data"></app-search-orders-grid>

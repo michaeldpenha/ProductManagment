@@ -13,6 +13,7 @@ import {
   OrdersService,
   MessagesService
 } from '@app/shared/services';
+import { StaticText } from "@app/shared/constants";
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
@@ -54,13 +55,13 @@ export class SingleOrderComponent implements OnInit {
    */
   public addRow = () => {
     this.displayGridErrorMessage = false;
-    (this.data.length == 5) ? this.displayGridErrorMessage = true : this.pushBlankObjectInGrid();
+    (this.data.length == 50) ? this.displayGridErrorMessage = true : this.pushBlankObjectInGrid();
   }
   /**
    * displayMinAndMaxErrorMsg
    */
   public displayMinAndMaxErrorMsg = (): string => {
-    return this.data.length === 1 ? this.msgService.fetchMessage('minItemLimitForCreation') : this.data.length == 5 ? this.msgService.fetchMessage('maxItemLimitForCreation') : '';
+    return this.data.length === 1 ? this.msgService.fetchMessage('minItemLimitForCreation') : this.data.length == 50 ? this.msgService.fetchMessage('maxItemLimitForCreation') : '';
 
   }
   /**
@@ -100,7 +101,7 @@ export class SingleOrderComponent implements OnInit {
    * validateTransferType
    */
   public validateTransferType = () => {
-    return this.form && this.form.get('orderType').value === "rush" ? true : (this.form && this.form.get('transferType').value != 'Select Transfer Type' && this.form.get('transferType').value != '') && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing');
+    return this.form && this.form.get('orderType').value.toLowerCase() === "rush" ? true : (this.form && this.form.get('transferType').value != StaticText.selectTransferTypeLabel && this.form.get('transferType').value != '') && (this.form.get('orderType').value.toLowerCase() === 'transfer' || this.form.get('orderType').value.toLowerCase() === 'standing');
   }
   /**
    * checkGridValues

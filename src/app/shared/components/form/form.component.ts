@@ -147,4 +147,10 @@ export class FormComponent implements OnInit {
   public fetchMinDate = (cfg :any) => {
     return cfg && cfg.minDate ? cfg.minDate(cfg) : '';
   }
+  /**
+   * fetchOptions
+   */
+  public fetchOptions = (cfg :any) => {
+    return cfg && cfg.options ? cfg.options(cfg) : '';
+  }
 }

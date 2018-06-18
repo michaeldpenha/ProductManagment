@@ -2,6 +2,6 @@
   <select (change)="onChange($event.target.value)" [name]="name" [ngClass]="inputClass" [disabled]="disabled" [hidden]="hidden"
     [required]="required">
       <option value="" selected>{{defaultValue}}</option>
-      <option *ngFor="let data of receivedInputData" [value]="data.value">{{data.label}}</option>
+      <option *ngFor="let data of receivedInputData" [value]="optionsValue(data)">{{optionsLabel(data)}}</option>
   </select>
 </ng-container>

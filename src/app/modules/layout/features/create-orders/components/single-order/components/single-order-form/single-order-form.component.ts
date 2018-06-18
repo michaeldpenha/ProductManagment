@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormFieldConfig } from "@app/shared/model";
-import { SingleOrderService } from "@app/modules/layout/features/create-orders/components/single-order/single-order.service";
 import { Validators, FormGroup } from "@angular/forms";
-import { MessagesService } from "@app/shared/services";
+import { MessagesService, OrdersService } from "@app/shared/services";
 import * as moment from 'moment';
+import {StaticText } from "@app/shared/constants";
 
 @Component({
   selector: 'app-single-order-form',
@@ -17,10 +17,11 @@ export class SingleOrderFormComponent implements OnInit {
 
   public formFields: any;
 
-  constructor(private singleOrderService: SingleOrderService, private msgService: MessagesService) { }
+  constructor(private ordersService: OrdersService, private msgService: MessagesService) { }
 
   ngOnInit() {
     this.initializeForm();
+    this.ordersService.fetchStaticValues()
   }
   public fetchSingleOrderForm = (e: any) => {
     this.fetchForm.emit(e);
@@ -31,7 +32,7 @@ export class SingleOrderFormComponent implements OnInit {
   public initializeForm = () => {
     this.formFields = [
       new FormFieldConfig({
-        type: 'dropdown', formName: 'orderType', label: 'Order Type', defaultValue: 'Select Order Types', options: this.singleOrderService.orderTypeOptions, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
+        type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType', label: StaticText.orderType, defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.ordersService.orderTypeOptions }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, change: (e: any, item: any) => {
           this.disableRefDoc(e);
@@ -42,9 +43,9 @@ export class SingleOrderFormComponent implements OnInit {
           return this.displayFormErrorMsg(item);
         }
       }),
-      new FormFieldConfig({ type: 'input', formName: 'routeId', label: 'Route Id', fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'routeId', label: StaticText.routeId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'input', subtype: 'text', label: 'Customer Id', fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
+        type: 'input', subtype: 'text', label: StaticText.customerId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
           (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
@@ -53,17 +54,17 @@ export class SingleOrderFormComponent implements OnInit {
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
         }, keyPress: (e: any, cfg: any) => {
-          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.form.get('supplierId').setValue('') : '';
+          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.supplierObj = [] : '';
         }, keyUp: (e: any, cfg: any) => {
-          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.form.get('supplierId').setValue('') : '';
+          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.supplierObj = []: '';
         }
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'routeCode', label: 'Route Code', keyPress : (e: any,cfg : any) => {
-          if(e.target.value.length === 2){
+        type: 'input', formName: 'routeCode', label: StaticText.routeCode, keyPress: (e: any, cfg: any) => {
+          if (e.target.value.length === 2) {
             return false;
           }
-        },renderLabel: (item) => {
+        }, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
@@ -72,28 +73,31 @@ export class SingleOrderFormComponent implements OnInit {
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'supplierId', disabled: () => { return true; }, readOnly: () => {
+        type: 'dropdown', defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg :any) => {
+          //this.supplierObj && this.supplierObj.length > 0 ? this.form.get('supplierId').setValue(this.supplierObj[0].supplierId): '';
+          return this.supplierObj;
+        }, defaultValue: StaticText.selectSupplier, formName: 'supplierId', disabled: () => { return false; }, readOnly: () => {
           return true;
-        }, label: 'Supplier', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, label: StaticText.supplier, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'stop', label: 'Stop', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'stop', label: StaticText.stop, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
-        type: 'dropdown', defaultValue: 'Select Transfer Type', options: this.singleOrderService.transferTypeOptions, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: 'Transfer Type', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm",
+        type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', defaultValue: StaticText.selectTransferTypeLabel, options: () => { return this.ordersService.transferTypeOptions }, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: StaticText.transferType, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm",
         renderLabel: (item: any) => {
-          let result: boolean = this.form && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing');
+          let result: boolean = this.form && (this.form.get('orderType').value.toLowerCase() === 'transfer' || this.form.get('orderType').value.toLowerCase() === 'standing');
           return this.renderLabel(item, result);
         }, change: (e: any, item: any) => {
           this.onOrderTypeChange(e, item);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.form && this.form.get('transferType').value == '' && this.form.get('transferType').touched && this.form.get('orderType').value === 'transfer' && this.form.get('orderType').value === 'standing';
+          return this.form && this.form.get('transferType').value == '' && this.form.get('transferType').touched && this.form.get('orderType').value.toLowerCase() === 'transfer' && this.form.get('orderType').value.toLowerCase() === 'standing';
         }, displayErrorMessage: (item: any) => {
-          return this.form && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing') ? this.displayFormErrorMsg(item) : '';
+          return this.form && (this.form.get('orderType').value.toLowerCase() === 'transfer' || this.form.get('orderType').value.toLowerCase() === 'standing') ? this.displayFormErrorMsg(item) : '';
         }
       }),
       new FormFieldConfig({
         type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form && this.form.get('deliveryDate').value ? this.form.get('deliveryDate').value : null;
-        }, formName: 'releaseDate',showDefaultDate:true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: 'Process Date', renderLabel: (item) => {
+        }, formName: 'releaseDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: StaticText.processDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, change: (e: any, item: any) => {
           //this.onDateChange(e, item);
@@ -105,11 +109,11 @@ export class SingleOrderFormComponent implements OnInit {
           return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled : () =>{return true;},label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled: () => { return true; }, label: StaticText.refDoc, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
-        type: 'datefield', showDefaultDate:true, minDate: () => {
+        type: 'datefield', showDefaultDate: true, minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
-        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate',defaultValue : moment(new Date()).add(1,'days'), label: 'Delivery Date', renderLabel: (item) => {
+        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate', defaultValue: moment(new Date()).add(1, 'days'), label: StaticText.deliveryDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';
@@ -119,7 +123,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'comments', label: 'Comments', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
     ]
   }
   /**
@@ -159,21 +163,20 @@ export class SingleOrderFormComponent implements OnInit {
    * onBlur
    */
   public fetchSupplierInfo = (e: any, item: any) => {
-    let mock = [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }];
-    this.supplierObj = mock;
-    this.form ? this.form.get('supplierId').setValue('') : '';
-    (mock[0].customerId == e.target.value && this.form) ? this.form.get('supplierId').setValue(mock[0].supplierId) : (e.target.value != '' && this.form) ? this.form.get(item.formName).setErrors({ validation: true }) : '';
+    let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];
+    //this.form ? this.form.get('supplierId').setValue() : '';
+    (mock[0].supplier[0].customerId == e.target.value && this.form) ? this.supplierObj = mock[0].supplier : (e.target.value != '' && this.form) ? this.supplierObj = [] : this.supplierObj = [];
   }
   /**
    * disableTransferType
    */
   public disableTransferType = (): boolean => {
-    return this.form && (this.form.get('orderType').value === 'transfer' || this.form.get('orderType').value === 'standing') ? false : true;
+    return this.form && (this.form.get('orderType').value.toLowerCase() === 'transfer' || this.form.get('orderType').value.toLowerCase() === 'standing') ? false : true;
   }
   /**
    * disableRefDoc
    */
-  public disableRefDoc = (e:any) => {
-    (e == '' || e =='rush' && this.form) ? this.form.get('refDocNum').disable({onlySelf : true}) : (this.form) ? this.form.get('refDocNum').enable({onlySelf : true}) : '';
+  public disableRefDoc = (e: any) => {
+    (e == '' || e == 'rush' && this.form) ? this.form.get('refDocNum').disable({ onlySelf: true }) : (this.form) ? this.form.get('refDocNum').enable({ onlySelf: true }) : '';
   }
 }

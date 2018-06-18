@@ -5,7 +5,7 @@ export interface FormConfig {
     subtype?: string;
     formName: string;
     defaultValue?: any;
-    options?: any[];
+    options?: Function;
     placeholder?: string;
     errorMessages?: boolean;
     validation?: ValidatorFn[];
@@ -27,4 +27,6 @@ export interface FormConfig {
     minDate ? : Function;
     maxDate ? : Function;
     showDefaultDate? : boolean;
+    defaultOptionsValue? : string;
+    defaultDisplayLabel?: string;
 }

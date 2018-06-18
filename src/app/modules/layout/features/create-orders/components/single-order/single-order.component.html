@@ -1,6 +1,14 @@
 <h3 class="text-muted">Single Order</h3>
 <hr />
+
 <app-single-order-form (fetchForm) = "fetchForm($event)" [form]="form"> </app-single-order-form>
-<span *ngIf="displayGridErrorMessage">{{displayMinAndMaxErrorMsg()}}</span><button (click)="addRow()">Add Line</button>
+
+<div class="addLine float-right">
+    <span class="error" *ngIf="displayGridErrorMessage">{{displayMinAndMaxErrorMsg()}} &nbsp;&nbsp;</span> 
+    <app-button (onButtonClick)="addRow()" [cls]="previousBtnClass" [previousIconClass]="previousIconClass" [text]="addLineText"></app-button>
+</div>
 <app-single-order-grid [data]="data" (deleteActionTrigger)="deleteAction($event)"></app-single-order-grid>
-<app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [disabled]="isDisabled()"></app-button>
+<div class="float-right">
+    <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> &nbsp;
+    <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled()"></app-button>
+</div>

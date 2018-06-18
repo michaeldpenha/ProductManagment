@@ -22,7 +22,6 @@ export class GridComponent implements OnInit {
   public enableRowEdit: boolean;
   public checkBoxDisable: Function;
   public columnDefs : any;
-
   constructor(private elRef:ElementRef) { }
 
   ngOnInit() {
@@ -35,7 +34,7 @@ export class GridComponent implements OnInit {
   public defaultGridSettings = () => {
     let cfg = this.gridConfig.config;
     this.displayCheckBox = cfg.displayCheckBox ? cfg.displayCheckBox : false;
-    this.gridCls = cfg.gridCls ? cfg.gridCls : 'table table-striped';
+    this.gridCls = cfg.gridCls ? cfg.gridCls : 'table table-striped table-bordered';
     this.enableCellEdit = cfg.cellEdit ? cfg.cellEdit : false;
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
     this.noRecord = cfg.noDatFound ? cfg.noDatFound : 'No data found';

@@ -78,10 +78,11 @@ export class SingleOrderGridComponent implements OnInit {
         name: 'actions',
         title: 'Action', width: 100, 
         actionItems: [
-          new GridActionsConfig({ label: '', click: (item :any, actionCfg : any,index : number) => {
+          new GridActionsConfig({  iconClass: 'fa fa-trash', label: '', click: (item :any, actionCfg : any,index : number) => {
             this.deleteAction(index); 
           }})
         ]
+       
       })
     ]
   }

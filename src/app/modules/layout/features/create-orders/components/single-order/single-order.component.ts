@@ -27,7 +27,13 @@ export class SingleOrderComponent implements OnInit {
   public form: any;
   public fromFields: any = [];
   public submitText: string = 'Create';
+  public submitBtnClass: string = 'btn btn-success';
   public supplierObj: any[] = [];
+  public addLineText: string = 'Add Line';
+  public previousIconClass: string = 'fa fa-plus';
+  public previousBtnClass: string = 'btn btn-primary';
+  public cancelBtnText: string = 'Cancel';
+  public cancelBtnClass: string = 'btn btn-default';
   public displayGridErrorMessage: boolean = false;
   constructor(private singleOrderService: SingleOrderService,
     private orderService: OrdersService,

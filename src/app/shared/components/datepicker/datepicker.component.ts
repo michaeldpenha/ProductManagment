@@ -18,7 +18,7 @@ export class DatepickerComponent implements OnInit {
   @Input() readonly : string;
   @Input() value : any;
   @Output() change = new EventEmitter<any>();
-
+  @Input() showDefaultDate : boolean;
 
   constructor() { }
 
@@ -31,6 +31,7 @@ export class DatepickerComponent implements OnInit {
     this.maxDate = this.maxDate ? this.maxDate : '';
     this.readonly = this.readonly ? 'readonly' : '';
     this.dateFormat = this.dateFormat ? this.dateFormat : 'mm/dd/yyyy';
+    (this.showDefaultDate)  ? this.defaultDate = this.value ? new Date(this.value) : new Date() : '';
   }
 
   /**

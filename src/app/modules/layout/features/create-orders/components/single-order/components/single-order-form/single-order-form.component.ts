@@ -93,7 +93,7 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form && this.form.get('deliveryDate').value ? this.form.get('deliveryDate').value : null;
-        }, formName: 'releaseDate', placeholder: 'mm/dd/yyyy', label: 'Process Date', renderLabel: (item) => {
+        }, formName: 'releaseDate',showDefaultDate:true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: 'Process Date', renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, change: (e: any, item: any) => {
           //this.onDateChange(e, item);
@@ -107,9 +107,9 @@ export class SingleOrderFormComponent implements OnInit {
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled : () =>{return true;},label: 'Ref Doc', fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
-        type: 'datefield', minDate: () => {
+        type: 'datefield', showDefaultDate:true, minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
-        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate', label: 'Delivery Date', renderLabel: (item) => {
+        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate',defaultValue : moment(new Date()).add(1,'days'), label: 'Delivery Date', renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';

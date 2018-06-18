@@ -26,4 +26,5 @@ export interface FormConfig {
     readOnly? : Function;
     minDate ? : Function;
     maxDate ? : Function;
+    showDefaultDate? : boolean;
 }

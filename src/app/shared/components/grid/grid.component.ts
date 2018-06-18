@@ -37,7 +37,7 @@ export class GridComponent implements OnInit {
     this.gridCls = cfg.gridCls ? cfg.gridCls : 'table table-striped table-bordered';
     this.enableCellEdit = cfg.cellEdit ? cfg.cellEdit : false;
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
-    this.noRecord = cfg.noDatFound ? cfg.noDatFound : 'No data found';
+    this.noRecord = cfg.noRecord ? cfg.noRecord : 'No data found';
     this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
     this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
     this.columnDefs = this.coloumnConfig;

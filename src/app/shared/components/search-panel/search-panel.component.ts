@@ -9,7 +9,9 @@ import { FormGroup } from "@angular/forms";
 export class SearchPanelComponent implements OnInit {
   @Input() form: FormGroup;
   @Output() fetchForm = new EventEmitter<any>();
-  @Input() formFields : any
+  @Input() formFields : any;
+  public searchText : string = 'Search';
+  public resetText : string = 'Reset';
   constructor() { }
 
   ngOnInit() {

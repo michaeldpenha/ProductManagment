@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridActionsConfig, GridColoumnConfig, GridConfiguration } from "@app/shared/model";
+import { StaticText } from "@app/shared/constants";
 
 @Component({
   selector: 'app-search-orders-grid',
@@ -9,6 +10,7 @@ import { GridActionsConfig, GridColoumnConfig, GridConfiguration } from "@app/sh
 export class SearchOrdersGridComponent implements OnInit {
   public gridConfig: GridConfiguration;
   public coloumnConfig: GridColoumnConfig[];
+  @Input() noDataFound : string;
   @Input() gridData : any;
   constructor() { }
 
@@ -24,7 +26,8 @@ export class SearchOrdersGridComponent implements OnInit {
     this.gridConfig = new GridConfiguration({
       displayCheckBox: true,
       enableCellEdit: false,
-      allItemsSelected: false
+      allItemsSelected: false,
+      noRecord : this.noDataFound
     });
   }
   /**

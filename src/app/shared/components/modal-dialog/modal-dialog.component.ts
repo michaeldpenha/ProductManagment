@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-modal-dialog',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalDialogComponent implements OnInit {
 
-  constructor() { }
+  @Input() successError: boolean;
+  @Input() message: string;
+  @Input() successButtonText: string;
+  @Input() errorButtonText: string;
+  @Output() onSuccessBtnClick  = new EventEmitter<any>(); 
 
-  ngOnInit() {
-  }
+  constructor(public bsModalRef: BsModalRef, private modalService: BsModalService) { }
+
+  ngOnInit() { }
 
 }

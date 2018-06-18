@@ -44,7 +44,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.displayFormErrorMsg(item);
         }
       }),
-      new FormFieldConfig({ type: 'input', formName: 'routeId', label: StaticText.routeId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'routeId', label: StaticText.routeId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
         type: 'input', subtype: 'text', label: StaticText.customerId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
@@ -71,7 +71,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
         type: 'dropdown', defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg :any) => {
@@ -81,7 +81,7 @@ export class SingleOrderFormComponent implements OnInit {
           return true;
         }, label: StaticText.supplier, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'stop', label: StaticText.stop, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-8', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
+      new FormFieldConfig({ type: 'input', formName: 'stop', label: StaticText.stop, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-9', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", }),
       new FormFieldConfig({
         type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', defaultValue: StaticText.selectTransferTypeLabel, options: () => { return this.ordersService.transferTypeOptions }, formName: 'transferType', disabled: () => { return this.disableTransferType() }, label: StaticText.transferType, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm",
         renderLabel: (item: any) => {
@@ -108,7 +108,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled: () => { return true; }, label: StaticText.refDoc, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
@@ -122,7 +122,7 @@ export class SingleOrderFormComponent implements OnInit {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
-        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-8', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-8", inputClass: "form-control form-control-sm" }),
     ]

@@ -1,6 +1,7 @@
 <ng-container>
     <div class="input-group input-group-sm">
         <input class="background-white" type="text" 
+        [bsConfig]="{ containerClass: 'theme-dark-blue' }"
         [ngClass]="datepickerCls" 
         [placeholder]="placeholder" 
         [bsValue]="defaultDate" 

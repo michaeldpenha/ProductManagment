@@ -24,7 +24,7 @@
           <ng-container *ngIf="colDef.config.name === 'actions'">
             <td>
               <ng-container *ngFor="let action of colDef.config.actionItems">
-                <app-button (onButtonClick)="action.config.click(data,action,index)" [text]=""></app-button>
+                <app-button (onButtonClick)="action.config.click(data,action,index)" [text]="" [iconClass]="action.config.iconClass"></app-button>
               </ng-container>
             </td>
           </ng-container>

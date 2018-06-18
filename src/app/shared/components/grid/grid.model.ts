@@ -27,6 +27,7 @@ export interface ActionGridItemsConfig {
     actionClass?: string;
     click: Function;
     disable?: Function;
+    iconClass?: string;
 }
 
 export interface CellEditConfig {

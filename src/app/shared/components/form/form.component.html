@@ -8,7 +8,7 @@
           </ng-container>
           <div [ngClass]="fieldWidth(item.config)">
             <ng-container *ngIf="item.config.type.toLowerCase() == 'input'">
-              <input [type]="getInputSubType(item.config)" (blur)="onBlur($event,item.config)" [ngClass]="inputClass(item.config)" [name]="item.config.formName"
+              <input [type]="getInputSubType(item.config)" [placeholder] = "printPlaceHolder(item.config)" (blur)="onBlur($event,item.config)" [ngClass]="inputClass(item.config)" [name]="item.config.formName"
                 [formControlName]="item.config.formName" [value]="" (keyup)="onKeyUp($event,item.config)"  (keypress)="onKeyPress($event,item.config)"
                 [readonly]="isReadOnly(item.config)" />
             </ng-container>
@@ -17,7 +17,7 @@
                 [hidden]="isHidden(item.config)" (selectedInputData)="onChange($event,item.config)" [disabled]="isDisabled(item.config)"></app-drop-down>
             </ng-container>
             <ng-container *ngIf="item.config.type.toLowerCase() == 'datefield'">
-              <app-datepicker [placeholder] = "item.config.placeholder" [datepickerCls]="" [value]="item.config.defaultValue" [hidden]="isHidden(item.config)" (change)="onChange($event,item.config)"
+              <app-datepicker [placeholder] = "printPlaceHolder(item.config)" [datepickerCls]="" [value]="item.config.defaultValue" [hidden]="isHidden(item.config)" (change)="onChange($event,item.config)"
                 [readonly]="isReadOnly(item.config)" [showDefaultDate] = "item.config.showDefaultDate" [isDisabled]="isDisabled(item.config)" [maxDate]="fetchMaxDate(item.config)" [minDate]="fetchMinDate(item.config)" [placeholder]="mm/dd/yyyy" [dateFormat]="mm/dd/yyyy"></app-datepicker>
             </ng-container>
             <ng-container *ngIf="item.config.errorMessages">

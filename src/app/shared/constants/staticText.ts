@@ -13,5 +13,13 @@ export const StaticText = {
     refDoc : 'Ref Doc',
     deliveryDate : 'Delivery Date',
     comments : 'Comments',
-    headerUpdate : 'Header Update'
+    headerUpdate : 'Header Update',
+    orderIdPlaceHolder : 'Order Id',
+    itemNumber : 'Item Number',
+    from : 'from',
+    to: 'to',
+    date : 'Date',
+    division : 'Division',
+    orderStatusLabel : 'Select Order Status',
+    orderStatus : 'Order Status'
  };

@@ -17,7 +17,8 @@ import {
   ModalDialogComponent,
   CardsComponent,
   DatepickerComponent,
-  FormComponent
+  FormComponent,
+  SearchPanelComponent
 } from './components/index';
 import {
   OrdersService,
@@ -47,7 +48,8 @@ import { HttpInterceptorsService } from "@app/core/services";
     DatepickerComponent,
     FormComponent,
     CardsComponent,
-    HttpClientModule
+    HttpClientModule,
+    SearchPanelComponent
   ],
   declarations: [
     HeaderComponent,
@@ -63,7 +65,8 @@ import { HttpInterceptorsService } from "@app/core/services";
     DatepickerComponent,
     CardsComponent,
     TabComponent,
-    FormComponent
+    FormComponent,
+    SearchPanelComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

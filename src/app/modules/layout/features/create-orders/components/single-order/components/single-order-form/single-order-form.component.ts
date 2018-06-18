@@ -22,7 +22,7 @@ export class SingleOrderFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.ordersService.fetchStaticValues()
+    this.ordersService.fetchStaticValues();
   }
   public fetchSingleOrderForm = (e: any) => {
     this.fetchForm.emit(e);

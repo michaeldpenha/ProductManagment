@@ -133,7 +133,7 @@ export class FormComponent implements OnInit {
    * printPlaceHolder 
    */
   public printPlaceHolder = (cfg : any) : string => {
-    return cfg.placeholder ? cfg.placeholder : 'Enter Value';
+    return cfg.placeholder ? cfg.placeholder : '';
   }
   /**
    * fetchMaxDate

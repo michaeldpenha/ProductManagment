@@ -5,10 +5,11 @@ import { LoaderService } from "@app/core/services";
 
 @Injectable()
 export class OrdersService {
-  public _orderTypeOptions: any = [];
-  public _transferTypeOptions: any = [];
-  public _orderTypeStatus: any = [];
-
+  private _orderTypeOptions: any = [];
+  private _transferTypeOptions: any = [];
+  private _orderTypeStatus: any = [];
+  private _datesTypes : any = [];
+  private _divisionTypes : any = [];
   get orderTypeOptions(): any {
     return this._orderTypeOptions
   }
@@ -17,8 +18,19 @@ export class OrdersService {
   }
   get orderTypeStatus(): any {
     return this._orderTypeStatus;
-
   }
+  set divisionTypes(options : any) {
+    this._divisionTypes = options;
+  }
+  get divisionTypes()  :any {
+    return this._divisionTypes;
+  }
+  get datesTypes() : any {
+    return this._datesTypes;
+  }
+  set datesTypes (options:any){
+    this._datesTypes = options;
+  } 
   set orderTypeStatus(options: any) {
     this._orderTypeStatus = options;
   }
@@ -52,7 +64,7 @@ export class OrdersService {
    * fetchTransferTypes
    */
   public fetchTransferTypes= () => {
-    this._transferTypeOptions = [{
+    this.transferTypeOptions = [{
       label : 'inter-division transfer',
       value : 'M2'
     },{
@@ -64,12 +76,44 @@ export class OrdersService {
     }]
   }
   /**
+   * fetchDatesTypes
+   */
+  public fetchDatesTypes = () => {
+    this.datesTypes = [{
+      label : 'Created Date',
+      value : 'Created Date'
+    },{
+      label : 'Release Date',
+      value : 'Release Date'
+    },{
+      label : 'Delivery Date',
+      value : 'Delivery Date'
+    }]
+  }
+  /**
+   * fetchDivisionTypes
+   */
+  public fetchDivisionTypes = () => {
+    this.divisionTypes = [{
+      label : 'Division 1',
+      value : 'Division 1'
+    },{
+      label : 'Division 2',
+      value : 'Division 2'
+    },{
+      label : 'Division 3',
+      value : 'Division 3'
+    }]
+  }
+  /**
    * fetchStaticValues
    */
   public fetchStaticValues = () => {
-    (this._orderTypeOptions.length === 0 ) ? this.fetchOrderTypes().subscribe(el => {this.loaderService.hide();this._orderTypeOptions = el;}) : '';
-    (this._orderTypeStatus.length === 0 ) ? this.fetchOrderStatus().subscribe(el => {this.loaderService.hide();this._orderTypeStatus = el;}) : '';
+    (this.orderTypeOptions.length === 0 ) ? this.fetchOrderTypes().subscribe(el => {this.loaderService.hide();this._orderTypeOptions = el;}) : '';
+    (this.orderTypeStatus.length === 0 ) ? this.fetchOrderStatus().subscribe(el => {this.loaderService.hide();this._orderTypeStatus = el;}) : '';
     //this.fetchTransferTypes().subscribe(el => this._transferTypeOptions = el)
-    (this._transferTypeOptions.length === 0) ? this.fetchTransferTypes() : '';
+    (this.transferTypeOptions.length === 0) ? this.fetchTransferTypes() : '';
+    (this.datesTypes.length === 0) ? this.fetchDatesTypes() : '';
+    (this.divisionTypes.length == 0) ? this.fetchDivisionTypes() : '';
   }
 }

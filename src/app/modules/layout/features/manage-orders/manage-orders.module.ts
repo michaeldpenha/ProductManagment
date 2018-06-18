@@ -8,7 +8,6 @@ import {
   HeaderUpdateComponent,
   EditOrderComponent,
   ViewOrderComponent,
-  SearchOrdersFormComponent,
   SearchOrdersGridComponent
 } from './components';
 
@@ -18,6 +17,6 @@ import {
     ManageOrdersRoutingModule,
     SharedModule
   ],
-  declarations: [SearchOrdersComponent, HeaderUpdateComponent, EditOrderComponent, ViewOrderComponent, SearchOrdersFormComponent, SearchOrdersGridComponent]
+  declarations: [SearchOrdersComponent, HeaderUpdateComponent, EditOrderComponent, ViewOrderComponent, SearchOrdersGridComponent]
 })
 export class ManageOrdersModule { }

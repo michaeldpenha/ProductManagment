@@ -14,6 +14,7 @@ import {
   MessagesService
 } from '@app/shared/services';
 import { StaticText } from "@app/shared/constants";
+import { OrdersConfig } from "@app/shared/config";
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
@@ -55,13 +56,13 @@ export class SingleOrderComponent implements OnInit {
    */
   public addRow = () => {
     this.displayGridErrorMessage = false;
-    (this.data.length == 50) ? this.displayGridErrorMessage = true : this.pushBlankObjectInGrid();
+    (this.data.length == OrdersConfig.maxAdditionOfItemsInSingleOrder) ? this.displayGridErrorMessage = true : this.pushBlankObjectInGrid();
   }
   /**
    * displayMinAndMaxErrorMsg
    */
   public displayMinAndMaxErrorMsg = (): string => {
-    return this.data.length === 1 ? this.msgService.fetchMessage('minItemLimitForCreation') : this.data.length == 50 ? this.msgService.fetchMessage('maxItemLimitForCreation') : '';
+    return this.data.length === 1 ? this.msgService.fetchMessage('minItemLimitForCreation') : this.data.length == OrdersConfig.maxAdditionOfItemsInSingleOrder ? `${this.msgService.fetchMessage('additionUpto')} ${OrdersConfig.maxAdditionOfItemsInSingleOrder} ${this.msgService.fetchMessage('records')}!` : '';
 
   }
   /**
@@ -86,7 +87,7 @@ export class SingleOrderComponent implements OnInit {
     requestData['itemDetails'] = this.data;
     requestData['deliveryDate'] = moment(requestData['deliveryDate']).format('MM/DD/YYYY');
     requestData['releaseDate'] = moment(requestData['releaseDate']).format('MM/DD/YYYY');
-    requestData['orderType'] === 'rush' ? delete requestData['transferType'] : '';
+    requestData['orderType'].toLowerCase() === 'rush' ? delete requestData['transferType'] : '';
   }
   public isDisabled = (): boolean => {
     return this.form && !this.form.valid || !this.validateTransferType() || !this.checkGridValues();

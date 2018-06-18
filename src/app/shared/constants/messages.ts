@@ -24,7 +24,8 @@ export const Messages = {
     'quantity' : {
         'required': 'Quantity is reqiured'
     },
-    'maxItemLimitForCreation' : 'You can add only upto 50 records!',
-    'minItemLimitForCreation' : 'Atleast one record is mandatory'
+    'additionUpto' : 'You can add only upto ',
+    'minItemLimitForCreation' : 'Atleast one record is mandatory',
+    'records' : 'records'
 
 }

@@ -4,6 +4,7 @@ import { Validators, FormGroup } from "@angular/forms";
 import { MessagesService, OrdersService } from "@app/shared/services";
 import * as moment from 'moment';
 import {StaticText } from "@app/shared/constants";
+import { OrdersConfig } from "@app/shared/config";
 
 @Component({
   selector: 'app-single-order-form',
@@ -32,7 +33,7 @@ export class SingleOrderFormComponent implements OnInit {
   public initializeForm = () => {
     this.formFields = [
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType', label: StaticText.orderType, defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.ordersService.orderTypeOptions }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
+        type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType', label: StaticText.orderType, defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.fetchCreationTypes() }, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-8", validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, change: (e: any, item: any) => {
           this.disableRefDoc(e);
@@ -177,6 +178,19 @@ export class SingleOrderFormComponent implements OnInit {
    * disableRefDoc
    */
   public disableRefDoc = (e: any) => {
-    (e == '' || e == 'rush' && this.form) ? this.form.get('refDocNum').disable({ onlySelf: true }) : (this.form) ? this.form.get('refDocNum').enable({ onlySelf: true }) : '';
+    (e == '' || e.toLowerCase() == 'rush' && this.form) ? this.form.get('refDocNum').disable({ onlySelf: true }) : (this.form) ? this.form.get('refDocNum').enable({ onlySelf: true }) : '';
+  }
+  /**
+   * fetchCreationTypes
+   */
+  public fetchCreationTypes = () => {
+  let result : any = [];
+  let createOrderType : any = OrdersConfig.createOrderTypes;
+  if(this.ordersService.orderTypeOptions.length >0){
+    this.ordersService.orderTypeOptions.forEach(element => {
+        createOrderType.indexOf(element.orderTypeCode.toLowerCase()) != -1 ? result.push(element) : '';
+    });
+  }
+  return result;  
   }
 }

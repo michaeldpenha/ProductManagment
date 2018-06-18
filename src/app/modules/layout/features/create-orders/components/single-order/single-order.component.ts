@@ -101,6 +101,10 @@ export class SingleOrderComponent implements OnInit {
     requestData['deliveryDate'] = moment(requestData['deliveryDate']).format('MM/DD/YYYY');
     requestData['releaseDate'] = moment(requestData['releaseDate']).format('MM/DD/YYYY');
     requestData['orderType'].toLowerCase() === 'rush' ? delete requestData['transferType'] : '';
+    requestData['supplierId'] = requestData['supplierId'].split("/")[1];
+    this.orderService.createSingleOrder(requestData).subscribe(data => {
+      // this.dialogService.sho
+    })
   }
   public isDisabled = (): boolean => {
     return this.form && !this.form.valid || !this.validateTransferType() || !this.checkGridValues();

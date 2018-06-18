@@ -116,4 +116,10 @@ export class OrdersService {
     (this.datesTypes.length === 0) ? this.fetchDatesTypes() : '';
     (this.divisionTypes.length == 0) ? this.fetchDivisionTypes() : '';
   }
+  /**
+   * createSingleOrder
+   */
+  public createSingleOrder = (params : any) => {
+    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order',params);
+  }
 }

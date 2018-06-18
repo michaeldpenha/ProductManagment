@@ -18,14 +18,16 @@ import {
   CardsComponent,
   DatepickerComponent,
   FormComponent,
-  SearchPanelComponent
-} from './components/index';
+  DialogService,
+  SearchPanelComponent} from './components/index';
 import {
   OrdersService,
   MessagesService
 } from './services';
 import { RouterModule } from '@angular/router';
 import { HttpInterceptorsService } from "@app/core/services";
+import { ModalModule } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
@@ -35,7 +37,8 @@ import { HttpInterceptorsService } from "@app/core/services";
     BsDatepickerModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    ModalModule.forRoot()
   ],
   exports: [
     HeaderComponent,
@@ -49,7 +52,9 @@ import { HttpInterceptorsService } from "@app/core/services";
     FormComponent,
     CardsComponent,
     HttpClientModule,
-    SearchPanelComponent
+    SearchPanelComponent,
+    HttpClientModule,
+    ModalDialogComponent
   ],
   declarations: [
     HeaderComponent,
@@ -68,13 +73,16 @@ import { HttpInterceptorsService } from "@app/core/services";
     FormComponent,
     SearchPanelComponent
   ],
+  entryComponents: [ModalDialogComponent],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: HttpInterceptorsService,
     multi: true
   },
     OrdersService,
-    MessagesService
+    MessagesService,
+    BsModalService,
+    DialogService
   ]
 })
 export class SharedModule { }

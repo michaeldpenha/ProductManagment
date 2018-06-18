@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorR
 import { Validators, FormGroup } from '@angular/forms';
 import { SingleOrderService } from './single-order.service';
 import * as moment from 'moment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalDialogComponent } from "@app/shared/components";
 import {
   GridColoumnConfig,
   GridConfiguration,
@@ -15,12 +17,15 @@ import {
 } from '@app/shared/services';
 import { StaticText } from "@app/shared/constants";
 import { OrdersConfig } from "@app/shared/config";
+import { DialogService } from "@app/shared/components/modal-dialog/modal-dialog.service";
+
 @Component({
   selector: 'app-single-order',
   templateUrl: './single-order.component.html',
   styleUrls: ['./single-order.component.scss']
 })
 export class SingleOrderComponent implements OnInit {
+  [x: string]: any;
   public gridConfig: any = [];
   public coloumnConfig: any = [];
   public data: any = [];
@@ -35,9 +40,11 @@ export class SingleOrderComponent implements OnInit {
   public cancelBtnText: string = 'Cancel';
   public cancelBtnClass: string = 'btn btn-default';
   public displayGridErrorMessage: boolean = false;
+
   constructor(private singleOrderService: SingleOrderService,
     private orderService: OrdersService,
-    private msgService: MessagesService, private cdRef: ChangeDetectorRef) { }
+    private msgService: MessagesService, private cdRef: ChangeDetectorRef,
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.initalizeGridData();
@@ -125,6 +132,15 @@ export class SingleOrderComponent implements OnInit {
    */
   public deleteAction = (index: number) => {
     this.displayGridErrorMessage = false;
-    (this.data.length == 1) ? this.displayGridErrorMessage = true : this.data.splice(index, 1);
+    (this.data.length == 1) ? this.displayGridErrorMessage = true : (this.data[index].itemNumber && this.data[index].itemNumber != '') ? this.triggerWarning(index) : this.data.splice(index,1);
+  }
+
+  /**
+   * deleteSingleOrder
+   */
+  public triggerWarning = (index: number) => {
+    this.dialogService.showDialog(true, "Warning !", "", "", "Are you sure you want to delete this item?", "Delete", () => {
+      this.data.splice(index, 1)
+    }, "Cancel", () => { });
   }
 }

@@ -6,13 +6,14 @@ import { Injectable, TemplateRef } from '@angular/core';
 export class DialogService {
   constructor(private modalService: BsModalService) { }
 
-  showDialog(successError:boolean,headerTitle :any,template: any, data:any, successButtonText: string, successCallback : Function, cancelButtonText: string, cancelCallBack : Function) {
+  showDialog(successError:boolean, headerTitle :any, template: any, data:any, message:any, successButtonText: string, successCallback : Function, cancelButtonText: string, cancelCallBack : Function) {
     let bsModalRef = this.modalService.show(ModalDialogComponent, { animated: true, keyboard: false, backdrop: true, ignoreBackdropClick: true });
     bsModalRef.content.successError = successError;
     bsModalRef.content.headerTitle = headerTitle;
     bsModalRef.content.template = template;
     bsModalRef.content.successButtonText = successButtonText;
     bsModalRef.content.data = data;
+    bsModalRef.content.message = message;
     bsModalRef.content.onSuccess = () => {
         bsModalRef.hide();
         successCallback();

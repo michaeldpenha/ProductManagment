@@ -38,13 +38,13 @@ export const HeaderConfig = {
 					{ name: 'Mail 2', link: '#', dropdown: null }
 				]
 			},
-			{name: '', icon: 'fa fa-bell-o', link: '#', dropdown: 
+			{name: '', icon: 'fa fa-bell', link: '#', dropdown: 
 				[
 					{ name: 'Notification 1', link: '#', dropdown: null },
 					{ name: 'Notification 1', link: '#', dropdown: null }
 				]
 			},
-			{name: 'John Smith', icon: 'fa fa-user-o', link: '#', dropdown: 
+			{name: 'John Smith', icon: 'fa fa-user', link: '#', dropdown: 
 				[
 					{ name: 'Logout', link: '#', dropdown: null }
 				]

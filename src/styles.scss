@@ -28,3 +28,8 @@ app-sidebar {
     color: #dc3545;
     font-size: 85%;
 }
+@media (min-width: 1200px) {
+    .pull-right-lg {
+        float: right;
+    }
+}

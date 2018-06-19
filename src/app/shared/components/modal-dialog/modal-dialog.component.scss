@@ -1,5 +1,5 @@
 .modal-custom {
-    .icon-circle {
+    .circle-green {
         display: inline-block;
         border-radius: 50%;
         padding: 30px;
@@ -8,12 +8,18 @@
         text-align: center;
         font-size: 2.5rem;
         margin: 20px 0px;
-    }
-    .fa-check {
         color: #28a745;
         border: 2px solid #28a745;
     }
-    .fa-exclamation, .fa-remove {
+    .circle-red {
+        display: inline-block;
+        border-radius: 50%;
+        padding: 30px;
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        font-size: 2.5rem;
+        margin: 20px 0px;
         color: #dc3545;
         border: 2px solid #dc3545;
     }

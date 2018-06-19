@@ -13,7 +13,8 @@
     <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled()"></app-button>
 </div>
 <ng-template #orderSuccessfullyCreated>
-    <div>Order Created successfully
-        your order number is <p (click)="navigateToViewOrder()">#{{createdOrderNumber}}</p>
+    <div>
+        Order Created successfully your order number is 
+        <a class="text-primary link" (click)="navigateToViewOrder()">#{{createdOrderNumber}}</a>
     </div>
 </ng-template>

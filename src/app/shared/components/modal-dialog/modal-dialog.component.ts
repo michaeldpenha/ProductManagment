@@ -10,7 +10,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class ModalDialogComponent implements OnInit {
 
-  @Input() successError: boolean;
+  @Input() iconClass: string;
   @Input() message: string;
   @Input() successButtonText: string;
   @Input() errorButtonText: string;

@@ -109,7 +109,8 @@ export class SingleOrderComponent implements OnInit {
     this.orderService.createSingleOrder(requestData).subscribe(data => {
       this.loadingService.hide();
       this.createdOrderNumber = data['orderId'];
-      this.dialogService.showDialog(false, "Success", this.orderSuccessTemplate, "", "", "Manage Order", () => {
+
+      this.dialogService.showDialog("Success", "fa fa-check circle-green", this.orderSuccessTemplate, "", "", "Manage Order", () => {
         this.navigateTo('/manage-order');
         this.clearCreatedOrderNumber();
       }, "Cancel", () => {
@@ -158,7 +159,7 @@ export class SingleOrderComponent implements OnInit {
    * deleteSingleOrder
    */
   public triggerWarning = (index: number) => {
-    this.dialogService.showDialog(true, "Warning !", "", "", "Are you sure you want to delete this item?", "Delete", () => {
+    this.dialogService.showDialog("Warning !", "fa fa-exclamation circle-red", "", "", "Are you sure you want to delete this item?", "Delete", () => {
       this.data.splice(index, 1)
     }, "Cancel", () => { });
   }

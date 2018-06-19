@@ -2,6 +2,5 @@
 <hr />
 <div class="search-panel">
     <app-search-panel  (fetchForm) = "fetchForm($event)" [form]="form" [formFields]="formFields"></app-search-panel>
-    <app-button [cls]="headerUpdateBtnCls" [text]="headerUpdateText" (click)="headerUpdate()"></app-button>
 </div>
 <app-search-orders-grid [noDataFound]="noDataFound" [gridData]="data"></app-search-orders-grid>

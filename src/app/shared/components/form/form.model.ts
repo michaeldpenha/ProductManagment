@@ -31,4 +31,7 @@ export interface FormConfig {
     defaultDisplayLabel?: string;
     min ? : number;
     max ? : number;
+    btnCls ?: string;
+    btnText?: string;
+    btnClick?: Function;
 }

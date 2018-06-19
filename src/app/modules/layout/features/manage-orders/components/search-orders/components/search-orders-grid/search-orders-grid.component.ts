@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridActionsConfig, GridColoumnConfig, GridConfiguration } from "@app/shared/model";
 import { StaticText } from "@app/shared/constants";
+import { RouterService } from "@app/shared/services";
 
 @Component({
   selector: 'app-search-orders-grid',
@@ -12,7 +13,7 @@ export class SearchOrdersGridComponent implements OnInit {
   public coloumnConfig: GridColoumnConfig[];
   @Input() noDataFound : string;
   @Input() gridData : any;
-  constructor() { }
+  constructor(private routerService  :RouterService) { }
 
   ngOnInit() {
     this.populateGridConfig();
@@ -47,12 +48,18 @@ export class SearchOrdersGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({
         name: 'actions',
+        title : 'Action',
         actionItems: [
-          new GridActionsConfig({ label: '', click: (item, actionCfg) => { console.log('Test') } }),
-          new GridActionsConfig({ label: '', click: (item, actionCfg) => { console.log('Test') } })
+          new GridActionsConfig({ label: '', click: (item, actionCfg) => { this.navigate(`/manage-order/edit-order/${item['orderId']}`); } }),
+          new GridActionsConfig({ label: '', click: (item, actionCfg) => { this.navigate(`/manage-order/view-order/${item['orderId']}`); } })
         ]
       })
     ]
   }
-
+  /**
+   * navigate
+   */
+  public navigate= (url) => {
+    this.routerService.navigateTo(url);
+  }
 }

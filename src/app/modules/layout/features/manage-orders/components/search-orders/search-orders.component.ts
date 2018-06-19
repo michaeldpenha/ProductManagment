@@ -14,12 +14,15 @@ import { OrdersService } from "@app/shared/services";
   styleUrls: ['./search-orders.component.scss']
 })
 export class SearchOrdersComponent implements OnInit {
-  public headerUpdateText: string = StaticText.headerUpdate;
-  public headerUpdateBtnCls: string = 'btn btn-primary';
   public data: any;
   public form: any;
   public formFields: any = [];
   public noDataFound : string = StaticText.searchQuery;
+
+  public page:number=1;
+  public limit:number=5;
+  public total:number;
+  public sortBy:string='orderId,DESC';
 
   constructor(private cdRef: ChangeDetectorRef, private ordersService: OrdersService) { }
 
@@ -50,48 +53,51 @@ export class SearchOrdersComponent implements OnInit {
   public fetchForm = (form: any) => {
     this.form = form;
   }
-  public headerUpdate = () => {
-    console.log('HeaderUpdate')
-  }
   public initializeForm = () => {
     this.formFields = [
-      new FormFieldConfig({ type: 'input', formName: 'orderId',  placeholder: StaticText.orderIdPlaceHolder, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
-      new FormFieldConfig({ type: 'input', formName: 'itemNumber', placeholder: StaticText.itemNumber, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
-      new FormFieldConfig({ type: 'input', formName: 'customerId', placeholder: StaticText.customerId, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', subtype: 'number', min : 0, formName: 'orderId',  placeholder: StaticText.orderIdPlaceHolder, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', subtype: 'number', min:0,formName: 'itemId', placeholder: StaticText.itemNumber, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', formName: 'customerGroupId', placeholder: StaticText.customerId, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'label',defaultOptionsValue: 'value', formName: 'dateType', defaultValue: StaticText.dateType, options: () => { return this.ordersService.datesTypes }, fieldWidthCls: 'col-md-2', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'label',defaultOptionsValue: 'value', formName: 'dateColumn', defaultValue: StaticText.dateType, options: () => { return this.ordersService.datesTypes }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           this.displayDatePickers(e, item);
         }
       }), new FormFieldConfig({
-        type: 'datefield', minDate: () => { return null }, hidden : () =>{
-          return this.form && this.form.get('dateType').value == '' || this.form.get('dateType').value.toLowerCase() == StaticText.dateType.toLowerCase();
+        type: 'datefield', minDate: () => { return null }, disabled : () =>{
+          return this.form && this.form.get('dateColumn').value == '' || this.form.get('dateColumn').value.toLowerCase() == StaticText.dateType.toLowerCase();
         }, maxDate: () => {
-          return this.form && this.form.get('toDate').value ? this.form.get('toDate').value : null;
-        }, formName: 'fromDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), 
+          return this.form && this.form.get('startDate').value ? this.form.get('startDate').value : null;
+        }, formName: 'endDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), 
         readOnly: () => {
           return 'readonly';
-        }, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'datefield',  hidden : () =>{
-          return this.form && this.form.get('dateType').value == '' || this.form.get('dateType').value.toLowerCase() == StaticText.dateType.toLowerCase();
-        }, minDate: () => { return this.form && this.form.get('fromDate').value ? this.form.get('fromDate').value : new Date(); }, maxDate: () => {
+        type: 'datefield',  disabled : () =>{
+          return this.form && this.form.get('dateColumn').value == '' || this.form.get('dateColumn').value.toLowerCase() == StaticText.dateType.toLowerCase();
+        }, minDate: () => { return this.form && this.form.get('endDate').value ? this.form.get('endDate').value : new Date(); }, maxDate: () => {
           return null;
-        }, formName: 'toDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()),
+        }, formName: 'startDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()),
         readOnly: () => {
           return 'readonly';
-        }, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        }, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'supplierId', placeholder: StaticText.supplier, fieldWidthCls: 'col-md-2', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', min : 0, subtype: 'number',formName: 'supplierId', placeholder: StaticText.supplier, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm" }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', formName: 'divisionType', defaultValue: StaticText.division, options: () => { return this.ordersService.divisionTypes }, fieldWidthCls: 'col-md-2', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'label', defaultOptionsValue: 'value', formName: 'divisionId', defaultValue: StaticText.division, options: () => { return this.ordersService.divisionTypes }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
          // this.displayDatePickers(e, item);
         }
       }), new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType',  defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.ordersService.orderTypeOptions }, fieldWidthCls: 'col-md-2', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
+        type: 'dropdown', defaultDisplayLabel: 'orderTypeCode', defaultOptionsValue: 'orderTypeCode', formName: 'orderType',  defaultValue: StaticText.selectOrderTypeLabel, options: () => { return this.ordersService.orderTypeOptions }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
       }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', defaultOptionsValue: 'orderStatusCode', formName: 'orderStatus',  defaultValue: StaticText.orderStatusLabel, options: () => { return this.ordersService.orderTypeStatus }, fieldWidthCls: 'col-md-2', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
+        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', defaultOptionsValue: 'orderStatusCode', formName: 'status',  defaultValue: StaticText.orderStatusLabel, options: () => { return this.ordersService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '',  fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-success", btnText: "Search", btnClick: () => {}
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '',  fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-default", btnText: "Reset", btnClick: () => {}
       })
     ]
   }

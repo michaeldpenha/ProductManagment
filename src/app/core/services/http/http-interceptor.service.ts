@@ -52,7 +52,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
      */
     showModal = (message, headerText) => {
         setTimeout(() => {
-            this.dialogService.showDialog(false, headerText, "", "", message, 
+            this.dialogService.showDialog(headerText, "fa fa-exclamation circle-red", "", "", message, 
             "", () => { }, "Ok", () => { });
         }, 500);
     }

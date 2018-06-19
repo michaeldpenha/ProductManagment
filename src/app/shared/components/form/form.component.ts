@@ -13,8 +13,8 @@ export class FormComponent implements OnInit {
   get changes() { return this.form.valueChanges; }
   get valid() { return this.form.valid; }
   get value() { return this.form.value; }
-  public defaultFieldWidthCls: string = 'col-md-6';
-  public defaultDisplayLabelCls: string = "form-group required row";
+  public defaultFieldWidthCls: string = '';
+  public defaultDisplayLabelCls: string = "";
   public defaultInputSubType : string = 'text';
   constructor( private formBuilder: FormBuilder) { }
 
@@ -165,5 +165,26 @@ export class FormComponent implements OnInit {
    */
   public setMaximum = (cfg : any) => {
     return cfg && cfg.max ? cfg.max : '';
+  }
+
+  /**
+   * getBtnCls
+   */
+  public getBtnCls = (item: any) => {
+    return item && item.btnCls ? item.btnCls.toLowerCase() : "btn btn-default";
+  }
+
+  /**
+   * getBtnText
+   */
+  public getBtnText = (item: any) => {
+    return item && item.btnText ?item.btnText : "Sample Text";
+  }
+
+  /**
+   * getBtnClick
+   */
+  public getBtnClick = (e:any, item: any) => {
+    return item.btnClick ? item.btnClick(e,item) : '';
   }
 }

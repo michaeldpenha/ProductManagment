@@ -9,7 +9,9 @@ import {
   EditOrderComponent,
   ViewOrderComponent,
   SearchOrdersGridComponent,
-  ViewOrderDetailsComponent
+  ViewOrderDetailsComponent,
+  ViewErrorLogComponent,
+  ViewChangeLogComponent
 } from './components';
 
 @NgModule({
@@ -18,6 +20,6 @@ import {
     ManageOrdersRoutingModule,
     SharedModule
   ],
-  declarations: [SearchOrdersComponent, HeaderUpdateComponent, EditOrderComponent, ViewOrderComponent, SearchOrdersGridComponent, ViewOrderDetailsComponent]
+  declarations: [SearchOrdersComponent, HeaderUpdateComponent, EditOrderComponent, ViewOrderComponent, SearchOrdersGridComponent, ViewOrderDetailsComponent, ViewErrorLogComponent, ViewChangeLogComponent]
 })
 export class ManageOrdersModule { }

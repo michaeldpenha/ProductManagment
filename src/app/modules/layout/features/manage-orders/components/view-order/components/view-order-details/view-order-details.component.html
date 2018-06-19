@@ -1,12 +1,13 @@
 <app-panel [isFooterVisible]="detailsFooterVisible" [headerText]="detailsHeader">
-  <app-cards isCheckBoxtoChild="false">Michael</app-cards>
+  <div class="row">
+    <app-cards isCheckBoxtoChild="false" *ngFor="let orderData of orderDetailsData">
+      <div>{{orderData.label}}</div>
+      <div>{{orderData.value}}</div>
+    </app-cards>
+  </div>
 </app-panel>
-<!--<app-cards isCheckBoxtoChild="false" cardTitle="Details" headerStyleClass="bg-primary">
-  Order details
-</app-cards>-->
 <app-panel [isFooterVisible]="logisticsFooterVisible" [headerText]="logisticsHeader">
-  <app-cards isCheckBoxtoChild="false">Dpenha</app-cards>
+  <app-cards isCheckBoxtoChild="false"></app-cards>
 </app-panel>
-<div class="addLine float-right">
-    <app-button (onButtonClick)="addRow()" [cls]="previousBtnClass" [previousIconClass]="previousIconClass" [text]="addLineText"></app-button>
-</div>
+
+<app-grid [gridConfig] = "gridConfig" [coloumnConfig] = "coloumnConfig" [gridData]="data"></app-grid>

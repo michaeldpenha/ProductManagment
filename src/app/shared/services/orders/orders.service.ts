@@ -8,10 +8,10 @@ export class OrdersService {
   private _orderTypeOptions: any = [];
   private _transferTypeOptions: any = [];
   private _orderTypeStatus: any = [];
-  private _datesTypes : any = [];
-  private _divisionTypes : any = [];
+  private _datesTypes: any = [];
+  private _divisionTypes: any = [];
   get orderTypeOptions(): any {
-    return this._orderTypeOptions
+    return this._orderTypeOptions;
   }
   set orderTypeOptions(options: any) {
     this._orderTypeOptions = options;
@@ -19,18 +19,18 @@ export class OrdersService {
   get orderTypeStatus(): any {
     return this._orderTypeStatus;
   }
-  set divisionTypes(options : any) {
+  set divisionTypes(options: any) {
     this._divisionTypes = options;
   }
-  get divisionTypes()  :any {
+  get divisionTypes(): any {
     return this._divisionTypes;
   }
-  get datesTypes() : any {
+  get datesTypes(): any {
     return this._datesTypes;
   }
-  set datesTypes (options:any){
+  set datesTypes (options: any){
     this._datesTypes = options;
-  } 
+  }
   set orderTypeStatus(options: any) {
     this._orderTypeStatus = options;
   }
@@ -40,7 +40,8 @@ export class OrdersService {
   set transferTypeOptions(options: any) {
     this._transferTypeOptions = options;
   }
-  constructor(private _http: HttpClient,private loaderService : LoaderService) { }
+  
+  constructor(private _http: HttpClient, private loaderService: LoaderService) { }
 
   public getSupplierInfo = (id: string) => {
     return this._http.get(`order/item/${id}`);
@@ -67,10 +68,10 @@ export class OrdersService {
     this.transferTypeOptions = [{
       label : 'inter-division transfer',
       value : 'M2'
-    },{
+    }, {
       label : 'expense',
       value : 'M3'
-    },{
+    }, {
       label : 'intra-division transfer',
       value : 'M9'
     }]
@@ -82,10 +83,10 @@ export class OrdersService {
     this.datesTypes = [{
       label : 'Created Date',
       value : 'Created Date'
-    },{
+    }, {
       label : 'Release Date',
       value : 'Release Date'
-    },{
+    }, {
       label : 'Delivery Date',
       value : 'Delivery Date'
     }]
@@ -97,10 +98,10 @@ export class OrdersService {
     this.divisionTypes = [{
       label : 'Division 1',
       value : 'Division 1'
-    },{
+    }, {
       label : 'Division 2',
       value : 'Division 2'
-    },{
+    }, {
       label : 'Division 3',
       value : 'Division 3'
     }]
@@ -119,7 +120,13 @@ export class OrdersService {
   /**
    * createSingleOrder
    */
-  public createSingleOrder = (params : any) => {
-    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order',params);
+  public createSingleOrder = (params: any) => {
+    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order', params);
+  }
+   /**
+   * viewOrderDetails
+   */
+  public viewOrderDetails = (id: string) => {
+    return this._http.get(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/${id}`);
   }
 }

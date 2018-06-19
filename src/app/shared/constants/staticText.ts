@@ -26,5 +26,7 @@ export const StaticText = {
     dateType : 'Select Date Type',
     details : 'Details',
     logistics : 'Logistics',
-    ok :'OK'
+    ok :'OK',
+emailId : 'Email Id',
+    userId: 'User Id'
  };

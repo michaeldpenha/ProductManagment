@@ -1,3 +1,5 @@
+// import { FileUploadComponent } from './../../../../shared/components/file-upload/file-upload.component';
+// import { DragDropComponent } from './../../../../shared/components/drag-drop/drag-drop.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -8,9 +10,12 @@ import {
   BulkOrderComponent,
   BulkOrderInboxComponent,
   SingleOrderGridComponent,
-  SingleOrderFormComponent
+  SingleOrderFormComponent, 
+  BulkOrderUploadComponent
 } from './components';
 import { SingleOrderService } from "./components/single-order/single-order.service";
+import { DragDropComponent, FileUploadComponent } from "@app/shared/components";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -20,9 +25,12 @@ import { SingleOrderService } from "./components/single-order/single-order.servi
   declarations: [
     SingleOrderComponent,
     BulkOrderComponent,
+    BulkOrderUploadComponent,
     BulkOrderInboxComponent,
     SingleOrderGridComponent,
-    SingleOrderFormComponent
+    SingleOrderFormComponent,
+    DragDropComponent, 
+    FileUploadComponent
   ],
   providers : [SingleOrderService]
 })

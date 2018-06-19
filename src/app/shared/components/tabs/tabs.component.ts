@@ -8,7 +8,7 @@ import { TabComponent } from './tab.component';
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
-
+  
   // contentChildren are set
   ngAfterContentInit() {
     // get all active tabs

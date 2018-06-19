@@ -24,6 +24,13 @@ export const Messages = {
     'quantity' : {
         'required': 'Quantity is reqiured'
     },
+    'emailId':{
+        'required': 'Email Id is reqiured',
+        'email': 'Emaild Id must be valid'
+    },
+    'comments' : {
+        'required': 'Comments are reqiured'
+    },
     'additionUpto' : 'You can add only upto ',
     'minItemLimitForCreation' : 'Atleast one record is mandatory',
     'records' : 'records',

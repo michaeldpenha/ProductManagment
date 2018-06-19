@@ -61,6 +61,17 @@ export class OrdersService {
   public fetchOrderStatus = () => {
     return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/orderstatus');
   }
+
+
+  /**
+   * fetchOrderStatus
+   */
+
+
+  public fetchInboxRecords = () => {
+    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch');
+  }
+
   /**
    * fetchTransferTypes
    */

@@ -1,5 +1,5 @@
 <app-form (fetchForm) = "fetchSearchForm($event)" [formFields]="formFields"></app-form>
-<div>
-  <app-button [text]="searchText"></app-button>
-  <app-button [text]="resetText"></app-button>
+<div class="float-right">
+  <app-button [cls]="seatchBtnCls" [text]="searchText"></app-button> &nbsp;&nbsp;
+  <app-button [cls]="resetBtnCls" [text]="resetText"></app-button>
 </div>

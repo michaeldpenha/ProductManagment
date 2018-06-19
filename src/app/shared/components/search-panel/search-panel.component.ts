@@ -11,7 +11,9 @@ export class SearchPanelComponent implements OnInit {
   @Output() fetchForm = new EventEmitter<any>();
   @Input() formFields : any;
   public searchText : string = 'Search';
+  public seatchBtnCls: string = 'btn btn-success';
   public resetText : string = 'Reset';
+  public resetBtnCls: string = 'btn btn-default';
   constructor() { }
 
   ngOnInit() {

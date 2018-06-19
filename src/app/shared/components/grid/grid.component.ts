@@ -22,10 +22,15 @@ export class GridComponent implements OnInit {
   public enableRowEdit: boolean;
   public checkBoxDisable: Function;
   public columnDefs : any;
+
   constructor(private elRef:ElementRef) { }
 
   ngOnInit() {
     this.defaultGridSettings()
+  }
+
+  ngAfterViewChecked() {
+    document.getElementById("addColspan").setAttribute("colspan", (this.coloumnConfig.length) );
   }
 
   /**

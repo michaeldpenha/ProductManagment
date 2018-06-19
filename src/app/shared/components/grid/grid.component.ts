@@ -30,7 +30,7 @@ export class GridComponent implements OnInit {
   }
 
   ngAfterViewChecked() {
-    document.getElementById("addColspan").setAttribute("colspan", (this.coloumnConfig.length) );
+    this.coloumnConfig && this.coloumnConfig.length > 0 && document.getElementById("addColspan") ? document.getElementById("addColspan").setAttribute("colspan", (this.coloumnConfig.length + 1) ) : '';
   }
 
   /**

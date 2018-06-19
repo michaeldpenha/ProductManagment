@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { Location } from '@angular/common';
 import { SideBarConfig } from '@app/shared/config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,10 +18,15 @@ export class SidebarComponent implements OnInit {
   public href: any;
   public counter: number = 0;
 
-  constructor(private location: Location) { }
+  constructor(private location: Location, private router: Router) { }
 
   ngOnInit() {
     this.defaultData();
+    
+    // On url change call function
+    this.router.events.subscribe((event) => {
+      this.defaultData();
+    });
   }
 
   /**
@@ -33,7 +39,7 @@ export class SidebarComponent implements OnInit {
     // on Refresh page set current menu active
     this.locationPath = window.location.pathname;
     this.sidebarData.forEach(element => {
-      if (this.locationPath === element.link) {
+      if ( (this.locationPath.split("/")[1]) === (element.link && element.link.split("/")[1]) ) {
         this.selectedItem = element;
       } else if(element.sub) {
         (element.sub).forEach(subElement => {

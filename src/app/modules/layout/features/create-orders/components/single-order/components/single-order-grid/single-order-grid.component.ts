@@ -11,9 +11,9 @@ import { LoaderService } from "@app/core/services";
 export class SingleOrderGridComponent implements OnInit {
   @Output() deleteActionTrigger = new EventEmitter<any>();
   @Input() data: any = [];
-  @Input() coloumnConfig : any;
-  @Input() gridConfig : any;
-  constructor(private orderService : OrdersService,private msgService : MessagesService,private loaderService : LoaderService) { }
+  @Input() coloumnConfig: any;
+  @Input() gridConfig: any;
+  constructor(private orderService: OrdersService, private msgService: MessagesService, private loaderService: LoaderService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -44,9 +44,10 @@ export class SingleOrderGridComponent implements OnInit {
         name: 'itemNumber', width: 150, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
-            e.target.value == "" ? this.fillGridObjectValues(index, {}) : this.isDuplicateRec(index) ? this.fillGridObjectValues(index, {}) : this.fetchItemsInfo(e.target.value, index,e);
+            e.target.value == "" ? this.fillGridObjectValues(index, {}) : this.isDuplicateRec(index) ? this.fillGridObjectValues(index, {}) : this.fetchItemsInfo(e.target.value, index, e);
+            this.data[index]['itemNumber'] = e.target.value.trim();
           }, displayCellEdit: true, disabled: () => { return false; }, printErrorMsg: (cfg, i, errEl) => {
-            return this.itemNumberErrorMessage(cfg, i,errEl);
+            return this.itemNumberErrorMessage(cfg, i, errEl);
           }, showErrorMsg: (cfg, i, errEl) => {
             return this.showItemNumberErrorMsg(i, (errEl && errEl.getAttribute('dirty') == "true"));
 
@@ -63,10 +64,10 @@ export class SingleOrderGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'upc', width: 150, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
       new GridColoumnConfig({
         name: 'quantity', width: 50, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
-          type: 'input',blur: (e: any, item: any, cfg: any, index: number) => {
+          type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
           },
-          keyPress : (e) => {return e.charCode >= 48},
+          keyPress: (e) => { return e.charCode >= 48 },
           min: 1,
           printErrorMsg: (cfg, i, errEl) => {
             return this.msgService.fetchMessage(cfg.name, 'required');
@@ -78,20 +79,22 @@ export class SingleOrderGridComponent implements OnInit {
       }),
       new GridColoumnConfig({
         name: 'actions',
-        title: 'Action', width: 100, 
+        title: 'Action', width: 100,
         actionItems: [
-          new GridActionsConfig({  iconClass: 'fa fa-trash', label: '', click: (item :any, actionCfg : any,index : number) => {
-            this.deleteAction(index); 
-          }})
+          new GridActionsConfig({
+            iconClass: 'fa fa-trash', label: '', click: (item: any, actionCfg: any, index: number) => {
+              this.deleteAction(index);
+            }
+          })
         ]
-       
+
       })
     ]
   }
   /**
    * deleteAction
    */
-  public deleteAction = (i : number) => {
+  public deleteAction = (i: number) => {
     this.deleteActionTrigger.emit(i);
   }
   /**
@@ -100,34 +103,35 @@ export class SingleOrderGridComponent implements OnInit {
   public fillGridObjectValues = (index: number, obj: any) => {
     let item: any = this.coloumnConfig;
     item.forEach(element => {
-      let itemObj : any = this.data[index];
-      (element['config']['name']  != 'actions'|| element['config']['name'] != '' || element['config']['name'] != 'itemNumber') ? itemObj[element['config']['name']] = obj[element['config']['name']] : '';
+      let itemObj: any = this.data[index];
+      (element['config']['name'] != 'actions' || element['config']['name'] != '' || element['config']['name'] != 'itemNumber') ? itemObj[element['config']['name']] = obj[element['config']['name']] : '';
     });
   }
   /**
    * isDuplicateRec
    */
   public isDuplicateRec = (i: number): boolean => {
-    let result: boolean;
+    let result: boolean = false;
     this.data.forEach((element, index) => {
-      result = result || (element['itemNumber'] == this.data[i]['itemNumber'] && i != index && !(this.data[i]['description'] && this.data[i]['description'] != ''))
+      result = result || (element['itemNumber'] && element['itemNumber'].trim() == this.data[i]['itemNumber'].trim() && i != index)
     });
     return result;
   }
   /**
    * fetchItemsInfo
    */
-  public fetchItemsInfo = (val: string, index: number,el:any) => {
+  public fetchItemsInfo = (val: string, index: number, el: any) => {
     this.orderService.getItemDetails(val).subscribe(element => {
       this.loaderService.hide();
-      (element['description'] && element['description'].toLowerCase() == "no matching item found") ? this.noItemNumberFound(index,el) : this.fillGridObjectValues(index, element);
+      (element['description'] && element['description'].toLowerCase() == "no matching item found") ? this.noItemNumberFound(index, el) : this.fillGridObjectValues(index, element);
       this.data[index]['itemNumber'] = val;
     });
   }
   /**
    * itemNumberErrorMessage 
    */
-  public itemNumberErrorMessage = (cfg: any, i: number , el : any): string => {
+  public itemNumberErrorMessage = (cfg: any, i: number, el: any): string => {
+    console.log(this.data[i][cfg.name])
     return !this.data[i][cfg.name] || this.data[i][cfg.name] == '' ? this.msgService.fetchMessage(cfg.name, 'required') : this.isDuplicateRec(i) ? this.msgService.fetchMessage(cfg.name, 'duplicate') : el.getAttribute('error');
   }
   /**
@@ -141,9 +145,9 @@ export class SingleOrderGridComponent implements OnInit {
   /**
    * noItemNumberFound
    */
-  public noItemNumberFound = (index :number ,el : any) => {
-    el.target.setAttribute('error',this.msgService.fetchMessage('itemNumber','notFound')) ;
-    this.fillGridObjectValues(index, {}) 
+  public noItemNumberFound = (index: number, el: any) => {
+    el.target.setAttribute('error', this.msgService.fetchMessage('itemNumber', 'notFound'));
+    this.fillGridObjectValues(index, {})
   }
 
 }

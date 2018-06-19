@@ -36,7 +36,7 @@
               <ng-container *ngIf="isEditable(data,colDef.config,index)">
                 <ng-container *ngIf="checkTypeofEditableField('input',colDef.config,index)">
                   <input dirty="false" error="" (focus)="onInputFocus(colDef.config,index)" [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)"
-                    (blur)="onBlur($event,data,colDef.config,index)" [name]="inputIdentifier(colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
+                    (blur)="onBlur($event,data,colDef.config,index)" [min] = "setMinimum(colDef.config,index)" [max]="setMaximum(colDef.config,index)" (keyup)="onKeyUp($event,colDef.config)"  (keypress)="onKeyPress($event,colDef.config)" [name]="inputIdentifier(colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
                     [ngClass]="getInputClass(colDef.config,index)" />
                 </ng-container>
                 <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">

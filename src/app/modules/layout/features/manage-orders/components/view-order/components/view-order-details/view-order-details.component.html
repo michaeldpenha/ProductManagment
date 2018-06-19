@@ -1,0 +1,12 @@
+<app-panel [isFooterVisible]="detailsFooterVisible" [headerText]="detailsHeader">
+  <app-cards isCheckBoxtoChild="false">Michael</app-cards>
+</app-panel>
+<!--<app-cards isCheckBoxtoChild="false" cardTitle="Details" headerStyleClass="bg-primary">
+  Order details
+</app-cards>-->
+<app-panel [isFooterVisible]="logisticsFooterVisible" [headerText]="logisticsHeader">
+  <app-cards isCheckBoxtoChild="false">Dpenha</app-cards>
+</app-panel>
+<div class="addLine float-right">
+    <app-button (onButtonClick)="addRow()" [cls]="previousBtnClass" [previousIconClass]="previousIconClass" [text]="addLineText"></app-button>
+</div>

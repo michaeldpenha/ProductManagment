@@ -107,7 +107,7 @@ export class SingleOrderComponent implements OnInit {
     })
   }
   public isDisabled = (): boolean => {
-    return this.form && !this.form.valid || !this.validateTransferType() || !this.checkGridValues();
+    return this.form && !this.form.valid || !this.validateTransferType() || this.validateSupplierID()|| !this.checkGridValues();
   }
   /**
    * fetchForm = 
@@ -120,6 +120,9 @@ export class SingleOrderComponent implements OnInit {
    */
   public validateTransferType = () => {
     return this.form && this.form.get('orderType').value.toLowerCase() === "rush" ? true : (this.form && this.form.get('transferType').value != StaticText.selectTransferTypeLabel && this.form.get('transferType').value != '') && (this.form.get('orderType').value.toLowerCase() === 'transfer' || this.form.get('orderType').value.toLowerCase() === 'standing');
+  }
+  public validateSupplierID = () => {
+    return this.form && this.form.get('supplierId').value.toLowerCase() == '' || this.form.get('supplierId').value == StaticText.selectSupplier;
   }
   /**
    * checkGridValues

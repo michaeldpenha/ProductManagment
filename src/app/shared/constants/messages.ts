@@ -26,6 +26,9 @@ export const Messages = {
     },
     'additionUpto' : 'You can add only upto ',
     'minItemLimitForCreation' : 'Atleast one record is mandatory',
-    'records' : 'records'
+    'records' : 'records',
+    'supplierId' : {
+        'required' : 'Supplier is required'
+    }
 
 }

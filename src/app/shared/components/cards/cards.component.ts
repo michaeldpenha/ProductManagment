@@ -9,8 +9,6 @@ import { NgForm } from '@angular/forms';
 export class CardsComponent implements OnInit {
 
   @Input() cardDetail: Object;
-  @Input() cardTitle: string;
-  @Input() headerStyleClass: string;
   @Input() cls: string;
   @Input() isCheckBoxtoChild: boolean;
   @Input() selectionType: string = 'checkbox';

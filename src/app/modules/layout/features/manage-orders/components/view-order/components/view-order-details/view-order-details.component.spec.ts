@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormSelectComponent } from './form-select.component';
+import { ViewOrderDetailsComponent } from './view-order-details.component';
 
-describe('FormSelectComponent', () => {
-  let component: FormSelectComponent;
-  let fixture: ComponentFixture<FormSelectComponent>;
+describe('ViewOrderDetailsComponent', () => {
+  let component: ViewOrderDetailsComponent;
+  let fixture: ComponentFixture<ViewOrderDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormSelectComponent ]
+      declarations: [ ViewOrderDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormSelectComponent);
+    fixture = TestBed.createComponent(ViewOrderDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -29,4 +29,6 @@ export interface FormConfig {
     showDefaultDate? : boolean;
     defaultOptionsValue? : string;
     defaultDisplayLabel?: string;
+    min ? : number;
+    max ? : number;
 }

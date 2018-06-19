@@ -65,7 +65,9 @@ export class SingleOrderGridComponent implements OnInit {
         name: 'quantity', width: 50, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'input',blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
-            },
+          },
+          keyPress : (e) => {return e.charCode >= 48},
+          min: 1,
           printErrorMsg: (cfg, i, errEl) => {
             return this.msgService.fetchMessage(cfg.name, 'required');
           }, showErrorMsg: (cfg, i, errEl) => {

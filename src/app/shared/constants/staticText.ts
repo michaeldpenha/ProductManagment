@@ -23,5 +23,7 @@ export const StaticText = {
     orderStatusLabel : 'Select Order Status',
     orderStatus : 'Order Status',
     searchQuery : 'Please enter search criteria to fetch the results!',
-    dateType : 'Select Date Type'
+    dateType : 'Select Date Type',
+    details : 'Details',
+    logistics : 'Logistics'
  };

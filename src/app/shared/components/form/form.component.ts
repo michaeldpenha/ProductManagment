@@ -153,4 +153,17 @@ export class FormComponent implements OnInit {
   public fetchOptions = (cfg :any) => {
     return cfg && cfg.options ? cfg.options(cfg) : '';
   }
+  /**
+   * setMinimum
+   */
+  public setMinimum = (cfg : any) => {
+    return cfg && (cfg.min || cfg.min == 0) ? cfg.min : '';
+  }
+  
+  /**
+   * setMax
+   */
+  public setMaximum = (cfg : any) => {
+    return cfg && cfg.max ? cfg.max : '';
+  }
 }

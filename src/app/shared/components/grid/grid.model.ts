@@ -45,4 +45,8 @@ export interface CellEditConfig {
     dirty?: boolean;
     focus?: Function;
     inputClass?: string;
+    keyPress ? : Function;
+    keyUp ? : Function;
+    min ? : number;
+    max ? : number;
 }

@@ -177,4 +177,29 @@ export class GridComponent implements OnInit {
     return cfg && cfg.cellEdit.config.inputClass ? cfg.cellEdit.config.inputClass : 'form-control';
 
   }
+  /**
+   * onKeyUp
+   */
+  public onKeyUp= (e:any,cfg : any) => {
+    return cfg && cfg.cellEdit.config.keyUp ? cfg.cellEdit.config.keyUp(e,cfg) : '';
+  }
+  /**
+   * onKeyPress
+   */
+  public onKeyPress = (e:any,cfg : any) => {
+    return cfg && cfg.cellEdit.config.keyPress ? cfg.cellEdit.config.keyPress(e,cfg) : '';
+  }
+  /**
+   * setMinimum
+   */
+  public setMinimum = (cfg : any , i : number) => {
+    return cfg && (cfg.cellEdit.config.min || cfg.cellEdit.config.min == 0) ? cfg.cellEdit.config.min : '';
+  }
+  
+  /**
+   * setMax
+   */
+  public setMaximum = (cfg : any , i : number) => {
+    return cfg && cfg.cellEdit.config.max ? cfg.cellEdit.config.max : '';
+  }
 }

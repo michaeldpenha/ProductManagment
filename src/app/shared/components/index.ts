@@ -12,3 +12,4 @@ export * from './cards';
 export * from './form';
 export * from './datepicker';
 export * from './search-panel';
+export * from './panel';

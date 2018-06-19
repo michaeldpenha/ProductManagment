@@ -74,10 +74,19 @@ export class SingleOrderFormComponent implements OnInit {
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg :any) => {
+        type: 'dropdown', validation: [Validators.required],defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg :any) => {
           //this.supplierObj && this.supplierObj.length > 0 ? this.form.get('supplierId').setValue(this.supplierObj[0].supplierId): '';
           return this.supplierObj;
-        }, defaultValue: StaticText.selectSupplier, formName: 'supplierId', disabled: () => { return false; }, readOnly: () => {
+        }, renderLabel: (item: any) => {
+          let result: boolean = this.supplierObj && this.supplierObj.length > 0;
+          return this.renderLabel(item, result);
+        },change: (e: any, item: any) => {
+          this.onOrderTypeChange(e, item);
+        },errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.supplierObj && this.supplierObj.length > 0 && this.basicFieldValidation(item);
+        }, displayErrorMessage: (item: any) => {
+          return (this.supplierObj && this.supplierObj.length > 0 && this.form && this.form.get('supplierId').value == '' || this.form.get('supplierId').value == StaticText.selectSupplier) ?  this.msgService.fetchMessage(item.formName, 'required') : '';
+        },defaultValue: StaticText.selectSupplier, formName: 'supplierId', disabled: () => { return false; }, readOnly: () => {
           return true;
         }, label: StaticText.supplier, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-9', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
@@ -104,10 +113,6 @@ export class SingleOrderFormComponent implements OnInit {
           //this.onDateChange(e, item);
         }, readOnly: () => {
           return 'readonly';
-        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.basicFieldValidation(item);
-        }, displayErrorMessage: (item: any) => {
-          return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'refDocNum', disabled: () => { return true; }, label: StaticText.refDoc, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),
@@ -118,10 +123,6 @@ export class SingleOrderFormComponent implements OnInit {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';
-        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.basicFieldValidation(item);
-        }, displayErrorMessage: (item: any) => {
-          return this.displayFormErrorMsg(item);
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({ type: 'input', formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),

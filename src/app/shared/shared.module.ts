@@ -19,7 +19,9 @@ import {
   DatepickerComponent,
   FormComponent,
   DialogService,
-  SearchPanelComponent} from './components/index';
+  SearchPanelComponent,
+  PanelComponent
+} from './components/index';
 import {
   OrdersService,
   MessagesService
@@ -54,7 +56,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     HttpClientModule,
     SearchPanelComponent,
     HttpClientModule,
-    ModalDialogComponent
+    ModalDialogComponent,
+    PanelComponent
   ],
   declarations: [
     HeaderComponent,
@@ -71,7 +74,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     CardsComponent,
     TabComponent,
     FormComponent,
-    SearchPanelComponent
+    SearchPanelComponent,
+    PanelComponent
   ],
   entryComponents: [ModalDialogComponent],
   providers: [{

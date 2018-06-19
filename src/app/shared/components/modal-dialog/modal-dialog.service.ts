@@ -5,22 +5,28 @@ import { Injectable, TemplateRef } from '@angular/core';
 @Injectable()
 export class DialogService {
   constructor(private modalService: BsModalService) { }
-
+  public bsModalRef:any;
   showDialog(successError:boolean, headerTitle :any, template: any, data:any, message:any, successButtonText: string, successCallback : Function, cancelButtonText: string, cancelCallBack : Function) {
-    let bsModalRef = this.modalService.show(ModalDialogComponent, { animated: true, keyboard: false, backdrop: true, ignoreBackdropClick: true });
-    bsModalRef.content.successError = successError;
-    bsModalRef.content.headerTitle = headerTitle;
-    bsModalRef.content.template = template;
-    bsModalRef.content.successButtonText = successButtonText;
-    bsModalRef.content.data = data;
-    bsModalRef.content.message = message;
-    bsModalRef.content.onSuccess = () => {
-        bsModalRef.hide();
+    this.bsModalRef = this.modalService.show(ModalDialogComponent, { animated: true, keyboard: false, backdrop: true, ignoreBackdropClick: true });
+    this.bsModalRef.content.successError = successError;
+    this.bsModalRef.content.headerTitle = headerTitle;
+    this.bsModalRef.content.template = template;
+    this.bsModalRef.content.successButtonText = successButtonText;
+    this.bsModalRef.content.data = data;
+    this.bsModalRef.content.message = message;
+    this.bsModalRef.content.onSuccess = () => {
+        this.hidePopup();
         successCallback();
     }
-    bsModalRef.content.cancelButtonText = cancelButtonText;
-    bsModalRef.content.onCancel = () => {
-        bsModalRef.hide();
+    this.bsModalRef.content.cancelButtonText = cancelButtonText;
+    this.bsModalRef.content.onCancel = () => {
+        this.hidePopup();
     }
+  }
+  /**
+   * hidePopup 
+   */
+  public hidePopup = () => {
+    this.bsModalRef.hide()
   }
 }

@@ -24,7 +24,8 @@ import {
 } from './components/index';
 import {
   OrdersService,
-  MessagesService
+  MessagesService,
+  RouterService
 } from './services';
 import { RouterModule } from '@angular/router';
 import { HttpInterceptorsService } from "@app/core/services";
@@ -86,7 +87,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     OrdersService,
     MessagesService,
     BsModalService,
-    DialogService
+    DialogService,
+    RouterService
   ]
 })
 export class SharedModule { }

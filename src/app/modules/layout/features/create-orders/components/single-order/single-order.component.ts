@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, TemplateRef } from '@angular/core';
 import { Validators, FormGroup } from '@angular/forms';
 import { SingleOrderService } from './single-order.service';
 import * as moment from 'moment';
@@ -13,11 +13,13 @@ import {
 } from '@app/shared/model';
 import {
   OrdersService,
-  MessagesService
+  MessagesService,
+  RouterService
 } from '@app/shared/services';
 import { StaticText } from "@app/shared/constants";
 import { OrdersConfig } from "@app/shared/config";
 import { DialogService } from "@app/shared/components/modal-dialog/modal-dialog.service";
+import { LoaderService } from "@app/core/services";
 
 @Component({
   selector: 'app-single-order',
@@ -25,7 +27,6 @@ import { DialogService } from "@app/shared/components/modal-dialog/modal-dialog.
   styleUrls: ['./single-order.component.scss']
 })
 export class SingleOrderComponent implements OnInit {
-  [x: string]: any;
   public gridConfig: any = [];
   public coloumnConfig: any = [];
   public data: any = [];
@@ -40,11 +41,14 @@ export class SingleOrderComponent implements OnInit {
   public cancelBtnText: string = 'Cancel';
   public cancelBtnClass: string = 'btn btn-default';
   public displayGridErrorMessage: boolean = false;
+  public createdOrderNumber: any;
+  @ViewChild('orderSuccessfullyCreated')
+  private orderSuccessTemplate: TemplateRef<any>;
 
   constructor(private singleOrderService: SingleOrderService,
     private orderService: OrdersService,
-    private msgService: MessagesService, private cdRef: ChangeDetectorRef,
-    private dialogService: DialogService) { }
+    private msgService: MessagesService, private cdRef: ChangeDetectorRef, private loadingService: LoaderService,
+    private routerService: RouterService, private dialogService: DialogService) { }
 
   ngOnInit() {
     this.initalizeGridData();
@@ -103,11 +107,19 @@ export class SingleOrderComponent implements OnInit {
     requestData['orderType'].toLowerCase() === 'rush' ? delete requestData['transferType'] : '';
     requestData['supplierId'] = requestData['supplierId'].split("/")[1];
     this.orderService.createSingleOrder(requestData).subscribe(data => {
+      this.loadingService.hide();
+      this.createdOrderNumber = data['orderId'];
+      this.dialogService.showDialog(false, "Success", this.orderSuccessTemplate, "", "", "Manage Order", () => {
+        this.navigateTo('/manage-order');
+        this.clearCreatedOrderNumber();
+      }, "Cancel", () => {
+        this.clearCreatedOrderNumber();
+      });
       // this.dialogService.sho
     })
   }
   public isDisabled = (): boolean => {
-    return this.form && !this.form.valid || !this.validateTransferType() || this.validateSupplierID()|| !this.checkGridValues();
+    return this.form && !this.form.valid || !this.validateTransferType() || this.validateSupplierID() || !this.checkGridValues();
   }
   /**
    * fetchForm = 
@@ -139,7 +151,7 @@ export class SingleOrderComponent implements OnInit {
    */
   public deleteAction = (index: number) => {
     this.displayGridErrorMessage = false;
-    (this.data.length == 1) ? this.displayGridErrorMessage = true : (this.data[index].itemNumber && this.data[index].itemNumber != '') ? this.triggerWarning(index) : this.data.splice(index,1);
+    (this.data.length == 1) ? this.displayGridErrorMessage = true : (this.data[index].itemNumber && this.data[index].itemNumber != '') ? this.triggerWarning(index) : this.data.splice(index, 1);
   }
 
   /**
@@ -149,5 +161,26 @@ export class SingleOrderComponent implements OnInit {
     this.dialogService.showDialog(true, "Warning !", "", "", "Are you sure you want to delete this item?", "Delete", () => {
       this.data.splice(index, 1)
     }, "Cancel", () => { });
+  }
+  /**
+   * navigateTo  
+   */
+  public navigateTo = (url) => {
+    this.routerService.navigateTo(url);
+  }
+  /**
+   * navigateToEditView
+   */
+  public navigateToViewOrder = () => {
+    this.dialogService.hidePopup();
+    this.routerService.navigateTo(`/manage-order/view-order/${this.createdOrderNumber}`);
+    this.clearCreatedOrderNumber();
+    
+  }
+  /**
+   * clearCreatedOrderNumber 
+   */
+  public clearCreatedOrderNumber = () => {
+    this.createdOrderNumber = '';
   }
 }

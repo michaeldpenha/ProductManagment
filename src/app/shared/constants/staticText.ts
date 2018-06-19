@@ -25,5 +25,6 @@ export const StaticText = {
     searchQuery : 'Please enter search criteria to fetch the results!',
     dateType : 'Select Date Type',
     details : 'Details',
-    logistics : 'Logistics'
+    logistics : 'Logistics',
+    ok :'OK'
  };

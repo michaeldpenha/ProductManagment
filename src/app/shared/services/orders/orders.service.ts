@@ -127,6 +127,12 @@ export class OrdersService {
    * viewOrderDetails
    */
   public viewOrderDetails = (id: string) => {
-    return this._http.get(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/${id}`);
+    return this._http.post(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search`,{orderId : id});
+  }
+  /**
+   * fetchOrder
+   */
+  public fetchOrder = (params : any) => {
+    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search',params);
   }
 }

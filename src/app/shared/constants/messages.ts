@@ -29,6 +29,10 @@ export const Messages = {
     'records' : 'records',
     'supplierId' : {
         'required' : 'Supplier is required'
+    },
+    'searchError' : {
+        'atleastOneField' : 'Please fill out at least one field to search',
+        'serverError' : 'Service Error! please try again.'
     }
 
 }

@@ -1,8 +1,8 @@
 <app-panel [isFooterVisible]="detailsFooterVisible" [headerText]="detailsHeader">
   <div class="row">
-    <app-cards isCheckBoxtoChild="false" *ngFor="let orderData of orderDetailsData">
+    <app-cards isCheckBoxtoChild="false" *ngFor="let orderData of detailsToBeDisplayed">
       <div>{{orderData.label}}</div>
-      <div>{{orderData.value}}</div>
+      <div>{{formatTheTemplate(orderData)}}</div>
     </app-cards>
   </div>
 </app-panel>
@@ -11,3 +11,4 @@
 </app-panel>
 
 <app-grid [gridConfig] = "gridConfig" [coloumnConfig] = "coloumnConfig" [gridData]="data"></app-grid>
+<app-button [text]="okButtonText" (onButtonClick)="navigate()"></app-button>

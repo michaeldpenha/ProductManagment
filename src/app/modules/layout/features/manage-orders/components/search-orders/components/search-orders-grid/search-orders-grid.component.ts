@@ -14,6 +14,8 @@ export class SearchOrdersGridComponent implements OnInit {
   @Input() noDataFound: string;
   @Input() gridData: any;
   @Output() sort = new EventEmitter<any>();
+  @Output() allSelect = new EventEmitter<any>();
+  @Output() rowSelect = new EventEmitter<any>();
   constructor(private routerService: RouterService) { }
 
   ngOnInit() {
@@ -91,5 +93,14 @@ export class SearchOrdersGridComponent implements OnInit {
    */
   public triggerSorting = (cfg: any) => {
     this.sort.emit(cfg);
+  }
+  /**
+   * allItemsSelected
+   */
+  public allItemsSelected = (e: any) => {
+    this.allSelect.emit(e)
+  }
+  public rowSelected = (e :any) => {
+    this.rowSelect.emit(e);
   }
 }

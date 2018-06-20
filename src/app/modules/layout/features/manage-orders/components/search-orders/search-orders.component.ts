@@ -28,8 +28,8 @@ export class SearchOrdersComponent implements OnInit {
   public total: number;
   public sortBy: string = 'orderId,DESC';
   public searchQueryData: any = {};
-  public numberOfPagesOptionsToBeDispalyed : number = OrdersConfig.numberOfPagesOptionsToBeDispalyed;
-  public pagesLimitArray : any = OrdersConfig.perPagesRecordsTobeDisplayed;
+  public numberOfPagesOptionsToBeDispalyed: number = OrdersConfig.numberOfPagesOptionsToBeDispalyed;
+  public pagesLimitArray: any = OrdersConfig.perPagesRecordsTobeDisplayed;
 
   public displayErrMessage: string;
   public displayErr: boolean = false;
@@ -56,7 +56,6 @@ export class SearchOrdersComponent implements OnInit {
    * populateGridData
    */
   public populateGridData = () => {
-    //let res = { "total": 16, "orders": [{ "orderId": 47, "divisionId": 0, "customerId": 111, "supplierId": 5000, "orderType": "Rush", "status": "New", "createdDate": "06/11/2018", "deliveryDate": "06/30/2018", "createdTimeStamp": "2018-06-11T13:43:23.55", "createdBy": "annonymous", "releaseDate": "06/14/2018", "tog": null, "scheduledCutOffTime": null, "changeReason": "Not Interested", "itemQty": 0, "itemWt": 0.0, "palletQty": 0.0, "orderVolume": 0.0, "planRouteNo": null, "totalQty": 0, "routeId": 0, "routeCode": "11", "items": [{ "itemNumber": 1, "description": "", "uom": null, "boh": null, "itemChangeReason": null, "upc": "", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 0 }] }, { "orderId": 46, "divisionId": 0, "customerId": 111, "supplierId": 5000, "orderType": "Rush", "status": "New", "createdDate": "06/11/2018", "deliveryDate": "06/23/2018", "createdTimeStamp": "2018-06-11T11:57:47.813", "createdBy": "annonymous", "releaseDate": "06/16/2018", "tog": null, "scheduledCutOffTime": null, "changeReason": "Not Interested", "itemQty": 0, "itemWt": 0.0, "palletQty": 0.0, "orderVolume": 0.0, "planRouteNo": null, "totalQty": 15, "routeId": 0, "routeCode": "12", "items": [{ "itemNumber": 1, "description": "Whopper Sandwich", "uom": null, "boh": null, "itemChangeReason": null, "upc": "1111", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 12 }, { "itemNumber": 2, "description": "Mushroom ketchup", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": null, "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 3 }] }, { "orderId": 45, "divisionId": 0, "customerId": 111, "supplierId": 5000, "orderType": "Rush", "status": "New", "createdDate": "06/11/2018", "deliveryDate": "06/30/2018", "createdTimeStamp": "2018-06-11T11:55:30.647", "createdBy": "annonymous", "releaseDate": "06/24/2018", "tog": null, "scheduledCutOffTime": null, "changeReason": "Not Interested", "itemQty": 0, "itemWt": 0.0, "palletQty": 0.0, "orderVolume": 0.0, "planRouteNo": null, "totalQty": 270, "routeId": 0, "routeCode": "11", "items": [{ "itemNumber": 1, "description": "Whopper Sandwich", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": "1111", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 50 }, { "itemNumber": 2, "description": "Mushroom ketchup", "uom": null, "boh": null, "itemChangeReason": null, "upc": "2222", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 100 }, { "itemNumber": 3, "description": "Sonic Cherry Limeade", "uom": null, "boh": null, "itemChangeReason": null, "upc": "3333", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 120 }] }, { "orderId": 44, "divisionId": 0, "customerId": 111, "supplierId": 5000, "orderType": "Rush", "status": "New", "createdDate": "06/11/2018", "deliveryDate": "06/24/2018", "createdTimeStamp": "2018-06-11T11:06:16.947", "createdBy": "annonymous", "releaseDate": "06/15/2018", "tog": null, "scheduledCutOffTime": null, "changeReason": "Not Interested", "itemQty": 0, "itemWt": 0.0, "palletQty": 0.0, "orderVolume": 0.0, "planRouteNo": null, "totalQty": 70, "routeId": 0, "routeCode": "12", "items": [{ "itemNumber": 1, "description": "Whopper Sandwich", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": "1111", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 20 }, { "itemNumber": 2, "description": "Mushroom ketchup", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": null, "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 20 }, { "itemNumber": 3, "description": "Sonic Cherry Limeade", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": null, "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Cancelled", "qty": 30 }] }, { "orderId": 43, "divisionId": 0, "customerId": 111, "supplierId": 5000, "orderType": "Rush", "status": "New", "createdDate": "06/11/2018", "deliveryDate": "06/30/2018", "createdTimeStamp": "2018-06-11T10:30:40.02", "createdBy": "annonymous", "releaseDate": "06/22/2018", "tog": null, "scheduledCutOffTime": null, "changeReason": "Not Interested", "itemQty": 0, "itemWt": 0.0, "palletQty": 0.0, "orderVolume": 0.0, "planRouteNo": null, "totalQty": 130, "routeId": 0, "routeCode": "12", "items": [{ "itemNumber": 1, "description": "Whopper Sandwich", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": "1111", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Cancelled", "qty": 10 }, { "itemNumber": 2, "description": "Mushroom ketchup", "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": "2222", "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 100 }, { "itemNumber": 3, "description": null, "uom": null, "boh": null, "itemChangeReason": "Not Interested", "upc": null, "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 10 }, { "itemNumber": 1, "description": null, "uom": null, "boh": null, "itemChangeReason": null, "upc": null, "pack": 0, "size": 0, "tixhi": null, "itemStatus": "Active", "qty": 10 }] }] }
     this.data = [];
   }
   /**
@@ -64,9 +63,6 @@ export class SearchOrdersComponent implements OnInit {
    */
   public fetchForm = (form: any) => {
     this.form = form;
-    // this.form.valueChanges.subscribe(val => {
-    //   this.prepareSearchParams(val)
-    // });
   }
   /**
    * prepareSearchParams 
@@ -176,8 +172,8 @@ export class SearchOrdersComponent implements OnInit {
   }
   public hideDateField = (cfg: any) => {
     let result = false;
-    result =this.searchQueryData && this.searchQueryData['dateColumn'] ;
-    (!result) ? this.appendDateInSearch(true, cfg, '') : this.appendDateInSearch(false, cfg, moment(this.form.get(cfg.formName).value).format('MM/DD/YYYY')) ;
+    result = this.searchQueryData && this.searchQueryData['dateColumn'];
+    (!result) ? this.appendDateInSearch(true, cfg, '') : this.appendDateInSearch(false, cfg, moment(this.form.get(cfg.formName).value).format('MM/DD/YYYY'));
     return !result;
   }
   /**
@@ -288,7 +284,7 @@ export class SearchOrdersComponent implements OnInit {
   public reset = (form: any) => {
     this.form.reset();
     this.searchQueryData = {};
-    this.total=0;
+    this.total = 0;
     this.formFields[3].config.defaultValue = StaticText.dateType;
     this.displayErr = false;
     this.data = [];
@@ -303,15 +299,15 @@ export class SearchOrdersComponent implements OnInit {
   /**
    * triggerSorting
    */
-  public triggerSorting = (colDef  :any) => {
+  public triggerSorting = (colDef: any) => {
     this.checkIfOneFieldhasValue() ? this.fetchSortedOrders(colDef) : '';
   }
   /**
    * fetchSortedOrders
    */
-  public fetchSortedOrders = (colDef : any) => {
-    this.sortBy= colDef.sortIndex+','+colDef.sortDirection;
-    this.page=1;
+  public fetchSortedOrders = (colDef: any) => {
+    this.sortBy = colDef.sortIndex + ',' + colDef.sortDirection;
+    this.page = 1;
     this.triggerSearch();
   }
   /**
@@ -324,18 +320,50 @@ export class SearchOrdersComponent implements OnInit {
   /**
    * goNext
    */
-  public goNext =() => {
+  public goNext = () => {
     this.page = this.page + 1;
     this.triggerSearch();
   }
-  changeInperPage = (cnt:number) => {   
-    this.limit=cnt; 
-    this.page=1; 
+  changeInperPage = (cnt: number) => {
+    this.limit = cnt;
+    this.page = 1;
     this.triggerSearch();
   }
 
-  public goPage = (i:number) =>{    
-    this.page=i;
+  public goPage = (i: number) => {
+    this.page = i;
     this.triggerSearch();
+  }
+  /**
+   * 
+   */
+  public allItemsSelected = (e: any) => {
+    this.selectedRecords = [];
+    this.data.forEach(element => {
+      this.pushDataInHeaderUpdate(element, e.target.checked);
+    });
+  }
+  public pushDataInHeaderUpdate = (el: any, check: boolean) => {
+    (check) ? this.selectedRecords.push(el) : '';
+    el.selected = check;
+    this.ordersService.headerUpdate = this.selectedRecords;
+  }
+  /**
+   * rowSelected
+   */
+  public rowSelected = (e: any) => {
+    let el: any = e[2].target.checked;
+    let item: any = e[0];
+    let index: any = e[1];
+    (!el) ? this.removeFromSelected(item) : '';
+    this.pushDataInHeaderUpdate(item, el);
+  }
+  public removeFromSelected = (it: any) => {
+    let index: any = '';
+    this.selectedRecords.forEach((data, i) => {
+      index = (data.orderId === it.orderId && index != '') ? i : index;
+    });
+    (index != '') ? this.selectedRecords.splice(index, 1) : '';
+    this.ordersService.headerUpdate = this.selectedRecords;
   }
 }

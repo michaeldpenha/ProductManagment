@@ -98,7 +98,8 @@ export class GridComponent implements OnInit {
   /**
    * rowSelection
    */
-  public rowSelection = (item) => {
+  public rowSelection = (...args) => {
+    let item : any = args;
     this.rowSelected.emit(item);
   }
   /**

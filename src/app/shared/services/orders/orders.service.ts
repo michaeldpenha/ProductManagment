@@ -10,6 +10,13 @@ export class OrdersService {
   private _orderTypeStatus: any = [];
   private _datesTypes: any = [];
   private _divisionTypes: any = [];
+  private _headerUpdate : any = [];
+  get headerUpdate () : any {
+    return this._headerUpdate;
+  }
+  set headerUpdate(items) {
+    this._headerUpdate = items;
+  } 
   get orderTypeOptions(): any {
     return this._orderTypeOptions;
   }

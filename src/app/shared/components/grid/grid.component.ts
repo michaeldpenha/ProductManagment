@@ -14,7 +14,7 @@ export class GridComponent implements OnInit {
   @Output() allItemChecked = new EventEmitter<any>();
   @Output() triggerSortEvent = new EventEmitter<any>();
   @Output() rowSelected = new EventEmitter<any>();
-  public noRecord: string;
+  //public noRecord: string;
   public displayCheckBox: boolean;
   public allItemsSelected: boolean;
   public reverseSort: boolean = true;
@@ -44,10 +44,17 @@ export class GridComponent implements OnInit {
     this.gridCls = cfg.gridCls ? cfg.gridCls : 'table table-striped table-bordered';
     this.enableCellEdit = cfg.cellEdit ? cfg.cellEdit : false;
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
-    this.noRecord = cfg.noRecord ? cfg.noRecord : 'No data found';
+   // this.noRecord = cfg.noRecord ? cfg.noRecord() : 'No data found';
     this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
     this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
     this.columnDefs = this.coloumnConfig;
+  }
+  /**
+   * noRecord
+   */
+  public noRecord = () => {
+    let cfg : any = this.gridConfig.config;
+    return cfg.noRecord ? cfg.noRecord() : 'No data found';
   }
   /**
    * customTemplate

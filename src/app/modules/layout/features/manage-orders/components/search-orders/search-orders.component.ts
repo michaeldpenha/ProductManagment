@@ -17,7 +17,7 @@ import { LoaderService } from "@app/core/services";
 export class SearchOrdersComponent implements OnInit {
   public data: any;
   public form: any;
-  public selectedRecords : any = [];
+  public selectedRecords: any = [];
   public formFields: any = [];
   public noDataFound: string = StaticText.searchQuery;
   public headerUpdate: string = 'Header Update';
@@ -32,7 +32,7 @@ export class SearchOrdersComponent implements OnInit {
   public displayErr: boolean = false;
   public supplierObj: any = [];
 
-  constructor(private cdRef: ChangeDetectorRef,private routerService : RouterService,
+  constructor(private cdRef: ChangeDetectorRef, private routerService: RouterService,
     private msgService: MessagesService, private ordersService: OrdersService, private loadingService: LoaderService) { }
 
   ngOnInit() {
@@ -248,9 +248,10 @@ export class SearchOrdersComponent implements OnInit {
       this.loadingService.hide();
       this.data = data['orders'];
       this.total = data['total'];
+      (this.data.length === 0) ? this.displayGridErrorMessage(Messages.noDataFound) : '';
     }, err => {
       this.data = [];
-      this.displaySearchErrorMessage(Messages.searchError.serverError);
+      this.displayGridErrorMessage(Messages.searchError.serverError);
     });
   }
   /**
@@ -259,6 +260,12 @@ export class SearchOrdersComponent implements OnInit {
   public displaySearchErrorMessage = (msg) => {
     this.displayErr = true;
     this.displayErrMessage = msg;
+  }
+  /**
+   * displayGridErrorMessage
+   */
+  public displayGridErrorMessage = (msg) => {
+    this.noDataFound = msg;
   }
   /**
    * reset = 
@@ -277,6 +284,6 @@ export class SearchOrdersComponent implements OnInit {
    * triggerSorting
    */
   public triggerSorting = (colDef) => {
-    
+
   }
 }

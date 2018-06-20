@@ -28,7 +28,9 @@ export class SearchOrdersGridComponent implements OnInit {
       displayCheckBox: true,
       enableCellEdit: false,
       allItemsSelected: false,
-      noRecord : this.noDataFound
+      noRecord : () => {
+        return this.noDataFound
+      }
     });
   }
   /**

@@ -10,13 +10,6 @@ export class OrdersService {
   private _orderTypeStatus: any = [];
   private _datesTypes: any = [];
   private _divisionTypes: any = [];
-  private _headerUpdate : any = [];
-  get headerUpdate () : any {
-    return this._headerUpdate;
-  }
-  set headerUpdate(items) {
-    this._headerUpdate = items;
-  } 
   get orderTypeOptions(): any {
     return this._orderTypeOptions;
   }
@@ -51,9 +44,7 @@ export class OrdersService {
   constructor(private _http: HttpClient, private loaderService: LoaderService) { }
 
   public getSupplierInfo = (id: string) => {
-    let url ="./assets/json/customerList.json";
-    return this._http.get(url);
-   // return this._http.get(`order/item/${id}`);
+    return this._http.get(`order/item/${id}`);
   }
   /**
    * getItemDetails
@@ -110,14 +101,14 @@ export class OrdersService {
    */
   public fetchDatesTypes = () => {
     this.datesTypes = [{
-      label : 'Created Date',
-      value : 'createTs'
+      label: 'Created Date',
+      value: 'Created Date'
     }, {
-      label : 'Release Date',
-      value : 'scheduledReleaseDate'
+      label: 'Release Date',
+      value: 'Release Date'
     }, {
-      label : 'Delivery Date',
-      value : 'scheduledDeliveryDate'
+      label: 'Delivery Date',
+      value: 'Delivery Date'
     }]
   }
   /**

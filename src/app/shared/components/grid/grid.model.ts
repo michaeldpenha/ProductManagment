@@ -3,7 +3,7 @@ export interface GridConfig {
     gridCls?: string;
     enableCellEdit?: boolean;
     enableRowEdit?: boolean;
-    noRecord?: string;
+    noRecord?: Function;
     allItemsSelected?: boolean;
     checkBoxDisable?: boolean;
 }
@@ -20,6 +20,7 @@ export interface ColumnConfig {
     editable?: Function;
     cellEdit?: any;
     row?: any;
+    requiredIcon?: boolean;
 }
 
 export interface ActionGridItemsConfig {

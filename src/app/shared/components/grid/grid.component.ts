@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter,ElementRef } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-grid',
@@ -13,7 +14,7 @@ export class GridComponent implements OnInit {
   @Output() allItemChecked = new EventEmitter<any>();
   @Output() triggerSortEvent = new EventEmitter<any>();
   @Output() rowSelected = new EventEmitter<any>();
-  public noRecord: string;
+  //public noRecord: string;
   public displayCheckBox: boolean;
   public allItemsSelected: boolean;
   public reverseSort: boolean = true;
@@ -31,6 +32,7 @@ export class GridComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.coloumnConfig && this.coloumnConfig.length > 0 && document.getElementById("addColspan") ? document.getElementById("addColspan").setAttribute("colspan", (this.coloumnConfig.length + 1) ) : '';
+    // this.resizeTableCol();
   }
 
   /**
@@ -42,10 +44,17 @@ export class GridComponent implements OnInit {
     this.gridCls = cfg.gridCls ? cfg.gridCls : 'table table-striped table-bordered';
     this.enableCellEdit = cfg.cellEdit ? cfg.cellEdit : false;
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
-    this.noRecord = cfg.noRecord ? cfg.noRecord : 'No data found';
+   // this.noRecord = cfg.noRecord ? cfg.noRecord() : 'No data found';
     this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
     this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
     this.columnDefs = this.coloumnConfig;
+  }
+  /**
+   * noRecord
+   */
+  public noRecord = () => {
+    let cfg : any = this.gridConfig.config;
+    return cfg.noRecord ? cfg.noRecord() : 'No data found';
   }
   /**
    * customTemplate
@@ -207,4 +216,27 @@ export class GridComponent implements OnInit {
   public setMaximum = (cfg : any , i : number) => {
     return cfg && cfg.cellEdit.config.max ? cfg.cellEdit.config.max : '';
   }
+
+  /**
+   * resizeTableCol - Grid Scroller
+   */
+  // public resizeTableCol() {
+  //   // Change the selector if needed
+  //   var $table = $('.table-grid'),
+  //     $bodyCells = $table.find('thead tr:first').children(),
+  //     colWidth;
+
+  //   // Adjust the width of thead cells when window resizes
+  //   $(window).resize(function () {
+  //     // Get the tbody columns width array
+  //     colWidth = $bodyCells.map(function () {
+  //       return $(this).width();
+  //     }).get();
+
+  //     // Set the width of thead columns
+  //     $table.find('tbody tr').children().each(function (i, v) {
+  //       $(v).width(colWidth[i]);
+  //     });
+  //   }).resize(); // Trigger resize handler
+  // }
 }

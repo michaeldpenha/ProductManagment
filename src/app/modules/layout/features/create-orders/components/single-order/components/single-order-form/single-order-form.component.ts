@@ -132,7 +132,7 @@ export class SingleOrderFormComponent implements OnInit {
    * renderMandatoryLabel
    */
   public renderLabel = (cfg, required) => {
-    return cfg && cfg.label && required ? `${cfg.label}<sup>*</sup>` : (cfg && cfg.label) ? cfg.label : '';
+    return cfg && cfg.label && required ? `${cfg.label}<sup class="text-danger">*</sup>` : (cfg && cfg.label) ? cfg.label : '';
   }
   /**
    * onOrderTypeChange

@@ -28,7 +28,9 @@ export class SearchOrdersGridComponent implements OnInit {
       displayCheckBox: true,
       enableCellEdit: false,
       allItemsSelected: false,
-      noRecord : this.noDataFound
+      noRecord : () => {
+        return this.noDataFound
+      }
     });
   }
   /**
@@ -50,8 +52,8 @@ export class SearchOrdersGridComponent implements OnInit {
         name: 'actions',
         title : 'Action',
         actionItems: [
-          new GridActionsConfig({ label: '', click: (item, actionCfg) => { this.navigate(`/manage-order/edit-order/${item['orderId']}`); } }),
-          new GridActionsConfig({ label: '', click: (item, actionCfg) => { this.navigate(`/manage-order/view-order/${item['orderId']}`); } })
+          new GridActionsConfig({ label: '', iconClass:'fa fa-edit', click: (item, actionCfg) => { this.navigate(`/manage-order/edit-order/${item['orderId']}`); } }),
+          new GridActionsConfig({ label: '', iconClass:'fa fa-eye', click: (item, actionCfg) => { this.navigate(`/manage-order/view-order/${item['orderId']}`); } })
         ]
       })
     ]

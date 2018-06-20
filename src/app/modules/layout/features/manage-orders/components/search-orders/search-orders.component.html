@@ -4,4 +4,5 @@
     <app-search-panel [displayErrMessage]="displayErrMessage" [displayErr]="displayErr" (fetchForm)="fetchForm($event)" [form]="form"
         [formFields]="formFields" (reset)="reset($event)" (search)="search($event)"></app-search-panel>
 </div>
+<app-button [text]="headerUpdate" [disabled]="selectedRecords.length == 0" (onButtonClick)="navigateToHeaderUpdate()"></app-button>
 <app-search-orders-grid [noDataFound]="noDataFound" [gridData]="data"></app-search-orders-grid>

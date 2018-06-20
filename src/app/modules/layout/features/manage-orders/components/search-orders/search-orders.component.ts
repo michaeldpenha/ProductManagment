@@ -7,7 +7,7 @@ import {
 } from '@app/shared/model';
 import { StaticText, Messages } from "@app/shared/constants";
 import * as moment from 'moment';
-import { OrdersService, MessagesService } from "@app/shared/services";
+import { OrdersService, MessagesService, RouterService } from "@app/shared/services";
 import { LoaderService } from "@app/core/services";
 @Component({
   selector: 'app-search-orders',
@@ -17,9 +17,10 @@ import { LoaderService } from "@app/core/services";
 export class SearchOrdersComponent implements OnInit {
   public data: any;
   public form: any;
+  public selectedRecords : any = [];
   public formFields: any = [];
   public noDataFound: string = StaticText.searchQuery;
-
+  public headerUpdate: string = 'Header Update';
   public searchParams: any = {};
   public page: number = 1;
   public limit: number = 5;
@@ -29,9 +30,10 @@ export class SearchOrdersComponent implements OnInit {
 
   public displayErrMessage: string;
   public displayErr: boolean = false;
-  public supplierObj : any = [];
+  public supplierObj: any = [];
 
-  constructor(private cdRef: ChangeDetectorRef,private msgService : MessagesService, private ordersService: OrdersService, private loadingService: LoaderService) { }
+  constructor(private cdRef: ChangeDetectorRef,private routerService : RouterService,
+    private msgService: MessagesService, private ordersService: OrdersService, private loadingService: LoaderService) { }
 
   ngOnInit() {
     this.ordersService.fetchStaticValues();
@@ -86,7 +88,7 @@ export class SearchOrdersComponent implements OnInit {
         blur: (e: any, item: any) => {
           //this.form.get('supplierId').enable({ onlySelf: true });
           e.target.value != '' ? this.fetchSupplierInfo(e, item) : this.populateSearchQuery(e.target.value, item);
-        },errorMessages: true, isErrorMessageVisible: (item: any) => {
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.customErrorVisible(item);
         }, displayErrorMessage: (item: any) => {
           return this.msgService.fetchMessage('customerId', 'validation');
@@ -129,7 +131,7 @@ export class SearchOrdersComponent implements OnInit {
       }),
       new FormFieldConfig({
         type: 'dropdown', defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', formName: 'supplierId', defaultValue: StaticText.selectSupplier, options: () => { return this.supplierObj }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
-         // this.populateSearchQuery(e, item);
+          // this.populateSearchQuery(e, item);
         }, hidden: () => {
           //console.log(this.form.get('customerGroupId').value)
           return !this.hideSupplierCombo();
@@ -152,7 +154,7 @@ export class SearchOrdersComponent implements OnInit {
       new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-success", btnText: "Search", btnClick: (e) => {
           this.search(e);
-        },disabled : (e) => {
+        }, disabled: (e) => {
           return this.customErrorVisible(e);
         }
       }),
@@ -163,7 +165,7 @@ export class SearchOrdersComponent implements OnInit {
       })
     ]
   }
-  public customErrorVisible = (item :  any) => {
+  public customErrorVisible = (item: any) => {
     return this.supplierObj.length === 0 && this.searchQueryData && this.searchQueryData['customerGroupId'];
   }
   public populateSearchQuery = (val: any, cfg: any) => {
@@ -194,7 +196,7 @@ export class SearchOrdersComponent implements OnInit {
     (deleteKey) ? delete this.searchQueryData[item.formName] : this.searchParams[item.formName] = val;
   }
   public fetchSupplierInfo = (e: any, item: any) => {
-    let val : string = e.target.value;
+    let val: string = e.target.value;
     this.ordersService.getSupplierInfo(val).subscribe((data: any[]) => {
       this.loadingService.hide();
       let filteredResult: any = {};
@@ -264,5 +266,17 @@ export class SearchOrdersComponent implements OnInit {
   public reset = (form: any) => {
     this.form.reset();
     this.displayErr = false;
+  }
+  /**
+   * navigateToHeaderUpdate
+   */
+  public navigateToHeaderUpdate = () => {
+    this.routerService.navigateTo('/manage-order/header-update');
+  }
+  /**
+   * triggerSorting
+   */
+  public triggerSorting = (colDef) => {
+    
   }
 }

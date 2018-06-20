@@ -6,3 +6,7 @@
 </div>
 <app-button [text]="headerUpdate" [disabled]="selectedRecords.length == 0" (onButtonClick)="navigateToHeaderUpdate()"></app-button>
 <app-search-orders-grid [noDataFound]="noDataFound" [gridData]="data" (sort)="triggerSorting($event)"></app-search-orders-grid>
+<ng-container *ngIf="data.length > page">
+    <app-pagination [page]="page" (goPrev)="goPrev()" (goNext)="goNext()" (goPage) ="goPage($event)" (changeInPerPage)="changeInperPage($event)" [count]="total" [perPage]="limit" [pagesToShow]="numberOfPagesOptionsToBeDispalyed" [pageLimitArray]='pagesLimitArray'>
+    </app-pagination>
+</ng-container>

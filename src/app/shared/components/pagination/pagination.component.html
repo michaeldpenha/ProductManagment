@@ -1,12 +1,13 @@
 <div class="container pagination-panel">
 <div class="row">
     <div class="col-sm-12 col-md-5">
-        <span class="count-text">Showing  {{currentPageCount}} of {{count}}</span><span class="show-drop">Show: 
+        <span class="count-text">Showing  {{currentPageCount}} of {{count}} Records</span><span class="show-drop">Show: 
         <select (change)="onPageSelect($event.target.value)">
             <ng-container *ngFor="let item of pageLimitArray">
                 <option value="{{item}}">{{item}}</option>
             </ng-container>
-        </select> 
+        </select>
+        Records
        </span>
     </div>
 

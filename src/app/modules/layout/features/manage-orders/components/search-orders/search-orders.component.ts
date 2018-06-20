@@ -9,6 +9,7 @@ import { StaticText, Messages } from "@app/shared/constants";
 import * as moment from 'moment';
 import { OrdersService, MessagesService, RouterService } from "@app/shared/services";
 import { LoaderService } from "@app/core/services";
+import { OrdersConfig } from "@app/shared/config";
 @Component({
   selector: 'app-search-orders',
   templateUrl: './search-orders.component.html',
@@ -27,6 +28,8 @@ export class SearchOrdersComponent implements OnInit {
   public total: number;
   public sortBy: string = 'orderId,DESC';
   public searchQueryData: any = {};
+  public numberOfPagesOptionsToBeDispalyed : number = OrdersConfig.numberOfPagesOptionsToBeDispalyed;
+  public pagesLimitArray : any = OrdersConfig.perPagesRecordsTobeDisplayed;
 
   public displayErrMessage: string;
   public displayErr: boolean = false;
@@ -309,6 +312,30 @@ export class SearchOrdersComponent implements OnInit {
   public fetchSortedOrders = (colDef : any) => {
     this.sortBy= colDef.sortIndex+','+colDef.sortDirection;
     this.page=1;
+    this.triggerSearch();
+  }
+  /**
+   * goPrev
+   */
+  public goPrev = () => {
+    this.page = this.page - 1;
+    this.triggerSearch();
+  }
+  /**
+   * goNext
+   */
+  public goNext =() => {
+    this.page = this.page + 1;
+    this.triggerSearch();
+  }
+  changeInperPage = (cnt:number) => {   
+    this.limit=cnt; 
+    this.page=1; 
+    this.triggerSearch();
+  }
+
+  public goPage = (i:number) =>{    
+    this.page=i;
     this.triggerSearch();
   }
 }

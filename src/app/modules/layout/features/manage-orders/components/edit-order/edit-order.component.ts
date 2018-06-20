@@ -116,7 +116,7 @@ export class EditOrderComponent implements OnInit {
 
   // view order details
   public fetchViewOrderDetails = (id: string) => {
-    this.loadingService.show();
+    this.loaderService.show();
     this.orderService.fetchOrder({ orderId: id }).subscribe(items => {
       this.loaderService.hide();
       this.orderDetailsData = items['orders'] && items['orders'][0] ? items['orders'][0] : [];

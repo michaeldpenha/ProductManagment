@@ -1,24 +1,25 @@
 <h3 class="text-muted">Edit Order</h3>
 <hr />
 <app-panel [isFooterVisible]="detailsFooterVisible" [headerText]="detailsHeader">
-    <div class="row">
-      <div class="col-md-2" *ngFor="let orderData of detailsToBeDisplayed">
-        <app-cards isCheckBoxtoChild="false">
-          <div class="font-weight-bold">{{orderData.label}}</div>
-          <div>{{formatTheTemplate(orderData)}}</div>
-        </app-cards>
-      </div>
+  <div class="row">
+    <div class="col-md-2" *ngFor="let orderData of detailsToBeDisplayed">
+      <app-cards isCheckBoxtoChild="false">
+        <div class="font-weight-bold">{{orderData.label}}</div>
+        <div>{{formatTheTemplate(orderData)}}</div>
+      </app-cards>
     </div>
-  </app-panel>
-  <app-panel [isFooterVisible]="editOrderFooterVisible" [headerText]="editOrderHeader">
-    <div class="row">
-      <app-cards isCheckBoxtoChild="false" *ngFor="let editHeaderdata of editHeaderInfoToBeDisplayed">
+  </div>
+</app-panel>
+<app-panel [isFooterVisible]="editOrderFooterVisible" [headerText]="editOrderHeader">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let editHeaderdata of editHeaderInfoToBeDisplayed">
+      <app-cards isCheckBoxtoChild="false">
         <div class="font-weight-bold">{{editHeaderdata.label}}</div>
         <div>{{formatLogisticOrderData(editHeaderdata)}}</div>
       </app-cards>
     </div>
-  </app-panel>
-  
-  <app-grid [gridConfig]="gridConfig" [coloumnConfig]="coloumnConfig" [gridData]="data"></app-grid>
-  <app-button [text]="okButtonText" (onButtonClick)="navigate()" cls="btn btn-primary btn-sm pull-right"></app-button>
-  
+  </div>
+</app-panel>
+
+<app-grid [gridConfig]="gridConfig" [coloumnConfig]="coloumnConfig" [gridData]="data"></app-grid>
+<app-button [text]="okButtonText" (onButtonClick)="navigate()" cls="btn btn-primary btn-sm pull-right"></app-button>

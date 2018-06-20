@@ -169,11 +169,50 @@ export class GridComponent implements OnInit {
   public printOptonsValue = (cfg : any,index : number) : any => {
     return cfg.cellEdit.config.options ? cfg.cellEdit.config.options : []; 
   }
+  
+  /**
+   * isDisabled
+   */
+  public isDisabled = (item : any,data:any) : boolean => {
+    return item && item.disabled ? item.disabled(item,data) : false;
+  }
+  /**
+   * fetchMaxDate
+   */
+  public fetchMaxDate = (cfg :any,item:any) => {
+    return cfg && cfg.maxDate ? cfg.maxDate(cfg,item) : '';
+  }
+  /**
+   * minDate
+   */
+  public fetchMinDate = (cfg :any) => {
+    return cfg && cfg.minDate ? cfg.minDate(cfg) : '';
+  }
   /**
    * getInputSubType
    */
   public getInputSubType = (cfg :any,index : number) => {
     return cfg && cfg.cellEdit.config.subType ? cfg.cellEdit.config.subType : 'text';
+  }
+  
+  /**
+   * hidden
+   */
+  public isHidden = (item : any,data : any)  : string => {
+    return (item && item.hidden) ? item.hidden(item,data) : false ;
+  }
+  
+  /**
+   * isReadOnly
+   */
+  public isReadOnly = (item :any,data:any) => {
+    return item && item.readOnly ? item.readOnly(item,data) : false;
+  }
+  /**
+   * onChange
+   */
+  public onChange = (e:any,item : any,data:any) => {
+    return item && item.change ? item.change(e,item,data) : '';
   }
   /**
    * toDisplayError

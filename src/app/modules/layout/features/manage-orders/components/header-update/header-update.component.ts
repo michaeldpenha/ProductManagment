@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StaticText, Messages } from "@app/shared/constants";
+import { OrdersService } from "@app/shared/services";
 
 @Component({
   selector: 'app-header-update',
@@ -10,7 +11,7 @@ export class HeaderUpdateComponent implements OnInit {
   public data: any;
   public noDataFound: string = StaticText.nodataFound;
 
-  constructor() { }
+  constructor(private orderService : OrdersService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -20,7 +21,7 @@ export class HeaderUpdateComponent implements OnInit {
    * Intializing basic grid configuration for painting th egrid
    */
   public initializeGrid = () => {
-    this.data = [];
+    this.data = this.orderService.headerUpdate;
   }
 
 

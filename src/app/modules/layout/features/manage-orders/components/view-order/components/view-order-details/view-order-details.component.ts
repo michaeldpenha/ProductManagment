@@ -26,7 +26,11 @@ export class ViewOrderDetailsComponent implements OnInit {
   public coloumnConfig: any;
   public detailsToBeDisplayed = [{label : 'Order No',key : 'orderId',value: ''},{label : 'Order Type',key : 'orderType',value: ''},
   {label : 'Status',key : 'status',value: ''},{label : 'Customer Id',key : 'customerId',value: ''},{label : 'Supplier Id',key : 'supplierId',value: ''},
-  {label : 'Created By',key : 'created',value: ''}]
+  {label : 'Created By',key : 'created',value: ''}];
+  public logisticDataToBeDisplayed = [{label : 'Release Date', key : 'releaseDate', value: ''}, {label: 'Delivery Date', key : 'deliveryDate',  value: ''},
+   {label: 'Item Qunantity', key: 'itemQty',  value: ''}, {label: 'Item Weight', key: 'itemWt',  value: ''},
+   {label: 'Pallet Quantity', key: 'palletQty',  value: ''}, {label: 'Order Volume', key: 'orderVolume',  value: ''},
+   {label: 'Route Id', key: 'routeId',  value: ''},{label: 'Route Code', key: 'routeCode',  value: ''}];
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService : RouterService,private loadingService: LoaderService) {
     this.id = this.route.snapshot.params.id;
   }
@@ -89,7 +93,15 @@ public navigate = () => {
  */
 public formatTheTemplate = (cfg : any) => {
   let result :string;
-  result = (cfg.key.toLowerCase().indexOf('created') > -1 && this.orderDetailsData) ? `${this.orderDetailsData['createdBy']} on ${moment(this.orderDetailsData['createdTimeStamp']).format('MM/DD/YYYY HH:mm')}` :(this.orderDetailsData) ?   this.orderDetailsData[cfg.key] : '';
+  result = (cfg.key.toLowerCase().indexOf('created') > -1 && this.orderDetailsData) ? `${this.orderDetailsData['createdBy']}
+   on ${moment(this.orderDetailsData['createdTimeStamp']).format('MM/DD/YYYY HH:mm')}` :(this.orderDetailsData) ?  
+    this.orderDetailsData[cfg.key] : '';
+  return result;
+}
+
+public formatLogisticOrderData = (cfg: any) => {
+  let result: string;
+  result = this.orderDetailsData[cfg.key];
   return result;
 }
 }

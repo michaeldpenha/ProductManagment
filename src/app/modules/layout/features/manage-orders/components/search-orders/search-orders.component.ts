@@ -174,7 +174,7 @@ export class SearchOrdersComponent implements OnInit {
   public hideDateField = (cfg: any) => {
     let result = false;
     result = this.form && this.form.get('dateColumn').value == '' || this.form.get('dateColumn').value.toLowerCase() == StaticText.dateType.toLowerCase();
-    (result) ? this.appendDateInSearch(true, cfg, '') : '';
+    (result) ? this.appendDateInSearch(true, cfg, '') : this.appendDateInSearch(false, cfg, moment(this.form.get(cfg.formName).value).format('MM/DD/YYYY')) ;
     return result;
   }
   /**
@@ -193,7 +193,7 @@ export class SearchOrdersComponent implements OnInit {
    * appendDateInSearch
    */
   public appendDateInSearch = (deleteKey: boolean, item: any, val: any) => {
-    (deleteKey) ? delete this.searchQueryData[item.formName] : this.searchParams[item.formName] = val;
+    (deleteKey) ? delete this.searchQueryData[item.formName] : this.searchQueryData[item.formName] = val;
   }
   public fetchSupplierInfo = (e: any, item: any) => {
     let val: string = e.target.value;

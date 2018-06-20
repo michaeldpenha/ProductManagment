@@ -8,7 +8,7 @@ import { StaticText, Messages } from "@app/shared/constants";
 })
 export class HeaderUpdateComponent implements OnInit {
   public data: any;
-  public noDataFound: string = StaticText.searchQuery;
+  public noDataFound: string = StaticText.nodataFound;
 
   constructor() { }
 

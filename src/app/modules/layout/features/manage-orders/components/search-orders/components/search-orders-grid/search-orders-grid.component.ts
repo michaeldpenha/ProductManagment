@@ -52,7 +52,7 @@ export class SearchOrdersGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'orderType', title: 'Order Type' }),
       new GridColoumnConfig({
         name: 'status', title: 'Status', render: (item, dataIndex) => {
-          return `<div class="badge ${this.fetchStatusCls(item, dataIndex)}">${item[dataIndex]}</div>`;
+          return `<div class="badge ${this.fetchStatusCls(item, dataIndex)} wrap-text">${item[dataIndex]}</div>`;
         }
       }),
       new GridColoumnConfig({ name: 'createdDate', sortIndex: 'createTs', title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),

@@ -1,4 +1,4 @@
-<table [ngClass]="gridClass()">
+<table [ngClass]="gridClass()" class="table-grid">
   <thead>
     <tr>
       <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [disabled] = "gridData.length == 0" [checked]="allItemsChecked()"></th>
@@ -27,7 +27,7 @@
           <ng-container *ngIf="colDef.config.name === 'actions'">
             <td>
               <ng-container *ngFor="let action of colDef.config.actionItems">
-                <app-button [disabled]="disabledButton(action,data)" (onButtonClick)="action.config.click(data,action,index)" [text]="" [iconClass]="action.config.iconClass"></app-button>
+                <app-button (onButtonClick)="action.config.click(data,action,index)" [cls]="action.config.btnCls" [text]="" [iconClass]="action.config.iconClass"></app-button>
               </ng-container>
             </td>
           </ng-container>

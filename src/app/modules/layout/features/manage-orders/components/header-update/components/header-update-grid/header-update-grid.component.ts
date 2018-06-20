@@ -26,7 +26,6 @@ export class HeaderUpdateGridComponent implements OnInit {
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
       enableCellEdit: false,
-      allItemsSelected: false,
       noRecord : () => {
         return this.noDataFound
       }

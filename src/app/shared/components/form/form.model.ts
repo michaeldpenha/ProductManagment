@@ -7,6 +7,7 @@ export interface FormConfig {
     defaultValue?: any;
     options?: Function;
     placeholder?: string;
+    datepickerCls?: string;
     errorMessages?: boolean;
     validation?: ValidatorFn[];
     fieldWidthCls?: string;

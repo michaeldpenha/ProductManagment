@@ -107,7 +107,7 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form && this.form.get('deliveryDate').value ? this.form.get('deliveryDate').value : null;
-        }, formName: 'releaseDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', defaultValue: moment(new Date()), label: StaticText.processDate, renderLabel: (item) => {
+        }, formName: 'releaseDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', datepickerCls:'form-control background-white', defaultValue: moment(new Date()), label: StaticText.processDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, change: (e: any, item: any) => {
           //this.onDateChange(e, item);
@@ -119,7 +119,7 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', showDefaultDate: true, minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
-        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', formName: 'deliveryDate', defaultValue: moment(new Date()).add(1, 'days'), label: StaticText.deliveryDate, renderLabel: (item) => {
+        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', datepickerCls:'form-control background-white', formName: 'deliveryDate', defaultValue: moment(new Date()).add(1, 'days'), label: StaticText.deliveryDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';

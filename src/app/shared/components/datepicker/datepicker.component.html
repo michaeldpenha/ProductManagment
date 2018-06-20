@@ -1,8 +1,9 @@
 <ng-container>
     <div class="input-group input-group-sm">
-        <input class="background-white" type="text" 
+        <input type="text" 
         [bsConfig]="{ containerClass: 'theme-dark-blue' }"
         [ngClass]="datepickerCls" 
+        [class.background-white]=!isDisabled
         [placeholder]="placeholder" 
         [bsValue]="defaultDate" 
         [isDisabled]="isDisabled"
@@ -12,9 +13,10 @@
         [bsConfig]="dateFormat"
         [readonly]="readonly"
         #dp="bsDatepicker"
-        bsDatepicker>
+        bsDatepicker
+        [disabled]="isDisabled">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen">
+            <button class="btn btn-outline-secondary" type="button" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" [disabled]="isDisabled">
                 <i class="fa fa-calendar"></i>
             </button>
         </div>

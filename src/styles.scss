@@ -17,6 +17,11 @@ app-sidebar {
     display: flex;
     align-items: stretch;
 }
+.wrap-text {
+    white-space: initial;
+    max-width: 80px;
+    line-height: normal;
+}
 #content {
     overflow: auto;
     position: relative;

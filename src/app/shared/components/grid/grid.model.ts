@@ -6,6 +6,7 @@ export interface GridConfig {
     noRecord?: Function;
     allItemsChecked?: Function;
     checkBoxDisable?: boolean;
+    allItemsSelected?: boolean;
 }
 
 export interface ColumnConfig {

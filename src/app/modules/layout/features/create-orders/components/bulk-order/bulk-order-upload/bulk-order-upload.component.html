@@ -1,0 +1,20 @@
+
+<div class="row">
+  <div class="col-lg-6">
+    <app-form (fetchForm)="fetchBulkOrderForm($event)" [formFields]="formFields"></app-form>
+  </div>
+  <div class="col-lg-6">
+    <app-drag-drop [dragDropCls]="dragDropCls" (drop)="onDrop($event)" (dragOver)="onDragOver($event)" (dragLeave)="onDragLeave($event)">
+      <app-file-upload (InputChange)="InputChange($event)" [fileDropContainer]="fileDropContainer"></app-file-upload>
+      <span class="dragMessage">Drag &amp; Drop your file to upload.</span>
+      <div class="file-names">{{fileName}}</div>
+    </app-drag-drop>
+    <div class="error" *ngIf="isValidFileExtension">Invalid file format! Please select valid .tsv/.txt file format.</div>
+  </div>
+</div>
+<br>
+<div class="float-right">
+  <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> &nbsp;
+  <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled() || hideUploadButton"></app-button>
+</div> 
+

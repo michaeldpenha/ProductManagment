@@ -45,6 +45,12 @@
                 <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
                   <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
                 </ng-container>
+                <ng-container *ngIf="checkTypeofEditableField('datepicker',colDef.config,index)">
+                  <app-datepicker [placeholder]="colDef.config.placeholder" [datepickerCls]="colDef.config.datepickerCls" [value]="colDef.config.defaultValue" [hidden]="isHidden(colDef.config,data)"
+                (change)="onChange($event,colDef.config,data)" [readonly]="isReadOnly(colDef.config,data)" [showDefaultDate]="colDef.config.showDefaultDate"
+                [isDisabled]="isDisabled(colDef.config,data)" [maxDate]="fetchMaxDate(colDef.config,data)" [minDate]="fetchMinDate(colDef.config,data)"
+                [placeholder]="mm/dd/yyyy" [dateFormat]="mm/dd/yyyy"></app-datepicker>
+                </ng-container>
                 <ng-container *ngIf="toDisplayError(colDef.config,index)">
                   <div class="error">
                     {{toDisplayErrorMessage(colDef.config,index)}}

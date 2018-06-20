@@ -35,7 +35,7 @@ export class OrdersService {
   get datesTypes(): any {
     return this._datesTypes;
   }
-  set datesTypes (options: any){
+  set datesTypes(options: any) {
     this._datesTypes = options;
   }
   set orderTypeStatus(options: any) {
@@ -47,7 +47,7 @@ export class OrdersService {
   set transferTypeOptions(options: any) {
     this._transferTypeOptions = options;
   }
-  
+
   constructor(private _http: HttpClient, private loaderService: LoaderService) { }
 
   public getSupplierInfo = (id: string) => {
@@ -71,6 +71,15 @@ export class OrdersService {
     return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/orderstatus');
   }
 
+  /** Upload Bulk Order */
+  public uploadBulkOrder = (param: any) => {
+    return this._http.post('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/upload', param);
+  }
+
+  /** Submit Inbox batch */
+  public submitInboxBatch = (batchId: any) => {
+    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch/' + batchId + '/process', batchId);
+  }
 
   /**
    * fetchOrderStatus
@@ -84,16 +93,16 @@ export class OrdersService {
   /**
    * fetchTransferTypes
    */
-  public fetchTransferTypes= () => {
+  public fetchTransferTypes = () => {
     this.transferTypeOptions = [{
-      label : 'inter-division transfer',
-      value : 'M2'
+      label: 'inter-division transfer',
+      value: 'M2'
     }, {
-      label : 'expense',
-      value : 'M3'
+      label: 'expense',
+      value: 'M3'
     }, {
-      label : 'intra-division transfer',
-      value : 'M9'
+      label: 'intra-division transfer',
+      value: 'M9'
     }]
   }
   /**
@@ -116,22 +125,22 @@ export class OrdersService {
    */
   public fetchDivisionTypes = () => {
     this.divisionTypes = [{
-      label : 'Division 1',
-      value : 'Division 1'
+      label: 'Division 1',
+      value: 'Division 1'
     }, {
-      label : 'Division 2',
-      value : 'Division 2'
+      label: 'Division 2',
+      value: 'Division 2'
     }, {
-      label : 'Division 3',
-      value : 'Division 3'
+      label: 'Division 3',
+      value: 'Division 3'
     }]
   }
   /**
    * fetchStaticValues
    */
   public fetchStaticValues = () => {
-    (this.orderTypeOptions.length === 0 ) ? this.fetchOrderTypes().subscribe(el => {this.loaderService.hide();this._orderTypeOptions = el;}) : '';
-    (this.orderTypeStatus.length === 0 ) ? this.fetchOrderStatus().subscribe(el => {this.loaderService.hide();this._orderTypeStatus = el;}) : '';
+    (this.orderTypeOptions.length === 0) ? this.fetchOrderTypes().subscribe(el => { this.loaderService.hide(); this._orderTypeOptions = el; }) : '';
+    (this.orderTypeStatus.length === 0) ? this.fetchOrderStatus().subscribe(el => { this.loaderService.hide(); this._orderTypeStatus = el; }) : '';
     //this.fetchTransferTypes().subscribe(el => this._transferTypeOptions = el)
     (this.transferTypeOptions.length === 0) ? this.fetchTransferTypes() : '';
     (this.datesTypes.length === 0) ? this.fetchDatesTypes() : '';
@@ -143,16 +152,16 @@ export class OrdersService {
   public createSingleOrder = (params: any) => {
     return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order', params);
   }
-   /**
-   * viewOrderDetails
-   */
+  /**
+  * viewOrderDetails
+  */
   public viewOrderDetails = (id: string) => {
-    return this._http.post(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search`,{orderId : id});
+    return this._http.post(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search`, { orderId: id });
   }
   /**
    * fetchOrder
    */
-  public fetchOrder = (params : any) => {
-    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search',params);
+  public fetchOrder = (params: any) => {
+    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search', params);
   }
 }

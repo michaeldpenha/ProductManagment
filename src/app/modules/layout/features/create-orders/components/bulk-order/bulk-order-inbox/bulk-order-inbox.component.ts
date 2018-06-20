@@ -16,7 +16,7 @@ export class BulkOrderInboxComponent implements OnInit {
   public data: any = [];
   public coloumnConfig: any;
   public gridConfig: any;
-  constructor(private orderService: OrdersService, private loaderService: LoaderService,private dialogService : DialogService) { }
+  constructor(private orderService: OrdersService, private loaderService: LoaderService, private dialogService: DialogService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -73,29 +73,29 @@ export class BulkOrderInboxComponent implements OnInit {
         title: 'Action', width: 100,
         actionItems: [
           new GridActionsConfig({
-            btnCls: 'btn btn-success btn-sm', disable : (cfg,item) =>{
-              return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL"; 
-            },iconClass: 'fa fa-check', label: '', click: (item: any, actionCfg: any, index: number) => {
-              this.dialogService.showDialog('Warning','','','Warning','Are you sure you want to process this order ?','Submit',()=>{
+            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
+              return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
+            }, iconClass: 'fa fa-check', label: '', click: (item: any, actionCfg: any, index: number) => {
+              this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to process this order ?', 'Submit', () => {
                 this.submitInboxBatch(item.id);
-              },'Cancel',()=>{
+              }, 'Cancel', () => {
 
               });
             }
           }),
           new GridActionsConfig({
-            btnCls: 'btn btn-danger btn-sm', disable : (cfg,item) =>{
-              return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL"; 
-            },iconClass: 'fa fa-times', label: '', click: (item: any, actionCfg: any, index: number) => {
-               this.dialogService.showDialog('Warning','','','Warning','Are you sure you want to cancel this order ?','Submit',()=>{
-                this.submitInboxBatch(item.id);
-              },'Cancel',()=>{
+            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
+              return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
+            }, iconClass: 'fa fa-times', label: '', click: (item: any, actionCfg: any, index: number) => {
+              this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to cancel this order ?', 'Submit', () => {
+                this.cancelInboxBatch(item.id);
+              }, 'Cancel', () => {
 
               });
             }
           }),
           new GridActionsConfig({
-            btnCls: 'btn btn-primary btn-sm',disable : (cfg,item) =>{
+            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
               return item.errorCount === 0;
             }, iconClass: 'fa fa-download', label: '', click: (item: any, actionCfg: any, index: number) => {
             }
@@ -110,7 +110,22 @@ export class BulkOrderInboxComponent implements OnInit {
     this.orderService.submitInboxBatch(batchId)
       .subscribe(data => {
         this.loaderService.hide();
-        this.fillInboxDetails();
+        this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Submitted Successfully', 'Ok', () => {
+        }, '', () => {
+        });
+      });
+  }
+
+
+  /** Cancel Inbox */
+
+  public cancelInboxBatch = (batchId: any) => {
+    this.orderService.cancelInboxBatch(batchId)
+      .subscribe(data => {
+        this.loaderService.hide();
+        this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Cancelled Successfully', 'Ok', () => {
+        }, '', () => {
+        });
       });
   }
 }

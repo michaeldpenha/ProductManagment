@@ -81,6 +81,12 @@ export class OrdersService {
     return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch/' + batchId + '/process', batchId);
   }
 
+  /** Cancel Inbox batch */
+  public cancelInboxBatch = (batchId: any) => {
+    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch/' + batchId + '/cancel', batchId);
+  }
+  
+
   /**
    * fetchOrderStatus
    */

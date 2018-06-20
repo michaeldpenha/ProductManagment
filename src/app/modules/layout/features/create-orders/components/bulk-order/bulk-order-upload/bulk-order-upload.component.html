@@ -1,4 +1,8 @@
-
+<div class="row">
+  <div class="col-md-12 pull-right mb-2">
+    <a class="downloadTemLink pull-right oms-link" href="./../../../../../../../../assets/batch_upload_template.xlsx">Download Template</a>
+  </div>
+</div>
 <div class="row">
   <div class="col-lg-6">
     <app-form (fetchForm)="fetchBulkOrderForm($event)" [formFields]="formFields"></app-form>
@@ -16,5 +20,4 @@
 <div class="float-right">
   <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> &nbsp;
   <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled() || hideUploadButton"></app-button>
-</div> 
-
+</div>

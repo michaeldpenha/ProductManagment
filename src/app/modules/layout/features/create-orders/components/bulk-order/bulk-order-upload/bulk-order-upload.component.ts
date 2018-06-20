@@ -27,7 +27,7 @@ export class BulkOrderUploadComponent implements OnInit {
   public cancelBtnText: string = 'Reset';
   public cancelBtnClass: string = 'btn btn-default';
   public submitText: string = 'Upload';
-  public submitBtnClass: string = 'btn btn-success';
+  public submitBtnClass: string = 'btn btn-primary';
 
   ngOnInit() {
     this.initializeForm();
@@ -47,7 +47,7 @@ export class BulkOrderUploadComponent implements OnInit {
     this.orderService.uploadBulkOrder(formValues)
       .subscribe(data => {
         this.loaderService.hide();
-        this.dialogService.showDialog('Bulk Upload','fa fa-check circle-green','','','File Upload Successful. Batch number is: ', 'OK', () => {
+        this.dialogService.showDialog('Bulk Upload','fa fa-check circle-green','','','File Upload Successful. Batch number is: ' + data['batchId'], 'OK', () => {
            this.redirectToInbox.emit();
         }, '', () => { });
       });

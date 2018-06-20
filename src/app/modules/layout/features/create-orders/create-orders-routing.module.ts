@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {
   SingleOrderComponent,
-  BulkOrderComponent,
-  BulkOrderInboxComponent
+  //BulkOrderComponent,
+  //BulkOrderInboxComponent
 } from './components';
 const routes: Routes = [{
   path: 'single-order',
@@ -12,10 +12,10 @@ const routes: Routes = [{
   path: 'bulk-order',
   children: [{
     path: '',
-    component: BulkOrderComponent
+    //component: BulkOrderComponent
   }, {
     path: 'inbox',
-    component: BulkOrderInboxComponent
+    //component: BulkOrderInboxComponent
   }]
 }];
 

@@ -151,7 +151,7 @@ export class SearchOrdersComponent implements OnInit {
     let result: boolean = false;
     let formObj = this.form.getRawValue();
     Object.keys(formObj).forEach(element => {
-      result = result || (element.indexOf('date') > -1 && (formObj['dateColumn'].toLowerCase().indexOf('select') > -1 || formObj['dateColumn'] === '')) ? false : (formObj[element] && (formObj[element] != '' || formObj[element].toLowercase().indexOf('select') === -1) ? true : false ;
+      //result = result || (element.indexOf('date') > -1 && (formObj['dateColumn'].toLowerCase().indexOf('select') > -1 || formObj['dateColumn'] === '')) ? false : (formObj[element] && (formObj[element] != '' || formObj[element].toLowercase().indexOf('select') === -1) ? true : false ;
     });
     return result;
   }

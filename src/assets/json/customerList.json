@@ -1,0 +1,192 @@
+[
+    {
+        "customerId": 273,
+        "customerName": "Adela Bonciu",
+        "suppliers": [
+            {
+                "supplierId": "WH/2527/GROC",
+                "supplierName": "WalmartCanada"
+            }
+        ]
+    },
+    {
+        "customerId": 300,
+        "customerName": "Amy Medina",
+        "suppliers": [
+            {
+                "supplierId": "WH/2536/GROC",
+                "supplierName": "ExxonMobil"
+            }
+        ]
+    },
+    {
+        "customerId": 304,
+        "customerName": "Fabio Martini",
+        "suppliers": [
+            {
+                "supplierId": "WH/2540/GROC",
+                "supplierName": "McKesson Corporation"
+            }
+        ]
+    },
+    {
+        "customerId": 306,
+        "customerName": "Dafina Petrescu",
+        "suppliers": [
+            {
+                "supplierId": "WH/2543/GROC",
+                "supplierName": "ABF Freight System"
+            }
+        ]
+    },
+    {
+        "customerId": 309,
+        "customerName": "Marina Bordea",
+        "suppliers": [
+            {
+                "supplierId": "WH/2547/GROC",
+                "supplierName": "Activision Blizzard"
+            }
+        ]
+    },
+    {
+        "customerId": 112,
+        "customerName": "Douglas Baker",
+        "suppliers": [
+            {
+                "supplierId": "WH/5005/GROC",
+                "supplierName": "Anchor Brewing Company"
+            }
+        ]
+    },
+    {
+        "customerId": 212,
+        "customerName": "Lovas Jusztina",
+        "suppliers": [
+            {
+                "supplierId": "WH/5006/GROC",
+                "supplierName": "Amys Kitchen"
+            }
+        ]
+    },
+    {
+        "customerId": 312,
+        "customerName": "Danielle Johnston",
+        "suppliers": [
+            {
+                "supplierId": "WH/5007/GROC",
+                "supplierName": "Bob Evans Restaurants"
+            }
+        ]
+    },
+    {
+        "customerId": 412,
+        "customerName": "Dalia Davidovici",
+        "suppliers": [
+            {
+                "supplierId": "WH/5008/GROC",
+                "supplierName": "Burton Snowboards"
+            }
+        ]
+    },
+    {
+        "customerId": 512,
+        "customerName": "Gabi Dediu",
+        "suppliers": [
+            {
+                "supplierId": "WH/5009/GROC",
+                "supplierName": "DineEquity"
+            }
+        ]
+    },
+    {
+        "customerId": 113,
+        "customerName": "Emma Vasiliev",
+        "suppliers": [
+            {
+                "supplierId": "WH/5010/GROC",
+                "supplierName": "Crown Holdings"
+            }
+        ]
+    },
+    {
+        "customerId": 213,
+        "customerName": "Catalina Ospina",
+        "suppliers": [
+            {
+                "supplierId": "WH/5011/GROC",
+                "supplierName": "Del Monte Foods"
+            }
+        ]
+    },
+    {
+        "customerId": 313,
+        "customerName": "Henry Graham",
+        "suppliers": [
+            {
+                "supplierId": "WH/5012/GROC",
+                "supplierName": "Home Shopping Network"
+            }
+        ]
+    },
+    {
+        "customerId": 413,
+        "customerName": "Tibor Pauko Santos",
+        "suppliers": [
+            {
+                "supplierId": "WH/5013/GROC",
+                "supplierName": "Hard Rock Cafe"
+            }
+        ]
+    },
+    {
+        "customerId": 513,
+        "customerName": "Daniel Harris",
+        "suppliers": [
+            {
+                "supplierId": "WH/5014/GROC",
+                "supplierName": "In-N-Out Burger"
+            }
+        ]
+    },
+    {
+        "customerId": 114,
+        "customerName": "Alba Santana",
+        "suppliers": [
+            {
+                "supplierId": "WH/5015/GROC",
+                "supplierName": "Jones Soda"
+            }
+        ]
+    },
+    {
+        "customerId": 214,
+        "customerName": "Costel Campeanu",
+        "suppliers": [
+            {
+                "supplierId": "WH/5016/GROC",
+                "supplierName": "Kendall-Jackson"
+            }
+        ]
+    },
+    {
+        "customerId": 314,
+        "customerName": "Joseane Schmidt",
+        "suppliers": [
+            {
+                "supplierId": "WH/5017/GROC",
+                "supplierName": "Leggett & Platt"
+            }
+        ]
+    },
+    {
+        "customerId": 414,
+        "customerName": "Rose Stone",
+        "suppliers": [
+            {
+                "supplierId": "WH/5018/GROC",
+                "supplierName": "Neiman Marcus Group"
+            }
+        ]
+    }
+]

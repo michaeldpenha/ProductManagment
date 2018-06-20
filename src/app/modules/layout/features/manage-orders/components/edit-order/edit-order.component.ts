@@ -50,8 +50,7 @@ export class EditOrderComponent implements OnInit {
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
       displayCheckBox: false,
-      enableCellEdit: true,
-      allItemsSelected: false
+      enableCellEdit: true
     });
   }
   /**
@@ -117,6 +116,7 @@ export class EditOrderComponent implements OnInit {
 
   // view order details
   public fetchViewOrderDetails = (id: string) => {
+    this.loadingService.show();
     this.orderService.fetchOrder({ orderId: id }).subscribe(items => {
       this.loaderService.hide();
       this.orderDetailsData = items['orders'] && items['orders'][0] ? items['orders'][0] : [];

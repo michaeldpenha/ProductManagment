@@ -27,7 +27,6 @@ export class DropDownComponent implements OnInit {
     this.receivedInputData = this.receivedInputData ? this.receivedInputData : [];
     this.defaultValue = this.defaultValue ? this.defaultValue : 'Select';
   }
-
   public onChange = (selectedValue: any) => {
     this.selectedInputData.emit(selectedValue);
   }

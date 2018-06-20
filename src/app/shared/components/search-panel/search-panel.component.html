@@ -1,5 +1,5 @@
 <ng-container *ngIf="displayErr">
-  <div class="error">{{displayErrMessage}}</div>
+  <p class="error">{{displayErrMessage}}</p>
 </ng-container>
 <app-form (fetchForm) = "fetchSearchForm($event)" [formFields]="formFields"></app-form>
 <hr />

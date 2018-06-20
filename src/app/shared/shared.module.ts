@@ -58,7 +58,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     SearchPanelComponent,
     HttpClientModule,
     ModalDialogComponent,
-    PanelComponent
+    PanelComponent,
+    PaginationComponent
   ],
   declarations: [
     HeaderComponent,

@@ -30,8 +30,7 @@ export class SingleOrderGridComponent implements OnInit {
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
       displayCheckBox: false,
-      enableCellEdit: true,
-      allItemsSelected: false
+      enableCellEdit: true
     });
   }
   /**

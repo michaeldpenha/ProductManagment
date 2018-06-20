@@ -4,8 +4,9 @@ export interface GridConfig {
     enableCellEdit?: boolean;
     enableRowEdit?: boolean;
     noRecord?: Function;
-    allItemsSelected?: boolean;
+    allItemsChecked?: Function;
     checkBoxDisable?: boolean;
+    allItemsSelected?: boolean;
 }
 
 export interface ColumnConfig {
@@ -21,6 +22,7 @@ export interface ColumnConfig {
     cellEdit?: any;
     row?: any;
     requiredIcon?: boolean;
+    sortIndex ?: string; 
 }
 
 export interface ActionGridItemsConfig {
@@ -29,6 +31,7 @@ export interface ActionGridItemsConfig {
     click: Function;
     disable?: Function;
     iconClass?: string;
+    btnCls?: string;
 }
 
 export interface CellEditConfig {

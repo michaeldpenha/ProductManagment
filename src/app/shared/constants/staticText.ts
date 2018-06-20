@@ -29,5 +29,6 @@ export const StaticText = {
     ok :'OK',
 emailId : 'Email Id',
     userId: 'User Id',
-    editHeader: 'Header Details'
+    editHeader: 'Header Details',
+    nodataFound: 'No any data found!',
  };

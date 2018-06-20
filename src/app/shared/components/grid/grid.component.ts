@@ -10,13 +10,12 @@ export class GridComponent implements OnInit {
   @Input() gridConfig: any;
   @Input() coloumnConfig: any;
   @Input() gridData: any;
-
   @Output() allItemChecked = new EventEmitter<any>();
   @Output() triggerSortEvent = new EventEmitter<any>();
   @Output() rowSelected = new EventEmitter<any>();
   //public noRecord: string;
   public displayCheckBox: boolean;
-  public allItemsSelected: boolean;
+  //public allItemsSelected: boolean;
   public reverseSort: boolean = true;
   public gridCls: string;
   public enableCellEdit: boolean;
@@ -45,9 +44,22 @@ export class GridComponent implements OnInit {
     this.enableCellEdit = cfg.cellEdit ? cfg.cellEdit : false;
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
    // this.noRecord = cfg.noRecord ? cfg.noRecord() : 'No data found';
-    this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
+    //this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
     this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
     this.columnDefs = this.coloumnConfig;
+  }
+  /**
+   * allItemsSelected = 
+  =>  */
+  public allItemsChecked = () => {
+    let cfg : any = this.gridConfig.config;
+    return cfg.allItemsChecked ? cfg.allItemsChecked() : false
+  }
+  /**
+   * disabledButton
+   */
+  public disabledButton = (cfg : any , item : any) => {
+    return cfg.config.disable ? cfg.config.disable(cfg,item) : false
   }
   /**
    * noRecord
@@ -98,7 +110,8 @@ export class GridComponent implements OnInit {
   /**
    * rowSelection
    */
-  public rowSelection = (item) => {
+  public rowSelection = (...args) => {
+    let item : any = args;
     this.rowSelected.emit(item);
   }
   /**

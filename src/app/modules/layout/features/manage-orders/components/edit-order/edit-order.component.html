@@ -10,7 +10,7 @@
       </div>
     </div>
   </app-panel>
-  <app-panel [isFooterVisible]="logisticsFooterVisible" [headerText]="editOrderHeader">
+  <app-panel [isFooterVisible]="editOrderFooterVisible" [headerText]="editOrderHeader">
     <div class="row">
       <app-cards isCheckBoxtoChild="false" *ngFor="let editHeaderdata of editHeaderInfoToBeDisplayed">
         <div class="font-weight-bold">{{editHeaderdata.label}}</div>

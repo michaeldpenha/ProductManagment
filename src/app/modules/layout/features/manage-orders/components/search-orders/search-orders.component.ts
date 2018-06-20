@@ -341,13 +341,14 @@ export class SearchOrdersComponent implements OnInit {
    */
   public allItemsSelected = (e: any) => {
     this.selectedRecords = [];
+    this.ordersService.headerUpdate = [];
     this.data.forEach(element => {
       this.pushDataInHeaderUpdate(element, e.target.checked);
     });
   }
   public pushDataInHeaderUpdate = (el: any, check: boolean) => {
     (check) ? this.selectedRecords.push(el) : '';
-    el.selected = check;
+    el.selected = (check);
     this.ordersService.headerUpdate = this.selectedRecords;
     this.isAllChecked();
   }
@@ -358,15 +359,18 @@ export class SearchOrdersComponent implements OnInit {
     let el: any = e[2].target.checked;
     let item: any = e[0];
     let index: any = e[1];
-    (!el) ? this.removeFromSelected(item) : '';
-    this.pushDataInHeaderUpdate(item, el);
+    (!el) ? this.removeFromSelected(item) : this.pushDataInHeaderUpdate(item, el);
   }
-  public removeFromSelected = (it: any) => {
+  public getSelectedIndex = (it: any) => {
     let index: any = '';
     this.selectedRecords.forEach((data, i) => {
-      index = (data.orderId === it.orderId && index != '') ? i : index;
+      index = (data.orderId === it.orderId && index == '') ? i : index;
     });
-    (index != '') ? this.selectedRecords.splice(index, 1) : '';
+    return index;
+  }
+  public removeFromSelected = (it: any) => {
+    let index: any = this.getSelectedIndex(it);
+    (index != '' && index >= 0) ? this.selectedRecords.splice(index, 1) : '';
     this.ordersService.headerUpdate = this.selectedRecords;
     this.isAllChecked();
   }

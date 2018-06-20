@@ -41,7 +41,7 @@ export class SingleOrderGridComponent implements OnInit {
     this.coloumnConfig = [
       new GridColoumnConfig({ name: '', title: '#', width: 50, editable: (item) => { return false; }, render: (item, col, i) => { return i + 1; } }),
       new GridColoumnConfig({
-        name: 'itemNumber', width: 150, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+        name: 'itemNumber', title: 'Item No.', requiredIcon: true, width: 150, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             e.target.value == "" ? this.fillGridObjectValues(index, {}) : this.isDuplicateRec(index) ? this.fillGridObjectValues(index, {}) : this.fetchItemsInfo(e.target.value, index, e);
@@ -55,7 +55,7 @@ export class SingleOrderGridComponent implements OnInit {
 
           },
           dirty: false
-        }), title: 'Item No.'
+        })
       }),
       new GridColoumnConfig({ name: 'pack', width: 100, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'Pack' }),
       new GridColoumnConfig({ name: 'size', width: 100, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', displayCellEdit: true, disabled: () => { return true; } }), title: 'Size' }),
@@ -63,7 +63,7 @@ export class SingleOrderGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'tixhi', width: 100, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', displayCellEdit: true, disabled: () => { return true; } }), title: 'TixHi' }),
       new GridColoumnConfig({ name: 'upc', width: 150, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', displayCellEdit: true, disabled: () => { return true; } }), title: 'UPC' }),
       new GridColoumnConfig({
-        name: 'quantity', width: 50, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+        name: 'quantity', width: 100, editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
           },
@@ -75,7 +75,7 @@ export class SingleOrderGridComponent implements OnInit {
             return this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true";
 
           }, subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemNumber'] == '' ? true : this.showItemNumberErrorMsg(index, true); }
-        }), title: 'Quantity'
+        }), title: 'Quantity', requiredIcon: true
       }),
       new GridColoumnConfig({
         name: 'actions',

@@ -6,6 +6,9 @@
         <th [width]="colDef.config.width">
           <div (click)="triggerSort(colDef.config)">
             {{colDef.config.title}}
+            <ng-container *ngIf="colDef.config.requiredIcon">
+              <sup class="text-danger">*</sup>
+            </ng-container>
             <ng-container *ngIf="colDef.config.enableSorting">
               <i class="fa fa-sort"></i>
             </ng-container>

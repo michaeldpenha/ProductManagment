@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter,ElementRef } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-grid',
@@ -31,6 +32,7 @@ export class GridComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.coloumnConfig && this.coloumnConfig.length > 0 && document.getElementById("addColspan") ? document.getElementById("addColspan").setAttribute("colspan", (this.coloumnConfig.length + 1) ) : '';
+    // this.resizeTableCol();
   }
 
   /**
@@ -207,4 +209,27 @@ export class GridComponent implements OnInit {
   public setMaximum = (cfg : any , i : number) => {
     return cfg && cfg.cellEdit.config.max ? cfg.cellEdit.config.max : '';
   }
+
+  /**
+   * resizeTableCol - Grid Scroller
+   */
+  // public resizeTableCol() {
+  //   // Change the selector if needed
+  //   var $table = $('.table-grid'),
+  //     $bodyCells = $table.find('thead tr:first').children(),
+  //     colWidth;
+
+  //   // Adjust the width of thead cells when window resizes
+  //   $(window).resize(function () {
+  //     // Get the tbody columns width array
+  //     colWidth = $bodyCells.map(function () {
+  //       return $(this).width();
+  //     }).get();
+
+  //     // Set the width of thead columns
+  //     $table.find('tbody tr').children().each(function (i, v) {
+  //       $(v).width(colWidth[i]);
+  //     });
+  //   }).resize(); // Trigger resize handler
+  // }
 }

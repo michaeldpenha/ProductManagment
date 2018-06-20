@@ -20,6 +20,7 @@ export interface ColumnConfig {
     editable?: Function;
     cellEdit?: any;
     row?: any;
+    requiredIcon?: boolean;
 }
 
 export interface ActionGridItemsConfig {

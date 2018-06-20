@@ -5,7 +5,7 @@
         [formFields]="formFields" (reset)="reset($event)" (search)="search($event)"></app-search-panel>
 </div>
 <p class="text-right">
-    <app-button [text]="headerUpdate" [disabled]="selectedRecords.length == 0" (onButtonClick)="navigateToHeaderUpdate()"></app-button>
+    <app-button [cls]="headerUpdateCls" [text]="headerUpdate" [disabled]="selectedRecords.length == 0" (onButtonClick)="navigateToHeaderUpdate()"></app-button>
 </p>
 <app-search-orders-grid [allChecked] = "allChecked" (allSelect) = "allItemsSelected($event)" (rowSelect)="rowSelected($event)" [noDataFound]="noDataFound" [gridData]="data" (sort)="triggerSorting($event)"></app-search-orders-grid>
 <ng-container *ngIf="data.length > page">

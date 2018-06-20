@@ -44,7 +44,9 @@ export class OrdersService {
   constructor(private _http: HttpClient, private loaderService: LoaderService) { }
 
   public getSupplierInfo = (id: string) => {
-    return this._http.get(`order/item/${id}`);
+    let url ="./assets/json/customerList.json";
+    return this._http.get(url);
+   // return this._http.get(`order/item/${id}`);
   }
   /**
    * getItemDetails
@@ -93,13 +95,13 @@ export class OrdersService {
   public fetchDatesTypes = () => {
     this.datesTypes = [{
       label : 'Created Date',
-      value : 'Created Date'
+      value : 'createTs'
     }, {
       label : 'Release Date',
-      value : 'Release Date'
+      value : 'scheduledReleaseDate'
     }, {
       label : 'Delivery Date',
-      value : 'Delivery Date'
+      value : 'scheduledDeliveryDate'
     }]
   }
   /**

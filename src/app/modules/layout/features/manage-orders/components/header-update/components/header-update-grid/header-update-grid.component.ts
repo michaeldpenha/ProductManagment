@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GridActionsConfig, GridColoumnConfig, GridConfiguration } from "@app/shared/model";
+import { GridActionsConfig, GridColoumnConfig, GridConfiguration, CellEditConfiguration } from "@app/shared/model";
 import { StaticText } from "@app/shared/constants";
 import { RouterService } from "@app/shared/services";
 
@@ -11,9 +11,9 @@ import { RouterService } from "@app/shared/services";
 export class HeaderUpdateGridComponent implements OnInit {
   public gridConfig: GridConfiguration;
   public coloumnConfig: GridColoumnConfig[];
-  @Input() noDataFound : string;
-  @Input() gridData : any;
-  constructor(private routerService  :RouterService) { }
+  @Input() noDataFound: string;
+  @Input() gridData: any;
+  constructor(private routerService: RouterService) { }
 
   ngOnInit() {
     this.populateGridConfig();
@@ -26,7 +26,7 @@ export class HeaderUpdateGridComponent implements OnInit {
   public populateGridConfig = () => {
     this.gridConfig = new GridConfiguration({
       enableCellEdit: false,
-      noRecord : () => {
+      noRecord: () => {
         return this.noDataFound
       }
     });
@@ -38,12 +38,12 @@ export class HeaderUpdateGridComponent implements OnInit {
     this.coloumnConfig = [
       new GridColoumnConfig({ name: 'orderId', title: 'Ord #' }),
       new GridColoumnConfig({ name: 'totalQty', title: 'Total Qty' }),
-      new GridColoumnConfig({ name: 'division', title: 'Division' }),
-      new GridColoumnConfig({ name: 'custId', title: 'Cust ID' }),
-      new GridColoumnConfig({ name: 'supplier', title: 'Supplier' }),
-      new GridColoumnConfig({ name: 'orderStatus', title: 'Order Status' }),
-      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date' }),
-      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date' })
+      new GridColoumnConfig({ name: 'divisionId', title: 'Division' }),
+      new GridColoumnConfig({ name: 'customerId', title: 'Cust ID' }),
+      new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
+      new GridColoumnConfig({ name: 'status', title: 'Order Status' }),
+      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', defaultValue: moment(new Date()),showDefaultDate: false, subType: 'text', displayCellEdit: true, }) }),
+      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', showDefaultDate: false, displayCellEdit: true, }) })
     ]
   }
 }

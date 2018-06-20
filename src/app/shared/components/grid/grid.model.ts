@@ -53,4 +53,12 @@ export interface CellEditConfig {
     keyUp ? : Function;
     min ? : number;
     max ? : number;
+    readOnly ? : Function; 
+    minDate ? : Function;
+    maxDate ? : Function;
+    showDefaultDate? : boolean;
+    hidden ? : Function;
+    defaultValue?:any;
+    datepickerCls?:string;
+
 }

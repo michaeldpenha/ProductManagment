@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GridActionsConfig, GridColoumnConfig, GridConfiguration } from "@app/shared/model";
 import { StaticText } from "@app/shared/constants";
 import { RouterService } from "@app/shared/services";
@@ -13,6 +13,7 @@ export class SearchOrdersGridComponent implements OnInit {
   public coloumnConfig: GridColoumnConfig[];
   @Input() noDataFound : string;
   @Input() gridData : any;
+  @Output() sort = new EventEmitter<any>();
   constructor(private routerService  :RouterService) { }
 
   ngOnInit() {
@@ -38,9 +39,9 @@ export class SearchOrdersGridComponent implements OnInit {
      */
   public populateColoumnConfig = () => {
     this.coloumnConfig = [
-      new GridColoumnConfig({ name: 'orderId', title: 'Order Id #', enableSorting: true, sortDirection: 'ASC' }),
+      new GridColoumnConfig({ name: 'orderId', sortIndex : 'orderId' ,title: 'Order Id', enableSorting: true, sortDirection: 'ASC' }),
       new GridColoumnConfig({ name: 'divisionId', title: 'Division' }),
-      new GridColoumnConfig({ name: 'customerId', title: 'Customer Id #' }),
+      new GridColoumnConfig({ name: 'customerId', title: 'Customer Id' }),
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
       new GridColoumnConfig({ name: 'itemQty', title: 'Total Quantity' }),
       new GridColoumnConfig({ name: 'orderType', title: 'Order Type' }),
@@ -64,9 +65,9 @@ export class SearchOrdersGridComponent implements OnInit {
             default: return `<div class="badge badge-info">${item[dataIndex]}</div>`;
         }
       } }),
-      new GridColoumnConfig({ name: 'createdDate', title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),
-      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', enableSorting: true, sortDirection: 'DESC' }),
-      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'createdDate',sortIndex : 'createTs' , title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'releaseDate',sortIndex : 'scheduledReleaseDate' , title: 'Release Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'deliveryDate',sortIndex : 'scheduledDeliveryDate' , title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({
         name: 'actions',
         title : 'Action',
@@ -83,4 +84,10 @@ export class SearchOrdersGridComponent implements OnInit {
   public navigate= (url) => {
     this.routerService.navigateTo(url);
   }
+  /**
+   * triggerSorting
+   */
+  public triggerSorting =  (cfg:any )=> {
+    this.sort.emit(cfg);
+}
 }

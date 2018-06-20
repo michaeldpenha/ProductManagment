@@ -5,4 +5,4 @@
         [formFields]="formFields" (reset)="reset($event)" (search)="search($event)"></app-search-panel>
 </div>
 <app-button [text]="headerUpdate" [disabled]="selectedRecords.length == 0" (onButtonClick)="navigateToHeaderUpdate()"></app-button>
-<app-search-orders-grid [noDataFound]="noDataFound" [gridData]="data"></app-search-orders-grid>
+<app-search-orders-grid [noDataFound]="noDataFound" [gridData]="data" (sort)="triggerSorting($event)"></app-search-orders-grid>

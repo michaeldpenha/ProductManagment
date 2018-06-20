@@ -21,6 +21,7 @@ export interface ColumnConfig {
     cellEdit?: any;
     row?: any;
     requiredIcon?: boolean;
+    sortIndex ?: string; 
 }
 
 export interface ActionGridItemsConfig {

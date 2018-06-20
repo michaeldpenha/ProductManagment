@@ -173,9 +173,9 @@ export class SearchOrdersComponent implements OnInit {
   }
   public hideDateField = (cfg: any) => {
     let result = false;
-    result = this.form && this.form.get('dateColumn').value == '' || this.form.get('dateColumn').value.toLowerCase() == StaticText.dateType.toLowerCase();
-    (result) ? this.appendDateInSearch(true, cfg, '') : this.appendDateInSearch(false, cfg, moment(this.form.get(cfg.formName).value).format('MM/DD/YYYY')) ;
-    return result;
+    result =this.searchQueryData && this.searchQueryData['dateColumn'] ;
+    (!result) ? this.appendDateInSearch(true, cfg, '') : this.appendDateInSearch(false, cfg, moment(this.form.get(cfg.formName).value).format('MM/DD/YYYY')) ;
+    return !result;
   }
   /**
    * displayDatePickers
@@ -236,19 +236,31 @@ export class SearchOrdersComponent implements OnInit {
   public triggerSearch = () => {
     this.fetchOrders();
   }
+  public defaultGridData = () => {
+    this.data = [];
+    this.displayGridErrorMessage('');
+  }
   /**
-   * fetchOrders
-   */
-  public fetchOrders = () => {
+   * prepareParams = 
+  =>  */
+  public prepareParams = () => {
+    this.searchParams = {};
     this.searchParams['page'] = this.page;
     this.searchParams['pageSize'] = this.limit;
     this.searchParams['sortBy'] = this.sortBy;
     Object.assign(this.searchParams, this.searchQueryData);
+  }
+  /**
+   * fetchOrders
+   */
+  public fetchOrders = () => {
+    this.defaultGridData();
+    this.prepareParams();
     this.ordersService.fetchOrder(this.searchParams).subscribe(data => {
       this.loadingService.hide();
       this.data = data['orders'];
       this.total = data['total'];
-      (this.data.length === 0) ? this.displayGridErrorMessage(Messages.noDataFound) : '';
+      this.displayGridErrorMessage((this.data.length === 0) ? Messages.noDataFound : '');
     }, err => {
       this.data = [];
       this.displayGridErrorMessage(Messages.searchError.serverError);
@@ -272,7 +284,12 @@ export class SearchOrdersComponent implements OnInit {
    */
   public reset = (form: any) => {
     this.form.reset();
+    this.searchQueryData = {};
+    this.total=0;
+    this.formFields[3].config.defaultValue = StaticText.dateType;
     this.displayErr = false;
+    this.data = [];
+    this.displayGridErrorMessage(StaticText.searchQuery);
   }
   /**
    * navigateToHeaderUpdate
@@ -283,7 +300,15 @@ export class SearchOrdersComponent implements OnInit {
   /**
    * triggerSorting
    */
-  public triggerSorting = (colDef) => {
-
+  public triggerSorting = (colDef  :any) => {
+    this.checkIfOneFieldhasValue() ? this.fetchSortedOrders(colDef) : '';
+  }
+  /**
+   * fetchSortedOrders
+   */
+  public fetchSortedOrders = (colDef : any) => {
+    this.sortBy= colDef.sortIndex+','+colDef.sortDirection;
+    this.page=1;
+    this.triggerSearch();
   }
 }

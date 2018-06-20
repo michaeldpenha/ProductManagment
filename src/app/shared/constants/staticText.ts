@@ -28,5 +28,6 @@ export const StaticText = {
     logistics : 'Logistics',
     ok :'OK',
 emailId : 'Email Id',
-    userId: 'User Id'
+    userId: 'User Id',
+    editHeader: 'Header Details'
  };

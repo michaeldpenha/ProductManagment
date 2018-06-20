@@ -44,7 +44,26 @@ export class SearchOrdersGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
       new GridColoumnConfig({ name: 'itemQty', title: 'Total Quantity' }),
       new GridColoumnConfig({ name: 'orderType', title: 'Order Type' }),
-      new GridColoumnConfig({ name: 'status', title: 'Status', render: (item, dataIndex) => { return `<div class="sachin">${item[dataIndex]}</div>`; } }),
+      new GridColoumnConfig({ name: 'status', title: 'Status', render: (item, dataIndex) => {
+        //return `<div class="sachin">${item[dataIndex]}</div>`; 
+        switch( item[dataIndex] ) {
+            case "New":
+                return `<div class="badge badge-primary">${item[dataIndex]}</div>`;
+            case "Hold":
+                return `<div class="badge badge-warning">${item[dataIndex]}</div>`;
+            case "Active":
+                return `<div class="badge badge-success">${item[dataIndex]}</div>`;
+            case "Inactive":
+                return `<div class="badge badge-secondary">${item[dataIndex]}</div>`;
+            case "Released for fulfillement":
+                return `<div class="badge badge-success">${item[dataIndex]}</div>`;
+            case "Released to routing":
+                return `<div class="badge badge-warning">${item[dataIndex]}</div>`;
+            case "Cancelled":
+                return `<div class="badge badge-danger">${item[dataIndex]}</div>`;
+            default: return `<div class="badge badge-info">${item[dataIndex]}</div>`;
+        }
+      } }),
       new GridColoumnConfig({ name: 'createdDate', title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),

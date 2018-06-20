@@ -4,7 +4,7 @@ export interface GridConfig {
     enableCellEdit?: boolean;
     enableRowEdit?: boolean;
     noRecord?: Function;
-    allItemsSelected?: boolean;
+    allItemsChecked?: Function;
     checkBoxDisable?: boolean;
 }
 

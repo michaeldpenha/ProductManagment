@@ -30,7 +30,7 @@ export class SearchOrdersComponent implements OnInit {
   public searchQueryData: any = {};
   public numberOfPagesOptionsToBeDispalyed: number = OrdersConfig.numberOfPagesOptionsToBeDispalyed;
   public pagesLimitArray: any = OrdersConfig.perPagesRecordsTobeDisplayed;
-
+  public allChecked : boolean = false;
   public displayErrMessage: string;
   public displayErr: boolean = false;
   public supplierObj: any = [];
@@ -236,6 +236,7 @@ export class SearchOrdersComponent implements OnInit {
     this.fetchOrders();
   }
   public defaultGridData = () => {
+    this.allChecked = false;
     this.data = [];
     this.displayGridErrorMessage('');
   }
@@ -347,6 +348,7 @@ export class SearchOrdersComponent implements OnInit {
     (check) ? this.selectedRecords.push(el) : '';
     el.selected = check;
     this.ordersService.headerUpdate = this.selectedRecords;
+    this.isAllChecked();
   }
   /**
    * rowSelected
@@ -365,5 +367,9 @@ export class SearchOrdersComponent implements OnInit {
     });
     (index != '') ? this.selectedRecords.splice(index, 1) : '';
     this.ordersService.headerUpdate = this.selectedRecords;
+    this.isAllChecked();
+  }
+  public isAllChecked = () => {
+    this.allChecked = this.ordersService.headerUpdate.length === this.data.length ;
   }
 }

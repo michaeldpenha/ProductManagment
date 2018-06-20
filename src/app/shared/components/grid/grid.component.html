@@ -1,7 +1,7 @@
 <table [ngClass]="gridClass()">
   <thead>
     <tr>
-      <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [disabled] = "gridData.length == 0" [checked]="allItemsSelected"></th>
+      <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [disabled] = "gridData.length == 0" [checked]="allItemsChecked()"></th>
       <ng-container *ngFor="let colDef of columnDefs">
         <th [width]="colDef.config.width">
           <div (click)="triggerSort(colDef.config)">
@@ -27,7 +27,7 @@
           <ng-container *ngIf="colDef.config.name === 'actions'">
             <td>
               <ng-container *ngFor="let action of colDef.config.actionItems">
-                <app-button (onButtonClick)="action.config.click(data,action,index)" [text]="" [iconClass]="action.config.iconClass"></app-button>
+                <app-button [disabled]="disabledButton(action,data)" (onButtonClick)="action.config.click(data,action,index)" [text]="" [iconClass]="action.config.iconClass"></app-button>
               </ng-container>
             </td>
           </ng-container>

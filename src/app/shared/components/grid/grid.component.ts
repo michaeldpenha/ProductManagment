@@ -174,19 +174,19 @@ export class GridComponent implements OnInit {
    * isDisabled
    */
   public isDisabled = (item : any,data:any) : boolean => {
-    return item && item.disabled ? item.disabled(item,data) : false;
+    return item && item.cellEdit.config.disabled ? item.cellEdit.config.disabled(item,data) : false;
   }
   /**
    * fetchMaxDate
    */
   public fetchMaxDate = (cfg :any,item:any) => {
-    return cfg && cfg.maxDate ? cfg.maxDate(cfg,item) : '';
+    return cfg && cfg.cellEdit.config.maxDate ? cfg.cellEdit.config.maxDate(cfg,item) : '';
   }
   /**
    * minDate
    */
-  public fetchMinDate = (cfg :any) => {
-    return cfg && cfg.minDate ? cfg.minDate(cfg) : '';
+  public fetchMinDate = (cfg :any,item : any) => {
+    return cfg && cfg.cellEdit.config.minDate ? cfg.cellEdit.config.minDate(cfg,item) : '';
   }
   /**
    * getInputSubType
@@ -199,20 +199,20 @@ export class GridComponent implements OnInit {
    * hidden
    */
   public isHidden = (item : any,data : any)  : string => {
-    return (item && item.hidden) ? item.hidden(item,data) : false ;
+    return (item && item.cellEdit.config.hidden) ? item.cellEdit.config.hidden(item,data) : false ;
   }
   
   /**
    * isReadOnly
    */
   public isReadOnly = (item :any,data:any) => {
-    return item && item.readOnly ? item.readOnly(item,data) : false;
+    return item && item.cellEdit.config.readOnly ? item.cellEdit.config.readOnly(item,data) : false;
   }
   /**
    * onChange
    */
   public onChange = (e:any,item : any,data:any) => {
-    return item && item.change ? item.change(e,item,data) : '';
+    return item && item.cellEdit.config.change ? item.cellEdit.config.change(e,item,data) : '';
   }
   /**
    * toDisplayError
@@ -267,6 +267,12 @@ export class GridComponent implements OnInit {
    */
   public setMaximum = (cfg : any , i : number) => {
     return cfg && cfg.cellEdit.config.max ? cfg.cellEdit.config.max : '';
+  }
+  /**
+   * setValue
+   */
+  public setValue = (cfg :any , item : any) => {
+      return cfg && cfg.cellEdit.config.value ? cfg.cellEdit.config.value(cfg,item) : 'MM/DD/YYYY'; 
   }
 
   /**

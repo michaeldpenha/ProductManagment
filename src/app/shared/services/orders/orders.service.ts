@@ -11,6 +11,13 @@ export class OrdersService {
   private _datesTypes: any = [];
   private _divisionTypes: any = [];
   private _headerUpdate : any = [];
+  private _changeReasons : any = [];
+  get changeReasons () :any {
+    return this._changeReasons;
+  }
+  set changeReasons(items : any) {
+    this._changeReasons = items;
+  }
   get headerUpdate () : any {
     return this._headerUpdate;
   }
@@ -95,7 +102,9 @@ export class OrdersService {
   public fetchInboxRecords = () => {
     return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch');
   }
-
+  public fetchChangeReasons = () => {
+    return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/changereason');
+  }
   /**
    * fetchTransferTypes
    */
@@ -145,9 +154,10 @@ export class OrdersService {
    * fetchStaticValues
    */
   public fetchStaticValues = () => {
-    (this.orderTypeOptions.length === 0) ? this.fetchOrderTypes().subscribe(el => { this.loaderService.hide(); this._orderTypeOptions = el; }) : '';
-    (this.orderTypeStatus.length === 0) ? this.fetchOrderStatus().subscribe(el => { this.loaderService.hide(); this._orderTypeStatus = el; }) : '';
+    (this.orderTypeOptions.length === 0) ? this.fetchOrderTypes().subscribe(el => { this.loaderService.hide(); this.orderTypeOptions = el; }) : '';
+    (this.orderTypeStatus.length === 0) ? this.fetchOrderStatus().subscribe(el => { this.loaderService.hide(); this.orderTypeStatus = el; }) : '';
     //this.fetchTransferTypes().subscribe(el => this._transferTypeOptions = el)
+    this.changeReasons.length === 0 ? this.fetchChangeReasons().subscribe(el => {this.loaderService.hide();this.changeReasons = el}) : '';
     (this.transferTypeOptions.length === 0) ? this.fetchTransferTypes() : '';
     (this.datesTypes.length === 0) ? this.fetchDatesTypes() : '';
     (this.divisionTypes.length == 0) ? this.fetchDivisionTypes() : '';
@@ -169,5 +179,11 @@ export class OrdersService {
    */
   public fetchOrder = (params: any) => {
     return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search', params);
+  }
+  /**
+   * updateOrders
+   */
+  public updateOrders = (params :any) => {
+    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/update/bulk',params);
   }
 }

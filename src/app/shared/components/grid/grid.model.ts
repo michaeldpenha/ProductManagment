@@ -23,6 +23,8 @@ export interface ColumnConfig {
     row?: any;
     requiredIcon?: boolean;
     sortIndex ?: string; 
+    headerEdit?: any;
+    headerEditable ? : boolean;
 }
 
 export interface ActionGridItemsConfig {
@@ -60,5 +62,34 @@ export interface CellEditConfig {
     hidden ? : Function;
     defaultValue?:any;
     datepickerCls?:string;
+    value ? : Function;
+}
 
+export interface HeaderEditConfig {
+    type: string;
+    options?: any;
+    blur?: Function;
+    change?: Function;
+    placeholder?: string;
+    disabled?: Function;
+    displayCellEdit?: boolean;
+    errorMsg?: string;
+    subType?: string;
+    printErrorMsg?: Function;
+    showErrorMsg?: Function;
+    dirty?: boolean;
+    focus?: Function;
+    inputClass?: string;
+    keyPress ? : Function;
+    keyUp ? : Function;
+    min ? : number;
+    max ? : number;
+    readOnly ? : Function; 
+    minDate ? : Function;
+    maxDate ? : Function;
+    showDefaultDate? : boolean;
+    hidden ? : Function;
+    defaultValue?:any;
+    datepickerCls?:string;
+    value ? : Function;
 }

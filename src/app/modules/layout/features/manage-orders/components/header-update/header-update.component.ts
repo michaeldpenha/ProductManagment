@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StaticText, Messages } from "@app/shared/constants";
-import { OrdersService } from "@app/shared/services";
+import { OrdersService, RouterService } from "@app/shared/services";
 import { FormFieldConfig } from "@app/shared/model";
 import { DialogService } from "@app/shared/components";
 import { LoaderService } from "@app/core/services";
@@ -28,7 +28,7 @@ export class HeaderUpdateComponent implements OnInit {
   public processDatePlaceHolder: string = "Process Date";
   public deliveryDatePlaceHolder: string = "Delivery Date";
 
-  constructor(private orderService: OrdersService, private loaderService: LoaderService, private ordersService: OrdersService, private dialogService: DialogService) { }
+  constructor(private orderService: OrdersService,private routerService : RouterService, private loaderService: LoaderService, private ordersService: OrdersService, private dialogService: DialogService) { }
 
   ngOnInit() {
     this.ordersService.fetchStaticValues();
@@ -82,6 +82,7 @@ export class HeaderUpdateComponent implements OnInit {
       new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
          // this.search(e);
+         this.routerService.navigateTo('/');
         }, disabled: (e) => {
           //return this.customErrorVisible(e);
         }

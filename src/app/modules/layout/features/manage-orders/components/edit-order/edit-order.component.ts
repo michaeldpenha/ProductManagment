@@ -111,14 +111,14 @@ export class EditOrderComponent implements OnInit {
           return i + 1;
         }
       }),
-      new GridColoumnConfig({ name: 'itemNumber', width: 100, title: 'Item Number' }),
-      new GridColoumnConfig({ name: 'pack', width: 100, title: 'Pack' }),
-      new GridColoumnConfig({ name: 'size', width: 100, title: 'Size' }),
-      new GridColoumnConfig({ name: 'description', width: 100, title: 'Description' }),
+      new GridColoumnConfig({ name: 'itemNumber', width: 130, title: 'Item Number' }),
+      new GridColoumnConfig({ name: 'pack', width: 50, title: 'Pack' }),
+      new GridColoumnConfig({ name: 'size', width: 50, title: 'Size' }),
+      new GridColoumnConfig({ name: 'description', width: 300, title: 'Description' }),
       new GridColoumnConfig({ name: 'tixhi', width: 100, title: 'TixHi' }),
       new GridColoumnConfig({ name: 'boh', width: 100, title: 'BOH' }),
       new GridColoumnConfig({
-        name: 'qty', width: 100, title: 'Quantity', cellEdit: new CellEditConfiguration({
+        name: 'qty', width: 50, title: 'Quantity', cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             e.target.value == "" ? this.fillGridObjectValues(index, {}) : this.isDuplicateRec(index) ? this.fillGridObjectValues(index, {}) :
@@ -136,8 +136,8 @@ export class EditOrderComponent implements OnInit {
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 100, title: 'Change Reason', editable: () => { return true }, cellEdit: new CellEditConfiguration({
-          type: 'dropdown', blur: (e: any, item: any, cfg: any, index: number) => { }
+        name: 'changeReason', width: 150, title: 'Change Reason', editable: () => { return true }, cellEdit: new CellEditConfiguration({
+          type: 'dropdown', inputClass: 'form-control form-control-sm', blur: (e: any, item: any, cfg: any, index: number) => { }
         })
       }),
       new GridColoumnConfig({
@@ -146,12 +146,14 @@ export class EditOrderComponent implements OnInit {
         title: 'Action',
         actionItems: [
           new GridActionsConfig({
+            btnCls: 'btn btn-outline-primary btn-sm',
             label: '',
             iconClass: 'fa fa-edit', iconTooltip: 'Edit', click: (item) => {
               //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
             }
           }),
           new GridActionsConfig({
+            btnCls: 'btn btn-outline-danger btn-sm',
             label: '',
             iconClass: 'fa fa-close', iconTooltip: 'Cancel', click: (item) => {
               //this.navigate(`/manage-order/view-order/${item['orderId']}`);

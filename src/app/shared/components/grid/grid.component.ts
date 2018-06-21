@@ -240,7 +240,7 @@ export class GridComponent implements OnInit {
    * getInputSubType
    */
   public getInputClass = (cfg :any) => {
-    return cfg && cfg.cellEdit.config.inputClass ? cfg.cellEdit.config.inputClass : 'form-control';
+    return cfg && cfg.cellEdit.config.inputClass ? cfg.cellEdit.config.inputClass : 'form-control form-control-sm';
 
   }
   /**

@@ -81,7 +81,7 @@ export class SingleOrderGridComponent implements OnInit {
         title: 'Action', width: 100,
         actionItems: [
           new GridActionsConfig({
-            iconClass: 'fa fa-trash', iconTooltip: 'Delete', label: '', click: (item: any, actionCfg: any, index: number) => {
+            btnCls: 'btn btn-outline-danger btn-sm', iconClass: 'fa fa-trash', iconTooltip: 'Delete', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.deleteAction(index);
             }
           })

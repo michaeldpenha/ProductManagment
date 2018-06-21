@@ -44,7 +44,7 @@
                       [ngClass]="getInputClass(colDef.config,index)" />
                   </ng-container>
                   <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
-                    <app-drop-down [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
+                    <app-drop-down [inputClass]="getInputClass(colDef.config,index)" [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
                   </ng-container>
                   <ng-container *ngIf="checkTypeofEditableField('datepicker',colDef.config,index)">
                     <app-datepicker [placeholder]="colDef.config.cellEdit.config.placeholder" [datepickerCls]="colDef.config.datepickerCls" [value]="setValue(colDef.config,data)" [hidden]="isHidden(colDef.config,data)"

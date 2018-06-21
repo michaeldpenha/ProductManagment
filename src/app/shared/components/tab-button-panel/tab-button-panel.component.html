@@ -1,5 +1,7 @@
-<div class= "row">
-<ng-container *ngFor="let btn of buttonItems">
-  <app-button (onButtonClick)="btn.click(btn)" [cls]="btn.class" [text]="btn.text"></app-button>
-</ng-container>
-</div>
+<ul class="nav nav-tabs">
+  <ng-container *ngFor="let btn of buttonItems">
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{'active': selectedItem == btn}" (click)="btn.click(btn); listClick($event,btn)">{{btn.text}}</a>
+    </li>
+  </ng-container>
+</ul>

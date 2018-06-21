@@ -74,7 +74,7 @@ export class BulkOrderInboxComponent implements OnInit {
         title: 'Action', width: 100,
         actionItems: [
           new GridActionsConfig({
-            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
+            btnCls: 'btn btn-outline-primary btn-sm', disable: (cfg, item) => {
               return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
             }, iconClass: 'fa fa-check', iconTooltip: 'Process Order', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to process this order ?', 'Submit', () => {
@@ -85,7 +85,7 @@ export class BulkOrderInboxComponent implements OnInit {
             }
           }),
           new GridActionsConfig({
-            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
+            btnCls: 'btn btn-outline-danger btn-sm', disable: (cfg, item) => {
               return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
             }, iconClass: 'fa fa-times', iconTooltip: 'Cancel Order', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to cancel this order ?', 'Submit', () => {
@@ -96,7 +96,7 @@ export class BulkOrderInboxComponent implements OnInit {
             }
           }),
           new GridActionsConfig({
-            btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
+            btnCls: 'btn btn-outline-info btn-sm', disable: (cfg, item) => {
               return item.errorCount === 0;
             }, iconClass: 'fa fa-download', iconTooltip: 'Error Report', label: '', click: (item: any, actionCfg: any, index: number) => {
             }

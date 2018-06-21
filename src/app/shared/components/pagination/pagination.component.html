@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <form class="form-inline">
                 Showing {{currentPageCount}} of {{count}} Records Show: &nbsp;&nbsp;
-                <select class="form-control" (change)="onPageSelect($event.target.value)">
+                <select class="form-control form-control-sm" (change)="onPageSelect($event.target.value)">
                 <ng-container *ngFor="let item of pageLimitArray">
                     <option value="{{item}}">{{item}}</option>
                 </ng-container>
@@ -14,13 +14,13 @@
         <div class="col-md-6 text-right">
             <ul class="pagination float-right">
                 <li class="page-item">
-                    <button class="page-link" (click)="onPrev()" [disabled]="page === 1"><i class="fa fa-caret-left"></i> Previous</button>
+                    <button class="page-link btn-sm" (click)="onPrev()" [disabled]="page === 1"><i class="fa fa-caret-left"></i> Previous</button>
                 </li>
                 <li class="page-item" *ngFor="let pageNum of getPages()">
-                    <button class="page-link" (click)="onPage(pageNum)">{{pageNum}}</button>
+                    <button class="page-link btn-sm" (click)="onPage(pageNum)">{{pageNum}}</button>
                 </li>
                 <li class="page-item">
-                    <button class="page-link" (click)="onNext()" [disabled]="lastPage()">Next <i class="fa fa-caret-right"></i></button>
+                    <button class="page-link btn-sm" (click)="onNext()" [disabled]="lastPage()">Next <i class="fa fa-caret-right"></i></button>
                 </li>
             </ul>
         </div>

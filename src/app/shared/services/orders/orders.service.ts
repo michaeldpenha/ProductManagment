@@ -19,9 +19,9 @@ export class OrdersService {
   private fetchOrderTypesUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderTypesPath}/`;
   private fetchOrderStatusUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderStatusPath}/`;
   private uploadBulkOrderUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.bulkUpload}`;
-  private submitInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
-  private cancelInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
-  private fetchInboxRecordsUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}`;
+  private submitInboxBatchUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private cancelInboxBatchUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private fetchInboxRecordsUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}`;
   private fetchChangeReasonsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.changeReasonPath}`;
   private createSingleOrderUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderPath}`;
   private viewOrderDetailsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.searchPath}`;

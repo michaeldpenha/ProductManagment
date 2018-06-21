@@ -27,6 +27,9 @@ export class EditOrderComponent implements OnInit {
   public detailsToBeDisplayed: any = [];
   public editHeaderInfoToBeDisplayed: any = [];
   public formFields: any = [];
+  public addLineText: string = 'Add Line';
+  public previousIconClass: string = 'fa fa-plus';
+  public previousBtnClass: string = 'btn btn-primary';
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;
   }

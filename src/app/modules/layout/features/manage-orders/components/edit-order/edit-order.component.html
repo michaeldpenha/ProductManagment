@@ -25,7 +25,10 @@
     </div>
   </div>
 </app-panel>
-
+<div class="addLine float-right">
+    <span class="error" *ngIf="displayGridErrorMessage">{{displayMinAndMaxErrorMsg()}} &nbsp;&nbsp;</span>
+    <app-button (onButtonClick)="addRow()" [cls]="previousBtnClass" [previousIconClass]="previousIconClass" [text]="addLineText"></app-button>
+</div>
 <app-grid [gridConfig]="gridConfig" [coloumnConfig]="coloumnConfig" [gridData]="data"></app-grid>
 <ng-container *ngIf="data.length > 0">
     <app-form [formFields]="formFields"></app-form>

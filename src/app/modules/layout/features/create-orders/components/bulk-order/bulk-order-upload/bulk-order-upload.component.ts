@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormFieldConfig } from "@app/shared/model";
 import { Validators, FormGroup } from "@angular/forms";
 import { StaticText } from "@app/shared/constants";
-import { MessagesService, OrdersService } from "@app/shared/services";
+import { MessagesService, OrdersService, RouterService } from "@app/shared/services";
 import { LoaderService } from "@app/core/services";
 import { DialogService } from "@app/shared/components";
 
@@ -13,7 +13,7 @@ import { DialogService } from "@app/shared/components";
 })
 export class BulkOrderUploadComponent implements OnInit {
 
-  constructor(private dialogService: DialogService,private msgService: MessagesService, private orderService: OrdersService,private loaderService : LoaderService) { }
+  constructor(private dialogService: DialogService,private routerService: RouterService,private msgService: MessagesService, private orderService: OrdersService,private loaderService : LoaderService) { }
 
   @Input() form: FormGroup;
   @Output() fetchForm = new EventEmitter<any>();
@@ -48,7 +48,7 @@ export class BulkOrderUploadComponent implements OnInit {
       .subscribe(data => {
         this.loaderService.hide();
         this.dialogService.showDialog('Bulk Upload','fa fa-check circle-green','','','File Upload Successful. Batch number is: ' + data['batchId'], 'OK', () => {
-           this.redirectToInbox.emit();
+           this.routerService.navigateTo('/create-order/bulk-order/inbox');
         }, '', () => { });
       });
   }

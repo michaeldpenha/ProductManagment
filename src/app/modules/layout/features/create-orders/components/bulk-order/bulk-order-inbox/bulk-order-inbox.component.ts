@@ -34,6 +34,7 @@ export class BulkOrderInboxComponent implements OnInit {
 
   /** Fill Inbox details */
   public fillInboxDetails = () => {
+    this.data = [];
     this.orderService.fetchInboxRecords().subscribe((resultSet: any) => {
       this.loaderService.hide();
       this.data = resultSet;
@@ -111,6 +112,7 @@ export class BulkOrderInboxComponent implements OnInit {
       .subscribe(data => {
         this.loaderService.hide();
         this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Submitted Successfully', 'Ok', () => {
+          this.fillInboxDetails();
         }, '', () => {
         });
       });
@@ -124,6 +126,7 @@ export class BulkOrderInboxComponent implements OnInit {
       .subscribe(data => {
         this.loaderService.hide();
         this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Cancelled Successfully', 'Ok', () => {
+          this.fillInboxDetails();
         }, '', () => {
         });
       });

@@ -43,8 +43,38 @@ export class HeaderUpdateGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'customerId', title: 'Cust ID' }),
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
       new GridColoumnConfig({ name: 'status', title: 'Order Status' }),
-      new GridColoumnConfig({ name: 'releaseDate', title: 'Release Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', defaultValue: moment(new Date()),showDefaultDate: false, subType: 'text', displayCellEdit: true, }) }),
-      new GridColoumnConfig({ name: 'deliveryDate', title: 'Delivery Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({ type: 'input', subType: 'text', showDefaultDate: false, displayCellEdit: true, }) })
+      new GridColoumnConfig({
+        name: 'releaseDate', title: 'Release Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+          type: 'datepicker', defaultValue: 'MM/DD/YYYY', value: (cfg, data) => {
+            cfg.cellEdit.config.showDefaultDate = data[cfg.name] ? true : false;
+            return data[cfg.name] ? new Date(data[cfg.name]) : '';
+          }, minDate: (cfg: any, item: any) => {
+            return null;
+          }, disabled: (cfg: any) => {
+            return false;
+          },readOnly: () => {
+            return 'readonly';
+          },
+          maxDate: (cfg: any, item: any) => {
+            return item['releaseDate'] ? new Date(item['releaseDate']) : null;
+          }, showDefaultDate: true, subType: 'text', displayCellEdit: true,
+        })
+      }),
+      new GridColoumnConfig({
+        name: 'deliveryDate', title: 'Delivery Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+          type: 'datepicker', subType: 'text', showDefaultDate: true, displayCellEdit: true, value: (cfg, data) => {
+            cfg.cellEdit.config.showDefaultDate = data[cfg.name] ? true : false;
+            return data[cfg.name] ? new Date(data[cfg.name]) : '';
+          }, minDate: (cfg, item) => { return item['deliveryDate'] ? new Date(item['deliveryDate']) : null; },
+          maxDate: () => {
+            return null;
+          }, disabled: (cfg: any) => {
+            return false;
+          }, readOnly: () => {
+            return 'readonly';
+          }
+        })
+      })
     ]
   }
 }

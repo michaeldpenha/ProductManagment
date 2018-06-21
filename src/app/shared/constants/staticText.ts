@@ -21,6 +21,7 @@ export const StaticText = {
     date : 'Date',
     division : 'Division',
     orderStatusLabel : 'Select Order Status',
+    selectChangeReason : 'Select Change Reason',
     orderStatus : 'Order Status',
     searchQuery : 'Please enter search criteria to fetch the results!',
     dateType : 'Select Date Type',

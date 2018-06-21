@@ -40,7 +40,9 @@ export interface ActionGridItemsConfig {
 
 export interface CellEditConfig {
     type: string;
-    options?: any;
+    options?: Function;
+    defaultOptionsValue? :string,
+    defaultDisplayLabel ? : string,
     blur?: Function;
     change?: Function;
     placeholder?: string;

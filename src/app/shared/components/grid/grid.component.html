@@ -28,7 +28,8 @@
             <ng-container *ngIf="colDef.config.name === 'actions'">
               <td>
                 <ng-container *ngFor="let action of colDef.config.actionItems">
-                  <app-button [disabled]="disabledButton(action,data)" (onButtonClick)="action.config.click(data,action,index)" [cls]="action.config.btnCls" [text]="" [iconClass]="action.config.iconClass" [iconTooltip]="action.config.iconTooltip"></app-button>
+                  <app-button [disabled]="disabledButton(action,data)" (onButtonClick)="action.config.click(data,action,index)" [cls]="action.config.btnCls"
+                    [text]="" [iconClass]="action.config.iconClass" [iconTooltip]="action.config.iconTooltip"></app-button>
                 </ng-container>
               </td>
             </ng-container>
@@ -40,17 +41,21 @@
                 <ng-container *ngIf="isEditable(data,colDef.config,index)">
                   <ng-container *ngIf="checkTypeofEditableField('input',colDef.config,index)">
                     <input dirty="false" error="" (focus)="onInputFocus(colDef.config,index)" [type]="getInputSubType(colDef.config,index)" [value]="printValue(data,colDef.config.name,index)"
-                      (blur)="onBlur($event,data,colDef.config,index)" [min] = "setMinimum(colDef.config,index)" [max]="setMaximum(colDef.config,index)" (keyup)="onKeyUp($event,colDef.config)"  (keypress)="onKeyPress($event,colDef.config)" [name]="inputIdentifier(colDef.config,index)" [disabled]="disableField(data,colDef.config,index)"
-                      [ngClass]="getInputClass(colDef.config,index)" />
+                      (blur)="onBlur($event,data,colDef.config,index)" [min]="setMinimum(colDef.config,index)" [max]="setMaximum(colDef.config,index)"
+                      (keyup)="onKeyUp($event,colDef.config)" (keypress)="onKeyPress($event,colDef.config)" [name]="inputIdentifier(colDef.config,index)"
+                      [disabled]="disableField(data,colDef.config,index)" [ngClass]="getInputClass(colDef.config,index)" />
                   </ng-container>
                   <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
-                    <app-drop-down [inputClass]="getInputClass(colDef.config,index)" [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
+                    <app-drop-down [name]="colDef.config.cellEdit.config.name" [defaultOptionsValue]="colDef.config.cellEdit.config.defaultOptionsValue" [defaultDisplayLabel]="colDef.config.cellEdit.config.defaultDisplayLabel"
+                      [inputClass]="getInputClass(colDef.config,index)" [defaultValue]="colDef.config.cellEdit.config.defaultValue" [disabled]="isDisabled(colDef.config)"
+                      [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
                   </ng-container>
                   <ng-container *ngIf="checkTypeofEditableField('datepicker',colDef.config,index)">
-                    <app-datepicker [placeholder]="colDef.config.cellEdit.config.placeholder" [datepickerCls]="colDef.config.datepickerCls" [value]="setValue(colDef.config,data)" [hidden]="isHidden(colDef.config,data)"
-                  (change)="onChange($event,colDef.config,data)" [readonly]="isReadOnly(colDef.config,data)" [showDefaultDate]="colDef.config.cellEdit.config.showDefaultDate"
-                  [isDisabled]="isDisabled(colDef.config,data)" [maxDate]="fetchMaxDate(colDef.config,data)" [minDate]="fetchMinDate(colDef.config,data)"
-                  [placeholder]="mm/dd/yyyy" [dateFormat]="mm/dd/yyyy"></app-datepicker>
+                    <app-datepicker [placeholder]="colDef.config.cellEdit.config.placeholder" [datepickerCls]="colDef.config.datepickerCls" [value]="setValue(colDef.config,data)"
+                      [hidden]="isHidden(colDef.config,data)" (change)="onChange($event,colDef.config,data)" [readonly]="isReadOnly(colDef.config,data)"
+                      [showDefaultDate]="colDef.config.cellEdit.config.showDefaultDate" [isDisabled]="isDisabled(colDef.config,data)"
+                      [maxDate]="fetchMaxDate(colDef.config,data)" [minDate]="fetchMinDate(colDef.config,data)" [placeholder]="mm/dd/yyyy"
+                      [dateFormat]="mm/dd/yyyy"></app-datepicker>
                   </ng-container>
                   <ng-container *ngIf="toDisplayError(colDef.config,index)">
                     <div class="error">

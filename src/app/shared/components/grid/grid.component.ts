@@ -167,7 +167,7 @@ export class GridComponent implements OnInit {
    * Wll return options value for dropdown
    */
   public printOptonsValue = (cfg : any,index : number) : any => {
-    return cfg.cellEdit.config.options ? cfg.cellEdit.config.options : []; 
+    return cfg.cellEdit.config.options ? cfg.cellEdit.config.options() : []; 
   }
   
   /**

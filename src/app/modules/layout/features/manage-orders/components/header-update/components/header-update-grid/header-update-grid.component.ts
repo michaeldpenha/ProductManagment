@@ -37,26 +37,32 @@ export class HeaderUpdateGridComponent implements OnInit {
      */
   public populateColoumnConfig = () => {
     this.coloumnConfig = [
-      new GridColoumnConfig({ name: 'orderId', title: 'Ord #' }),
-      new GridColoumnConfig({ name: 'totalQty', title: 'Total Qty' }),
+      new GridColoumnConfig({ name: 'orderId', title: 'Order Id' }),
+      new GridColoumnConfig({ name: 'totalQty', title: 'Quantity' }),
       new GridColoumnConfig({ name: 'divisionId', title: 'Division' }),
-      new GridColoumnConfig({ name: 'customerId', title: 'Cust ID' }),
+      new GridColoumnConfig({ name: 'customerId', title: 'Customer ID' }),
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
-      new GridColoumnConfig({ name: 'status', title: 'Order Status' }),
       new GridColoumnConfig({
-        name: 'releaseDate', title: 'Release Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
+        name: 'status', title: 'Status', render: (item, dataIndex) => {
+          return `<div class="badge ${this.fetchStatusCls(item, dataIndex)} wrap-text">${item[dataIndex]}</div>`;
+        }
+      }),
+      new GridColoumnConfig({
+        name: 'releaseDate', title: 'Process Date', editable: (item) => { return true; }, cellEdit: new CellEditConfiguration({
           type: 'datepicker', defaultValue: 'MM/DD/YYYY', value: (cfg, data) => {
             cfg.cellEdit.config.showDefaultDate = data[cfg.name] ? true : false;
             return data[cfg.name] ? new Date(data[cfg.name]) : '';
           }, minDate: (cfg: any, item: any) => {
-            return null;
+            return new Date();
           }, disabled: (cfg: any) => {
             return false;
-          },readOnly: () => {
+          }, readOnly: () => {
             return 'readonly';
+          },change : (e:any,item : any,data:any) => {
+            data[item.name] = moment(e).format('MM/DD/YYYY');
           },
           maxDate: (cfg: any, item: any) => {
-            return item['releaseDate'] ? new Date(item['releaseDate']) : null;
+            return item['deliveryDate'] ? new Date(item['deliveryDate']) : null;
           }, showDefaultDate: true, subType: 'text', displayCellEdit: true,
         })
       }),
@@ -65,10 +71,12 @@ export class HeaderUpdateGridComponent implements OnInit {
           type: 'datepicker', subType: 'text', showDefaultDate: true, displayCellEdit: true, value: (cfg, data) => {
             cfg.cellEdit.config.showDefaultDate = data[cfg.name] ? true : false;
             return data[cfg.name] ? new Date(data[cfg.name]) : '';
-          }, minDate: (cfg, item) => { return item['deliveryDate'] ? new Date(item['deliveryDate']) : null; },
+          }, minDate: (cfg, item) => { return item['releaseDate'] ? new Date(item['releaseDate']) : null; },
           maxDate: () => {
             return null;
-          }, disabled: (cfg: any) => {
+          }, change : (e:any,item : any,data:any) => {
+            data[item.name] =moment(e).format('MM/DD/YYYY');
+          },disabled: (cfg: any) => {
             return false;
           }, readOnly: () => {
             return 'readonly';
@@ -76,5 +84,23 @@ export class HeaderUpdateGridComponent implements OnInit {
         })
       })
     ]
+  }
+
+  /**
+   * fetchStatusCls
+   */
+  public fetchStatusCls = (item: any, dataIndex: string) => {
+    let cls: string;
+    switch (item[dataIndex]) {
+      case "New": cls = 'badge-primary'; break;
+      case "Hold": cls = 'badge-warning'; break;
+      case "Inactive": cls = 'badge-secondary'; break;
+      case "Active":
+      case "Released for fulfillement": cls = 'badge-success'; break;
+      case "Released to routing": cls = 'badge-warning'; break;
+      case "Cancelled": cls = 'badge-danger'; break;
+      default: cls = 'badge-info'; break;
+    }
+    return cls;
   }
 }

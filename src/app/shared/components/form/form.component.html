@@ -27,9 +27,9 @@
                 [isDisabled]="isDisabled(item.config)" [maxDate]="fetchMaxDate(item.config)" [minDate]="fetchMinDate(item.config)"
                 [placeholder]="mm/dd/yyyy" [dateFormat]="mm/dd/yyyy"></app-datepicker>
             </ng-container>
-            <ng-container *ngIf="item.config.type.toLowerCase() == 'button'">
+            <!-- <ng-container *ngIf="item.config.type.toLowerCase() == 'button'">
               <app-button [cls]="getBtnCls(item.config)" [text]="getBtnText(item.config)" (onButtonClick)="getBtnClick($event, item.config)" [disabled]="isDisabled(item.config)"></app-button>
-            </ng-container>
+            </ng-container> -->
             <ng-container *ngIf="item.config.errorMessages">
               <div class="error" *ngIf="toDisplayError(item.config)">
                 {{toDisplayErrorMessage(item.config)}}
@@ -38,6 +38,9 @@
           </div>
         </div>
       </div>
+      <ng-container *ngIf="item.config.type.toLowerCase() == 'button'">
+        <app-button [cls]="getBtnCls(item.config)" [text]="getBtnText(item.config)" (onButtonClick)="getBtnClick($event, item.config)" [disabled]="isDisabled(item.config)"></app-button>
+      </ng-container>
     </ng-container>
   </div>
 </form>

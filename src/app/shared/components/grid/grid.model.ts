@@ -7,6 +7,7 @@ export interface GridConfig {
     allItemsChecked?: Function;
     checkBoxDisable?: boolean;
     allItemsSelected?: boolean;
+    enableSecondHeader ? : boolean;
 }
 
 export interface ColumnConfig {
@@ -63,6 +64,7 @@ export interface CellEditConfig {
     defaultValue?:any;
     datepickerCls?:string;
     value ? : Function;
+    name ? : string;
 }
 
 export interface HeaderEditConfig {

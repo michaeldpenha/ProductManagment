@@ -144,7 +144,7 @@ export class OrdersService {
       label : 'Created Date',
       value : 'createTs'
     }, {
-      label : 'Release Date',
+      label : 'Process Date',
       value : 'scheduledReleaseDate'
     }, {
       label : 'Delivery Date',

@@ -27,7 +27,7 @@ export class ViewOrderDetailsComponent implements OnInit {
   public detailsToBeDisplayed = [{ label: 'Order No', key: 'orderId', value: '' }, { label: 'Order Type', key: 'orderType', value: '' },
   { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
   { label: 'Created By', key: 'created', value: '' }];
-  public logisticDataToBeDisplayed = [{ label: 'Release Date', key: 'releaseDate', value: '' }, { label: 'Delivery Date', key: 'deliveryDate', value: '' },
+  public logisticDataToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '' }, { label: 'Delivery Date', key: 'deliveryDate', value: '' },
   { label: 'Item Qunantity', key: 'itemQty', value: '' }, { label: 'Item Weight', key: 'itemWt', value: '' },
   { label: 'Pallet Quantity', key: 'palletQty', value: '' }, { label: 'Order Volume', key: 'orderVolume', value: '' },
   { label: 'Route Id', key: 'routeId', value: '' }, { label: 'Route Code', key: 'routeCode', value: '' }];

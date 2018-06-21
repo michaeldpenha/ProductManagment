@@ -1,0 +1,5 @@
+<div class= "row">
+<ng-container *ngFor="let btn of buttonItems">
+  <app-button (onButtonClick)="btn.click(btn)" [cls]="btn.class" [text]="btn.text"></app-button>
+</ng-container>
+</div>

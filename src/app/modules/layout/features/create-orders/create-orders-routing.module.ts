@@ -3,16 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 import {
   SingleOrderComponent,
   BulkOrderComponent,
-  BulkOrderInboxComponent
+  BulkOrderInboxComponent,
+  BulkOrderUploadComponent
 } from './components';
 const routes: Routes = [{
   path: 'single-order',
   component: SingleOrderComponent
 }, {
   path: 'bulk-order',
+  component: BulkOrderComponent,
   children: [{
     path: '',
-    component: BulkOrderComponent
+    component: BulkOrderUploadComponent
   }, {
     path: 'inbox',
     component: BulkOrderInboxComponent

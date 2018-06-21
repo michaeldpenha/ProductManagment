@@ -20,7 +20,8 @@ import {
   FormComponent,
   DialogService,
   SearchPanelComponent,
-  PanelComponent
+  PanelComponent,
+  TabButtonPanelComponent
 } from './components/index';
 import {
   OrdersService,
@@ -61,6 +62,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     HttpClientModule,
     ModalDialogComponent,
     PanelComponent,
+    TabButtonPanelComponent,
     PaginationComponent
   ],
   declarations: [
@@ -79,7 +81,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     TabComponent,
     FormComponent,
     SearchPanelComponent,
-    PanelComponent
+    PanelComponent,
+    TabButtonPanelComponent
   ],
   entryComponents: [ModalDialogComponent],
   providers: [{

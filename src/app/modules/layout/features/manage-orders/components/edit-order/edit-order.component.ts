@@ -68,7 +68,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
           // this.search(e);
           
         }, disabled: (e) => {
@@ -76,7 +76,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-success", btnText: "Update", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Update", btnClick: (e) => {
           //this.reset(e);
           //this.submitBatch();
         }, disabled: (e) => {

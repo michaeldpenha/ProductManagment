@@ -35,6 +35,7 @@ export interface ActionGridItemsConfig {
     disable?: Function;
     iconClass?: string;
     btnCls?: string;
+    iconTooltip: string;
 }
 
 export interface CellEditConfig {

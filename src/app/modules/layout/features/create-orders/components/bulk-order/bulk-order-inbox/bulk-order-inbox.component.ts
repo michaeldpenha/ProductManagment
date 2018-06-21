@@ -34,6 +34,7 @@ export class BulkOrderInboxComponent implements OnInit {
 
   /** Fill Inbox details */
   public fillInboxDetails = () => {
+    this.data = [];
     this.orderService.fetchInboxRecords().subscribe((resultSet: any) => {
       this.loaderService.hide();
       this.data = resultSet;
@@ -75,7 +76,7 @@ export class BulkOrderInboxComponent implements OnInit {
           new GridActionsConfig({
             btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
               return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
-            }, iconClass: 'fa fa-check', label: '', click: (item: any, actionCfg: any, index: number) => {
+            }, iconClass: 'fa fa-check', iconTooltip: 'Process Order', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to process this order ?', 'Submit', () => {
                 this.submitInboxBatch(item.id);
               }, 'Cancel', () => {
@@ -86,7 +87,7 @@ export class BulkOrderInboxComponent implements OnInit {
           new GridActionsConfig({
             btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
               return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
-            }, iconClass: 'fa fa-times', label: '', click: (item: any, actionCfg: any, index: number) => {
+            }, iconClass: 'fa fa-times', iconTooltip: 'Cancel Order', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to cancel this order ?', 'Submit', () => {
                 this.cancelInboxBatch(item.id);
               }, 'Cancel', () => {
@@ -97,7 +98,7 @@ export class BulkOrderInboxComponent implements OnInit {
           new GridActionsConfig({
             btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
               return item.errorCount === 0;
-            }, iconClass: 'fa fa-download', label: '', click: (item: any, actionCfg: any, index: number) => {
+            }, iconClass: 'fa fa-download', iconTooltip: 'Error Report', label: '', click: (item: any, actionCfg: any, index: number) => {
             }
           })
         ]
@@ -111,6 +112,7 @@ export class BulkOrderInboxComponent implements OnInit {
       .subscribe(data => {
         this.loaderService.hide();
         this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Submitted Successfully', 'Ok', () => {
+          this.fillInboxDetails();
         }, '', () => {
         });
       });
@@ -124,6 +126,7 @@ export class BulkOrderInboxComponent implements OnInit {
       .subscribe(data => {
         this.loaderService.hide();
         this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', 'Success', 'Cancelled Successfully', 'Ok', () => {
+          this.fillInboxDetails();
         }, '', () => {
         });
       });

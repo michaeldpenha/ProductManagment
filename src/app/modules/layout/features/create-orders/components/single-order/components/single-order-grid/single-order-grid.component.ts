@@ -81,7 +81,7 @@ export class SingleOrderGridComponent implements OnInit {
         title: 'Action', width: 100,
         actionItems: [
           new GridActionsConfig({
-            iconClass: 'fa fa-trash', label: '', click: (item: any, actionCfg: any, index: number) => {
+            iconClass: 'fa fa-trash', iconTooltip: 'Delete', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.deleteAction(index);
             }
           })
@@ -130,7 +130,6 @@ export class SingleOrderGridComponent implements OnInit {
    * itemNumberErrorMessage 
    */
   public itemNumberErrorMessage = (cfg: any, i: number, el: any): string => {
-    console.log(this.data[i][cfg.name])
     return !this.data[i][cfg.name] || this.data[i][cfg.name] == '' ? this.msgService.fetchMessage(cfg.name, 'required') : this.isDuplicateRec(i) ? this.msgService.fetchMessage(cfg.name, 'duplicate') : el.getAttribute('error');
   }
   /**

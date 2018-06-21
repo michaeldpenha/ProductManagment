@@ -13,3 +13,4 @@ export * from './form';
 export * from './datepicker';
 export * from './search-panel';
 export * from './panel';
+export * from './tab-button-panel';

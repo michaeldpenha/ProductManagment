@@ -27,6 +27,9 @@ export class EditOrderComponent implements OnInit {
   public detailsToBeDisplayed: any = [];
   public editHeaderInfoToBeDisplayed: any = [];
   public formFields: any = [];
+  public addLineText: string = 'Add Line';
+  public previousIconClass: string = 'fa fa-plus';
+  public previousBtnClass: string = 'btn btn-primary';
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;
   }
@@ -65,7 +68,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
           // this.search(e);
           
         }, disabled: (e) => {
@@ -73,7 +76,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-success", btnText: "Update", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Update", btnClick: (e) => {
           //this.reset(e);
           //this.submitBatch();
         }, disabled: (e) => {
@@ -144,13 +147,13 @@ export class EditOrderComponent implements OnInit {
         actionItems: [
           new GridActionsConfig({
             label: '',
-            iconClass: 'fa fa-edit', click: (item) => {
+            iconClass: 'fa fa-edit', iconTooltip: 'Edit', click: (item) => {
               //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
             }
           }),
           new GridActionsConfig({
             label: '',
-            iconClass: 'fa fa-close', click: (item) => {
+            iconClass: 'fa fa-close', iconTooltip: 'Cancel', click: (item) => {
               //this.navigate(`/manage-order/view-order/${item['orderId']}`);
             }
           })

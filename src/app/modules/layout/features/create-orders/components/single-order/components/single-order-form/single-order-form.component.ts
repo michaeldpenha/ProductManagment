@@ -125,7 +125,7 @@ export class SingleOrderFormComponent implements OnInit {
           return 'readonly';
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input', formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input',  keyPress: (e) => {return e.target.value.length <= 60 },formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),
     ]
   }
   /**

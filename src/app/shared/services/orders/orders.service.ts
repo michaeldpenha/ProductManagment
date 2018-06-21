@@ -19,9 +19,9 @@ export class OrdersService {
   private fetchOrderTypesUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderTypesPath}/`;
   private fetchOrderStatusUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderStatusPath}/`;
   private uploadBulkOrderUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.bulkUpload}`;
-  private submitInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
-  private cancelInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
-  private fetchInboxRecordsUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}`;
+  private submitInboxBatchUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private cancelInboxBatchUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private fetchInboxRecordsUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.getAllBatches}`;
   private fetchChangeReasonsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.changeReasonPath}`;
   private createSingleOrderUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderPath}`;
   private viewOrderDetailsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.searchPath}`;
@@ -126,13 +126,13 @@ export class OrdersService {
    */
   public fetchTransferTypes = () => {
     this.transferTypeOptions = [{
-      label: 'inter-division transfer',
+      label: 'M2 - Inter-division transfer',
       value: 'M2'
     }, {
-      label: 'expense',
+      label: 'M3 - Expense',
       value: 'M3'
     }, {
-      label: 'intra-division transfer',
+      label: 'M9 - Intra-division transfer',
       value: 'M9'
     }]
   }

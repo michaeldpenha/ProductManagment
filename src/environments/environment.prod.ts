@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl : 'http://dev-op-api.centralus.cloudapp.azure.com/order-processor/'
+  env: 'prod',
+  orderProcessorBaseUrl : 'http://dev-op-api.centralus.cloudapp.azure.com/order-processor/',
+  batchProcessorBaseUrl : 'http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor'
 };

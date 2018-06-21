@@ -1,5 +1,7 @@
+import { environment } from './../../../environments/environment';
+
 export const EndPoints = {
-    orderProcessorUrl: 'http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/',
+    orderProcessorUrl: `${environment.orderProcessorBaseUrl}`,
     orderChildUrlPath: {
         orderPath: 'order',
         itemPath: 'order/item',
@@ -9,9 +11,10 @@ export const EndPoints = {
         searchPath: 'order/search',
         updatePath: 'order/update/bulk'
     },
-    batchProcessorUrl: 'http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor',
+    batchProcessorUrl: `${environment.batchProcessorBaseUrl}`,
     batchChildUrlPath: {
         bulkUpload: 'upload',
         getAllBatches: 'batch'
     }
 }
+

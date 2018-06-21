@@ -98,7 +98,7 @@ export class BulkOrderInboxComponent implements OnInit {
           new GridActionsConfig({
             btnCls: 'btn btn-primary btn-sm', disable: (cfg, item) => {
               return item.errorCount === 0;
-            }, iconClass: 'fa fa-download', iconTooltip: 'Download', label: '', click: (item: any, actionCfg: any, index: number) => {
+            }, iconClass: 'fa fa-download', iconTooltip: 'Error Report', label: '', click: (item: any, actionCfg: any, index: number) => {
             }
           })
         ]

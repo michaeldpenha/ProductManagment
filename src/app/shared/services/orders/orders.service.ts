@@ -126,13 +126,13 @@ export class OrdersService {
    */
   public fetchTransferTypes = () => {
     this.transferTypeOptions = [{
-      label: 'inter-division transfer',
+      label: 'M2 - Inter-division transfer',
       value: 'M2'
     }, {
-      label: 'expense',
+      label: 'M3 - Expense',
       value: 'M3'
     }, {
-      label: 'intra-division transfer',
+      label: 'M9 - Intra-division transfer',
       value: 'M9'
     }]
   }

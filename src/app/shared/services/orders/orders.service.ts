@@ -1,3 +1,4 @@
+import { EndPoints } from './../../constants/endPoints';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
@@ -12,6 +13,21 @@ export class OrdersService {
   private _divisionTypes: any = [];
   private _headerUpdate : any = [];
   private _changeReasons : any = [];
+
+  // API URLS
+  private getItemDetailsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.itemPath}/`;
+  private fetchOrderTypesUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderTypesPath}/`;
+  private fetchOrderStatusUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderStatusPath}/`;
+  private uploadBulkOrderUrl = `${EndPoints.batchProcessorUrl}/${EndPoints.batchChildUrlPath.bulkUpload}`;
+  private submitInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private cancelInboxBatchUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}/`;
+  private fetchInboxRecordsUrl = `${EndPoints.batchChildUrlPath}/${EndPoints.batchChildUrlPath.getAllBatches}`;
+  private fetchChangeReasonsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.changeReasonPath}`;
+  private createSingleOrderUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.orderPath}`;
+  private viewOrderDetailsUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.searchPath}`;
+  private fetchOrderUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.searchPath}`;
+  private updateOrdersUrl = `${EndPoints.orderProcessorUrl}/${EndPoints.orderChildUrlPath.updatePath}`;
+
   get changeReasons () :any {
     return this._changeReasons;
   }
@@ -66,31 +82,31 @@ export class OrdersService {
    * getItemDetails
    */
   public getItemDetails = (val: string) => {
-    return this._http.get(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/item/${val}`);
+    return this._http.get(this.getItemDetailsUrl + `${val}`);
   }
   public fetchOrderTypes = () => {
-    return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/ordertypes');
+    return this._http.get(this.fetchOrderTypesUrl);
   }
   /**
    * fetchOrderStatus
    */
   public fetchOrderStatus = () => {
-    return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/orderstatus');
+    return this._http.get(this.fetchOrderStatusUrl);
   }
 
   /** Upload Bulk Order */
   public uploadBulkOrder = (param: any) => {
-    return this._http.post('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/upload', param);
+    return this._http.post(this.uploadBulkOrderUrl, param);
   }
 
   /** Submit Inbox batch */
   public submitInboxBatch = (batchId: any) => {
-    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch/' + batchId + '/process', batchId);
+    return this._http.get(this.submitInboxBatchUrl + batchId + '/process', batchId);
   }
 
   /** Cancel Inbox batch */
   public cancelInboxBatch = (batchId: any) => {
-    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch/' + batchId + '/cancel', batchId);
+    return this._http.get(this.cancelInboxBatchUrl + batchId + '/cancel', batchId);
   }
   
 
@@ -100,10 +116,10 @@ export class OrdersService {
 
 
   public fetchInboxRecords = () => {
-    return this._http.get('http://dev-batch-api.centralus.cloudapp.azure.com/batch-processor/batch');
+    return this._http.get(this.fetchInboxRecordsUrl);
   }
   public fetchChangeReasons = () => {
-    return this._http.get('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/changereason');
+    return this._http.get(this.fetchChangeReasonsUrl);
   }
   /**
    * fetchTransferTypes
@@ -166,24 +182,24 @@ export class OrdersService {
    * createSingleOrder
    */
   public createSingleOrder = (params: any) => {
-    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order', params);
+    return this._http.post(this.createSingleOrderUrl, params);
   }
   /**
   * viewOrderDetails
   */
   public viewOrderDetails = (id: string) => {
-    return this._http.post(`http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search`, { orderId: id });
+    return this._http.post(this.viewOrderDetailsUrl, { orderId: id });
   }
   /**
    * fetchOrder
    */
   public fetchOrder = (params: any) => {
-    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/search', params);
+    return this._http.post(this.fetchOrderUrl, params);
   }
   /**
    * updateOrders
    */
   public updateOrders = (params :any) => {
-    return this._http.post('http://dev-op-api.centralus.cloudapp.azure.com/order-processor/webapi/order/update/bulk',params);
+    return this._http.post(this.updateOrdersUrl, params);
   }
 }

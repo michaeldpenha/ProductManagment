@@ -35,4 +35,5 @@ export interface FormConfig {
     btnCls ?: string;
     btnText?: string;
     btnClick?: Function;
+    name ? :string;
 }

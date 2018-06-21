@@ -64,6 +64,7 @@ export interface CellEditConfig {
     defaultValue?:any;
     datepickerCls?:string;
     value ? : Function;
+    name ? : string;
 }
 
 export interface HeaderEditConfig {

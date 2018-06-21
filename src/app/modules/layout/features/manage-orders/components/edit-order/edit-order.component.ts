@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { LoaderService } from "@app/core/services";
 import * as moment from 'moment';
 import { OrdersService, RouterService, MessagesService } from '@app/shared/services';
-import { GridConfiguration, GridColoumnConfig, CellEditConfiguration, GridActionsConfig } from "@app/shared/model";
+import { GridConfiguration, GridColoumnConfig, CellEditConfiguration, GridActionsConfig, FormFieldConfig } from "@app/shared/model";
 
 @Component({
   selector: 'app-edit-order',
@@ -12,6 +12,7 @@ import { GridConfiguration, GridColoumnConfig, CellEditConfiguration, GridAction
   styleUrls: ['./edit-order.component.scss']
 })
 export class EditOrderComponent implements OnInit {
+  public searchParam : any = {};
   public detailsFooterVisible: boolean = false;
   public detailsHeader: string = StaticText.details;
   public editOrderHeader: string = StaticText.editHeader;
@@ -23,20 +24,64 @@ export class EditOrderComponent implements OnInit {
   public gridConfig: any;
   public data: any = [];
   public coloumnConfig: any;
-  public detailsToBeDisplayed = [{ label: 'Order No', key: 'orderId', value: '' }, { label: 'Order Type', key: 'orderType', value: '' },
-  { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
-  { label: 'Created By', key: 'created', value: '' }];
-  public editHeaderInfoToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '' }, { label: 'Delivery Date', key: 'deliveryDate', value: '' },
-  { label: 'Schedule cut-off time', key: '', value: '' }];
+  public detailsToBeDisplayed: any = [];
+  public editHeaderInfoToBeDisplayed: any = [];
+  public formFields: any = [];
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;
   }
 
   ngOnInit() {
+    this.orderService.fetchStaticValues();
     this.fetchViewOrderDetails(this.id);
     this.initializeGrid();
+    this.initializeForm();
   }
-
+  /**
+   * initializeForm
+   */
+  public initializeForm = () => {
+    this.formFields = [
+      new FormFieldConfig({
+        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'status', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+          //this.displayDatePickers(e, item);
+          //this.populateSearchParams(e, item);
+           this.searchParam['status'] = e;
+        },hidden: () => {
+          //console.log(this.form.get('customerGroupId').value)
+          document.getElementsByName('status')[0] ? document.getElementsByName('status')[0]['value'] = this.searchParam && this.searchParam['status'] ? this.searchParam['status'] : '' : '';
+          return false;
+        }
+      }),
+      new FormFieldConfig({
+        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'changeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+          // this.populateSearchQuery(e, item);
+          //this.populateSearchParams(e, item);
+          this.searchParam['changeReason'] = e;
+        }, hidden: () => {
+          //console.log(this.form.get('customerGroupId').value)
+          document.getElementsByName('changeReason')[0] ? document.getElementsByName('changeReason')[0]['value'] = this.searchParam && this.searchParam['changeReason'] ? this.searchParam['changeReason'] : '' : '';
+          return false;
+        }
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
+          // this.search(e);
+          
+        }, disabled: (e) => {
+          //return this.customErrorVisible(e);
+        }
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-success", btnText: "Update", btnClick: (e) => {
+          //this.reset(e);
+          //this.submitBatch();
+        }, disabled: (e) => {
+          //return this.searchQueryParams && Object.keys(this.searchQueryParams).length == 0;
+        }
+      })
+    ]
+  }
   /**
   * initializeGrid
   */
@@ -88,7 +133,7 @@ export class EditOrderComponent implements OnInit {
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 100, title: 'Change Reason', editable : ()=>{return true },cellEdit: new CellEditConfiguration({
+        name: 'changeReason', width: 100, title: 'Change Reason', editable: () => { return true }, cellEdit: new CellEditConfiguration({
           type: 'dropdown', blur: (e: any, item: any, cfg: any, index: number) => { }
         })
       }),
@@ -120,8 +165,32 @@ export class EditOrderComponent implements OnInit {
     this.orderService.fetchOrder({ orderId: id }).subscribe(items => {
       this.loaderService.hide();
       this.orderDetailsData = items['orders'] && items['orders'][0] ? items['orders'][0] : [];
+      this.configInitialization();
       this.data = items['orders'] && items['orders'][0] ? items['orders'][0]['items'] : [];
+      this.prepareSubmitData();
     });
+  }
+  /**
+   * prepareSubmitData
+   */
+  public prepareSubmitData = () => {
+    this.searchParam= {};
+    this.searchParam = {
+      'status' : this.orderDetailsData['status'] ? this.orderDetailsData['status'] : '',
+      'changeReason' : this.orderDetailsData['changeReason'] ? this.orderDetailsData['changeReason'] : '',
+      'releaseDate' : this.orderDetailsData['releaseDate'] ? this.orderDetailsData['releaseDate'] : '',
+      'deliveryDate' : this.orderDetailsData['deliveryDate'] ? this.orderDetailsData['deliveryDate'] : ''
+    }
+  }
+  /**
+   * configInitialization
+   */
+  public configInitialization = () => {
+    this.detailsToBeDisplayed = [{ label: 'Order No', key: 'orderId', value: '' }, { label: 'Order Type', key: 'orderType', value: '' },
+    { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
+    { label: 'Created By', key: 'created', value: '' }];
+    this.editHeaderInfoToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '', type: 'datepicker', showDefaultDate: true }, { type: 'datepicker', label: 'Delivery Date', key: 'deliveryDate', showDefaultDate: true, value: '' },
+    { label: 'Schedule cut-off time', key: '', value: '', type: 'input', subTYpe: 'text', disabled: true }];
   }
   /**
    * navigate
@@ -129,7 +198,7 @@ export class EditOrderComponent implements OnInit {
   public navigate = () => {
     this.routerService.navigateTo('/manage-order');
   }
- 
+
   /**
    * formatTheTemplate
    */
@@ -147,10 +216,15 @@ export class EditOrderComponent implements OnInit {
     return result;
   }
   /**
+   * fetchDatepickerValue
+   */
+  public fetchDatepickerValue = (key: any) => {
+    return this.orderDetailsData ? this.orderDetailsData[key] : '';
+  }
+  /**
      * itemNumberErrorMessage 
      */
   public itemNumberErrorMessage = (cfg: any, i: number, el: any): string => {
-    console.log(this.data[i][cfg.name])
     return !this.data[i][cfg.name] || this.data[i][cfg.name] == '' ? this.msgService.fetchMessage(cfg.name, 'required') : this.isDuplicateRec(i) ? this.msgService.fetchMessage(cfg.name, 'duplicate') : el.getAttribute('error');
   }
   /**

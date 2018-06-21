@@ -15,7 +15,8 @@ export class EditOrderComponent implements OnInit {
   public detailsFooterVisible: boolean = false;
   public detailsHeader: string = StaticText.details;
   public editOrderHeader: string = StaticText.editHeader;
-  public okButtonText: string = StaticText.ok;
+  public okButtonText: string = StaticText.editSubmitText;
+  public cancelButtontext: string = StaticText.editCancelText;
   public editOrderFooterVisible: boolean = false;
   public orderDetailsData: any[];
   public id: string;
@@ -30,7 +31,6 @@ export class EditOrderComponent implements OnInit {
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;
   }
-
 
   ngOnInit() {
     this.fetchViewOrderDetails(this.id);
@@ -129,6 +129,7 @@ export class EditOrderComponent implements OnInit {
   public navigate = () => {
     this.routerService.navigateTo('/manage-order');
   }
+ 
   /**
    * formatTheTemplate
    */

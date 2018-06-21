@@ -62,8 +62,8 @@ export class SearchOrdersGridComponent implements OnInit {
         name: 'actions',
         title: 'Action',
         actionItems: [
-          new GridActionsConfig({ label: '',iconClass: 'fa fa-edit', click: (item, actionCfg) => { this.navigate(`/manage-order/edit-order/${item['orderId']}`); } }),
-          new GridActionsConfig({ label: '', iconClass: 'fa fa-eye', click: (item, actionCfg) => { this.navigate(`/manage-order/view-order/${item['orderId']}`); } })
+          new GridActionsConfig({ label: '',iconClass: 'fa fa-edit', iconTooltip: 'Edit', click: (item, actionCfg) => { this.navigate(`/manage-order/edit-order/${item['orderId']}`); } }),
+          new GridActionsConfig({ label: '', iconClass: 'fa fa-eye', iconTooltip: 'View', click: (item, actionCfg) => { this.navigate(`/manage-order/view-order/${item['orderId']}`); } })
         ]
       })
     ]

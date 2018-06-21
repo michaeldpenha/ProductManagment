@@ -1,8 +1,13 @@
 <h3 class="text-muted">{{headerUpDateLabel}}</h3>
 <hr />
 <div class="row" *ngIf="data.length > 0">
-    <app-datepicker name="processDate" [minDate] = "processDateMinDdate" [maxDate]="processDateMaxDdate" [showDefaultDate]= "dateBulkDafaultValue" [placeholder]="processDatePlaceHolder" (change) ="onDateChange($event,'releaseDate','deliveryDateMinDate')" ></app-datepicker>
-    <app-datepicker name="deliveryDate" [maxDate]="deliveryDateMaxDate" [minDate]="deliveryDateMinDate" [showDefaultDate]= "dateBulkDafaultValue" [placeholder]="deliveryDatePlaceHolder" (change)="onDateChange($event,'deliveryDate','processDateMaxDdate')" ></app-datepicker>
+    <div class="col-sm-6"></div>
+    <div class="col-sm-3">
+        <p><app-datepicker name="processDate" [minDate] = "processDateMinDdate" [maxDate]="processDateMaxDdate" [showDefaultDate]= "dateBulkDafaultValue" [placeholder]="processDatePlaceHolder" (change) ="onDateChange($event,'releaseDate','deliveryDateMinDate')" ></app-datepicker></p>
+    </div>
+    <div class="col-sm-3">
+        <p><app-datepicker name="deliveryDate" [maxDate]="deliveryDateMaxDate" [minDate]="deliveryDateMinDate" [showDefaultDate]= "dateBulkDafaultValue" [placeholder]="deliveryDatePlaceHolder" (change)="onDateChange($event,'deliveryDate','processDateMaxDdate')" ></app-datepicker></p>
+    </div>
 </div>
 <app-header-update-grid [noDataFound]="noDataFound" [gridData]="data"></app-header-update-grid>
 <ng-container *ngIf="data.length > 0">

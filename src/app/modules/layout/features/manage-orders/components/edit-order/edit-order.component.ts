@@ -144,13 +144,13 @@ export class EditOrderComponent implements OnInit {
         actionItems: [
           new GridActionsConfig({
             label: '',
-            iconClass: 'fa fa-edit', click: (item) => {
+            iconClass: 'fa fa-edit', iconTooltip: 'Edit', click: (item) => {
               //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
             }
           }),
           new GridActionsConfig({
             label: '',
-            iconClass: 'fa fa-close', click: (item) => {
+            iconClass: 'fa fa-close', iconTooltip: 'Cancel', click: (item) => {
               //this.navigate(`/manage-order/view-order/${item['orderId']}`);
             }
           })

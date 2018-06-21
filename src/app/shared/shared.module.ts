@@ -29,6 +29,7 @@ import {
 } from './services';
 import { RouterModule } from '@angular/router';
 import { HttpInterceptorsService } from "@app/core/services";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
@@ -41,6 +42,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    TooltipModule.forRoot(),
     ModalModule.forRoot()
   ],
   exports: [

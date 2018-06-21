@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GridActionsConfig, GridColoumnConfig, GridConfiguration, CellEditConfiguration } from "@app/shared/model";
 import { StaticText } from "@app/shared/constants";
 import { RouterService } from "@app/shared/services";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-header-update-grid',

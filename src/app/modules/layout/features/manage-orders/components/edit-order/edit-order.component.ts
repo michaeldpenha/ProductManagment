@@ -16,7 +16,7 @@ export class EditOrderComponent implements OnInit {
   public detailsHeader: string = StaticText.details;
   public editOrderHeader: string = StaticText.editHeader;
   public okButtonText: string = StaticText.ok;
-  public editOrderFooterVisible: boolean = false;;
+  public editOrderFooterVisible: boolean = false;
   public orderDetailsData: any[];
   public id: string;
   public gridConfig: any;

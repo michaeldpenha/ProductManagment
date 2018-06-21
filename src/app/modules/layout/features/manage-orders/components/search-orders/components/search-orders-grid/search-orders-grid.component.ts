@@ -56,7 +56,7 @@ export class SearchOrdersGridComponent implements OnInit {
         }
       }),
       new GridColoumnConfig({ name: 'createdDate', sortIndex: 'createTs', title: 'Created Date', enableSorting: true, sortDirection: 'DESC' }),
-      new GridColoumnConfig({ name: 'releaseDate', sortIndex: 'scheduledReleaseDate', title: 'Release Date', enableSorting: true, sortDirection: 'DESC' }),
+      new GridColoumnConfig({ name: 'releaseDate', sortIndex: 'scheduledReleaseDate', title: 'Process Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({ name: 'deliveryDate', sortIndex: 'scheduledDeliveryDate', title: 'Delivery Date', enableSorting: true, sortDirection: 'DESC' }),
       new GridColoumnConfig({
         name: 'actions',

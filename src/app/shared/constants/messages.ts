@@ -12,7 +12,7 @@ export const Messages = {
         'minLength': 'Route code must be max 2 characters only.'
     },
 
-    'releaseDate': { 'required': 'Please select release date' },
+    'releaseDate': { 'required': 'Please select process date' },
 
     'deliveryDate':
     { 'required': 'Please select delivery date' },

@@ -33,5 +33,6 @@ export const StaticText = {
     editHeader: 'Header Details',
     nodataFound: 'No any data found!',
     editSubmitText: 'Submit',
-    editCancelText: 'Cancel'
+    editCancelText: 'Cancel',
+    headerUpDateLabel : 'Bulk Update'
  };

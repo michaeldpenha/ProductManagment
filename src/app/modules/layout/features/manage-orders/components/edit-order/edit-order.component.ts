@@ -26,7 +26,7 @@ export class EditOrderComponent implements OnInit {
   public detailsToBeDisplayed = [{ label: 'Order No', key: 'orderId', value: '' }, { label: 'Order Type', key: 'orderType', value: '' },
   { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
   { label: 'Created By', key: 'created', value: '' }];
-  public editHeaderInfoToBeDisplayed = [{ label: 'Release Date', key: 'releaseDate', value: '' }, { label: 'Delivery Date', key: 'deliveryDate', value: '' },
+  public editHeaderInfoToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '' }, { label: 'Delivery Date', key: 'deliveryDate', value: '' },
   { label: 'Schedule cut-off time', key: '', value: '' }];
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;

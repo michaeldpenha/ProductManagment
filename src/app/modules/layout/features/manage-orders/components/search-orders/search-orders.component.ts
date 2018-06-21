@@ -21,7 +21,7 @@ export class SearchOrdersComponent implements OnInit {
   public selectedRecords: any = [];
   public formFields: any = [];
   public noDataFound: string = StaticText.searchQuery;
-  public headerUpdate: string = 'Header Update';
+  public headerUpdate: string = StaticText.headerUpDateLabel;
   public headerUpdateCls: string = 'btn btn-primary';
   public searchParams: any = {};
   public page: number = 1;

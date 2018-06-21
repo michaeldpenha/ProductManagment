@@ -152,15 +152,15 @@ export class SearchOrdersComponent implements OnInit {
         }, defaultDisplayLabel: 'orderStatusCode', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.ordersService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-success", btnText: "Search", btnClick: (e) => {
-          this.search(e);
-        }, disabled: (e) => {
-          return this.customErrorVisible(e);
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Reset", btnClick: (e) => {
+          this.reset(e);
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-default", btnText: "Reset", btnClick: (e) => {
-          this.reset(e);
+        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Search", btnClick: (e) => {
+          this.search(e);
+        }, disabled: (e) => {
+          return this.customErrorVisible(e);
         }
       })
     ]

@@ -80,14 +80,14 @@ export class HeaderUpdateComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-6 col-lg-3', fieldWidth: "pull-right", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
-          // this.search(e);
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
+         // this.search(e);
         }, disabled: (e) => {
           //return this.customErrorVisible(e);
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'col-6 col-md-1', fieldWidth: "pull-right-lg", btnCls: "btn btn-success", btnText: "Submit", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Submit", btnClick: (e) => {
           //this.reset(e);
           this.submitBatch();
         }, disabled: (e) => {

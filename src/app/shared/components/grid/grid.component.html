@@ -29,7 +29,7 @@
               <td>
                 <ng-container *ngFor="let action of colDef.config.actionItems">
                   <app-button [disabled]="disabledButton(action,data)" (onButtonClick)="action.config.click(data,action,index)" [cls]="action.config.btnCls"
-                    [text]="" [iconClass]="action.config.iconClassMethod ? action.config.iconClassMethod(action,index) : action.config.iconClass" [iconTooltip]="action.config.iconsTooltipMethod ? action.config.iconsTooltipMethod(action,index) : action.config.iconsTooltip"></app-button>
+                    [text]="" [iconClass]="action.config.iconClassMethod ? action.config.iconClassMethod(action,index) : action.config.iconClass" [iconTooltip]="action.config.iconTooltip"></app-button>
                 </ng-container>
               </td>
             </ng-container>

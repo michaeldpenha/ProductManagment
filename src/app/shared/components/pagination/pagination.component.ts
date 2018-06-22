@@ -20,6 +20,7 @@ export class PaginationComponent implements OnInit {
 
   public currentPageCount: number;
   public selectedItem: any;
+  public selectedPageRecord: any;
 
   constructor(private router: Router) { }
 
@@ -136,11 +137,11 @@ export class PaginationComponent implements OnInit {
     } else {
       this.selectedItem = 1;
     }
-    // on Refresh clear seleted
+    // on Refresh clear selected
     window.onbeforeunload = (ev) => {
       sessionStorage.setItem('selected', "");
     };
-    // On url change clear seleted
+    // On url change clear selected
     this.router.events.subscribe((event) => {
       sessionStorage.setItem('selected', "");
     });

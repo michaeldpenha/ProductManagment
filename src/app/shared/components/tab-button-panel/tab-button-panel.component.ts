@@ -37,7 +37,9 @@ export class TabButtonPanelComponent implements OnInit {
       }
     });
   }
-
+  /**
+   * listClick
+   */
   listClick(event, newValue) {
       this.selectedItem = newValue;
   }

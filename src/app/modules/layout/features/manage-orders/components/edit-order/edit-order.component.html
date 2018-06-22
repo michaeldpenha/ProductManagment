@@ -19,7 +19,7 @@
           <app-datepicker [showDefaultDate]="editHeaderdata.showDefaultDate" [value]="fetchDatepickerValue(editHeaderdata.key)"></app-datepicker>
         </ng-container>
         <ng-container *ngIf="editHeaderdata.type === 'input'">
-          <input [type]="editHeaderdata.subType" [disabled]="editHeaderdata.disabled" [value]=""/>
+          <input [ngClass]="editHeaderdata.inputClass" [type]="editHeaderdata.subType" [disabled]="editHeaderdata.disabled" [value]=""/>
         </ng-container>
       </app-cards>
     </div>

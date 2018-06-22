@@ -48,7 +48,7 @@ export class EditOrderComponent implements OnInit {
   public initializeForm = () => {
     this.formFields = [
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'orderStatus', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'status', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           //this.displayDatePickers(e, item);
           //this.populateSearchParams(e, item);
           //this.searchParam['status'] = e;
@@ -59,7 +59,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'orderChangeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'changeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           // this.populateSearchQuery(e, item);
           //this.populateSearchParams(e, item);
           this.searchParam['changeReason'] = e;
@@ -70,19 +70,19 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
-          // this.search(e);
-
-        }, disabled: (e) => {
-          //return this.customErrorVisible(e);
-        }
-      }),
-      new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Update", btnClick: (e) => {
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-success", btnText: "Update", btnClick: (e) => {
           //this.reset(e);
           //this.submitBatch();
         }, disabled: (e) => {
           //return this.searchQueryParams && Object.keys(this.searchQueryParams).length == 0;
+        }
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-default mr-3", btnText: "Cancel", btnClick: (e) => {
+          // this.search(e);
+
+        }, disabled: (e) => {
+          //return this.customErrorVisible(e);
         }
       })
     ]
@@ -268,7 +268,7 @@ export class EditOrderComponent implements OnInit {
     { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
     { label: 'Created By', key: 'created', value: '' }];
     this.editHeaderInfoToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '', type: 'datepicker', readonly: true, showDefaultDate: true }, { readonly: true, type: 'datepicker', label: 'Delivery Date', key: 'deliveryDate', showDefaultDate: true, value: '' },
-    { label: 'Schedule cut-off time', key: '', value: '', type: 'input', subTYpe: 'text', disabled: true }];
+    { label: 'Schedule cut-off time', key: '', value: '', type: 'input', subTYpe: 'text', inputClass:'form-control form-control-sm', disabled: true }];
   }
   /**
    * navigate

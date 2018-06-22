@@ -3,10 +3,8 @@
         <div class="col-md-6">
             <form class="form-inline">
                 Showing {{currentPageCount}} of {{count}} Records Show: &nbsp;&nbsp;
-                <select class="form-control form-control-sm" (change)="onPageSelect($event.target.value)">
-                <ng-container *ngFor="let item of pageLimitArray">
-                    <option value="{{item}}">{{item}}</option>
-                </ng-container>
+                <select class="form-control form-control-sm" (change)="onPageSelect($event.target.value);">
+                    <option *ngFor="let item of pageLimitArray" [ngValue]="item">{{item}}</option>
             </select> &nbsp;&nbsp; Records
             </form>
         </div>

@@ -4,7 +4,7 @@
       <tr>
         <th *ngIf="displayCheckBox"><input type="checkbox" (click)="allSelected($event)" [disabled] = "gridData.length == 0" [checked]="allItemsChecked()"></th>
         <ng-container *ngFor="let colDef of columnDefs">
-          <th [width]="colDef.config.width">
+          <th [width]="colDef.config.width" [ngClass]="{'link': colDef.config.enableSorting == true}">
             <div (click)="triggerSort(colDef.config)">
               {{colDef.config.title}}
               <ng-container *ngIf="colDef.config.requiredIcon">

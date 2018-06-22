@@ -18,6 +18,7 @@ export interface FormConfig {
     disabled ? : Function;
     keyUp ? : Function;
     keyPress ? : Function;
+    keyDown ?: Function;
     change ? :Function;
     isErrorMessageVisible ? : Function;
     displayErrorMessage ? : Function;

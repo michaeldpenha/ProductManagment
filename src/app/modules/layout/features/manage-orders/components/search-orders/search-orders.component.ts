@@ -74,20 +74,35 @@ export class SearchOrdersComponent implements OnInit {
   public initializeForm = () => {
     this.formFields = [
       new FormFieldConfig({
-        type: 'input', blur: (e: any, cfg: any) => {
+        type: 'input', keyDown: (e: any, cfg: any) => {
+          if (e.key === "Enter") {
+            this.populateSearchQuery(e.target.value, cfg);
+            this.search(e);
+          }
+        }, blur: (e: any, cfg: any) => {
           this.populateSearchQuery(e.target.value, cfg);
         }, subtype: 'number', min: 0, formName: 'orderId', placeholder: StaticText.orderIdPlaceHolder, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm"
       }),
       new FormFieldConfig({
-        type: 'input', blur: (e: any, cfg: any) => {
+        type: 'input', keyDown: (e: any, cfg: any) => {
+          if (e.key === "Enter") {
+            this.populateSearchQuery(e.target.value, cfg);
+            this.search(e);
+          }
+        }, blur: (e: any, cfg: any) => {
           this.populateSearchQuery(e.target.value, cfg);
         }, subtype: 'number', min: 0, formName: 'itemId', placeholder: StaticText.itemNumber, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm"
       }),
       new FormFieldConfig({
-        type: 'input', formName: 'customerGroupId', placeholder: StaticText.customerId, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
+        type: 'input',
+        keyDown: (e: any, cfg: any) => {
+          if (e.key === "Enter") {
+            e.target.value != '' ? this.fetchSupplierInfo(e, cfg, true) : this.populateSearchQuery(e.target.value, cfg);
+          }
+        }, formName: 'customerGroupId', placeholder: StaticText.customerId, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
         blur: (e: any, item: any) => {
           //this.form.get('supplierId').enable({ onlySelf: true });
-          e.target.value != '' ? this.fetchSupplierInfo(e, item) : this.populateSearchQuery(e.target.value, item);
+          e.target.value != '' ? this.fetchSupplierInfo(e, item, false) : this.populateSearchQuery(e.target.value, item);
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.customErrorVisible(item);
         }, displayErrorMessage: (item: any) => {
@@ -123,7 +138,12 @@ export class SearchOrdersComponent implements OnInit {
         }, fieldWidthCls: 'col-lg-2 col-md-4', fieldWidth: 'col-md-12', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'input', blur: (e: any, cfg: any) => {
+        type: 'input', keyDown: (e: any, cfg: any) => {
+          if (e.key === "Enter") {
+            this.populateSearchQuery(e.target.value, cfg);
+            this.search(e);
+          }
+        }, blur: (e: any, cfg: any) => {
           this.populateSearchQuery(e.target.value, cfg);
         }, hidden: () => {
           return this.hideSupplierCombo();
@@ -195,7 +215,7 @@ export class SearchOrdersComponent implements OnInit {
   public appendDateInSearch = (deleteKey: boolean, item: any, val: any) => {
     (deleteKey) ? delete this.searchQueryData[item.formName] : this.searchQueryData[item.formName] = val;
   }
-  public fetchSupplierInfo = (e: any, item: any) => {
+  public fetchSupplierInfo = (e: any, item: any, triggerSearch: boolean) => {
     let val: string = e.target.value;
     this.ordersService.getSupplierInfo(val).subscribe((data: any[]) => {
       this.loadingService.hide();
@@ -203,7 +223,7 @@ export class SearchOrdersComponent implements OnInit {
       this.populateSearchQuery(e.target.value, item);
       filteredResult = data.filter((customer) => { return customer.customerId == val; });
       (filteredResult.length > 0) ? this.populateSupplierInfo(filteredResult[0], true) : this.populateSupplierInfo({}, false);
-
+      (triggerSearch) ? this.search(e) : '';
     })
     // let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];
     // //this.form ? this.form.get('supplierId').setValue() : '';

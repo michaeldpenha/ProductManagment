@@ -104,6 +104,12 @@ export class FormComponent implements OnInit {
     return item && item.keyUp ? item.keyUp(e,item) : '';
   }
   /**
+   * onKeydown
+   */
+  public onKeydown = (e:any , item : any) => {
+    return item && item.keyDown ? item.keyDown(e,item) : '';
+  }
+  /**
    * onKeyPress
    */
   public onKeyPress = (e:any,item : any) => {

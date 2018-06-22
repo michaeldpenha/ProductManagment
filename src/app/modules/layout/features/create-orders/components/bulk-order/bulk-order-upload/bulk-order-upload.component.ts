@@ -27,7 +27,7 @@ export class BulkOrderUploadComponent implements OnInit {
   public cancelBtnText: string = 'Reset';
   public cancelBtnClass: string = 'btn btn-default';
   public submitText: string = 'Upload';
-  public submitBtnClass: string = 'btn btn-primary';
+  public submitBtnClass: string = 'btn btn-success';
 
   ngOnInit() {
     this.initializeForm();

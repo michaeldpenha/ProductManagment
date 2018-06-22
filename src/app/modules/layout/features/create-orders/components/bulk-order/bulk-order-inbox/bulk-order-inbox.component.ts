@@ -75,7 +75,7 @@ export class BulkOrderInboxComponent implements OnInit {
         actionItems: [
           new GridActionsConfig({
             btnCls: 'btn btn-outline-primary btn-sm', disable: (cfg, item) => {
-              return item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
+              return item.batchStatus.toUpperCase() === "VALIDATION_FAILED" || item.batchStatus.toUpperCase() === "CANCELLED" || item.batchStatus.toUpperCase() === "PROCESSING_SUCCESSFUL";
             }, iconClass: 'fa fa-check', iconTooltip: 'Process Order', label: '', click: (item: any, actionCfg: any, index: number) => {
               this.dialogService.showDialog('Warning', '', '', 'Warning', 'Are you sure you want to process this order ?', 'Submit', () => {
                 this.submitInboxBatch(item.id);

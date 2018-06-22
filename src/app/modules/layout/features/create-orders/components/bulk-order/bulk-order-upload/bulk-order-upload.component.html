@@ -14,10 +14,10 @@
       <div class="file-names">{{fileName}}</div>
     </app-drag-drop>
     <div class="error" *ngIf="isValidFileExtension">Invalid file format! Please select valid .tsv/.txt file format.</div>
+    <div class="float-right mt-3">
+      <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> &nbsp;
+      <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled() || hideUploadButton"></app-button>
+    </div>
   </div>
 </div>
 <br>
-<div class="float-right">
-  <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> &nbsp;
-  <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled() || hideUploadButton"></app-button>
-</div>

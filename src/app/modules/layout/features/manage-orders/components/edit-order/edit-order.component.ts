@@ -48,18 +48,18 @@ export class EditOrderComponent implements OnInit {
   public initializeForm = () => {
     this.formFields = [
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'status', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'orderStatus', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           //this.displayDatePickers(e, item);
           //this.populateSearchParams(e, item);
-          this.searchParam['status'] = e;
+          //this.searchParam['status'] = e;
         }, hidden: () => {
           //console.log(this.form.get('customerGroupId').value)
-          document.getElementsByName('status')[0] ? document.getElementsByName('status')[0]['value'] = this.searchParam && this.searchParam['status'] ? this.searchParam['status'] : '' : '';
+         // document.getElementsByName('status')[0] ? document.getElementsByName('status')[0]['value'] = this.searchParam && this.searchParam['status'] ? this.searchParam['status'] : '' : '';
           return false;
         }
       }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'changeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'orderChangeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           // this.populateSearchQuery(e, item);
           //this.populateSearchParams(e, item);
           this.searchParam['changeReason'] = e;
@@ -183,9 +183,8 @@ export class EditOrderComponent implements OnInit {
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return false;}, cellEdit: new CellEditConfiguration({
+        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return (item.rowAction == "exist" && (item.cellAction.toLowerCase() == 'update' || item.cellAction.toLowerCase() === 'error'));}, cellEdit: new CellEditConfiguration({
           type: 'dropdown',inputClass: 'form-control form-control-sm',change:(e,item,index)=>{
-            debugger;
             this.data[index]['changeReason'] =  e != '' && e != StaticText.selectChangeReason ? e : '';
           },name:'changeReason',defaultOptionsValue : 'changeReasonCode',defaultDisplayLabel:'changeReasonCode', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons },blur: (e: any, item: any, cfg: any, index: number) => { }
         })

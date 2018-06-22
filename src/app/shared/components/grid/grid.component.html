@@ -46,7 +46,7 @@
                       [disabled]="disableField(data,colDef.config,index)" [ngClass]="getInputClass(colDef.config,index)" />
                   </ng-container>
                   <ng-container *ngIf="checkTypeofEditableField('dropdown',colDef.config,index)">
-                    <app-drop-down [name]="colDef.config.cellEdit.config.name" [defaultOptionsValue]="colDef.config.cellEdit.config.defaultOptionsValue" [defaultDisplayLabel]="colDef.config.cellEdit.config.defaultDisplayLabel"
+                    <app-drop-down [name]="colDef.config.cellEdit.config.name+i" [defaultOptionsValue]="colDef.config.cellEdit.config.defaultOptionsValue" [defaultDisplayLabel]="colDef.config.cellEdit.config.defaultDisplayLabel"
                       [inputClass]="getInputClass(colDef.config,index)" [defaultValue]="colDef.config.cellEdit.config.defaultValue" [disabled]="isDisabled(colDef.config)"
                       [receivedInputData]="printOptonsValue(colDef.config,index)" (selectedInputData)="onChange($event,colDef.config,index)"></app-drop-down>
                   </ng-container>

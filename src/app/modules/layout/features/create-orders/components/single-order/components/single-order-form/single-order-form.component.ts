@@ -3,8 +3,9 @@ import { FormFieldConfig } from "@app/shared/model";
 import { Validators, FormGroup } from "@angular/forms";
 import { MessagesService, OrdersService } from "@app/shared/services";
 import * as moment from 'moment';
-import {StaticText } from "@app/shared/constants";
+import { StaticText } from "@app/shared/constants";
 import { OrdersConfig } from "@app/shared/config";
+import { LoaderService } from "@app/core/services";
 
 @Component({
   selector: 'app-single-order-form',
@@ -12,13 +13,13 @@ import { OrdersConfig } from "@app/shared/config";
   styleUrls: ['./single-order-form.component.scss']
 })
 export class SingleOrderFormComponent implements OnInit {
-  supplierObj: any[];
+  supplierObj: any = {};
   @Input() form: FormGroup;
   @Output() fetchForm = new EventEmitter<any>();
 
   public formFields: any;
 
-  constructor(private ordersService: OrdersService, private msgService: MessagesService) { }
+  constructor(private ordersService: OrdersService, private msgService: MessagesService, private loadingService: LoaderService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -49,15 +50,15 @@ export class SingleOrderFormComponent implements OnInit {
         type: 'input', subtype: 'text', label: StaticText.customerId, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", formName: 'customerId', validation: [Validators.required], renderLabel: (item) => {
           return this.renderLabel(item, true);
         }, blur: (e: any, item: any) => {
-          (e != '') ? this.fetchSupplierInfo(e, item) : this.supplierObj = [];
+          (e.target.value != '') ? this.fetchSupplierInfo(e, item) : this.notFound();
         }, errorMessages: true, isErrorMessageVisible: (item: any) => {
           return this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
           return this.displayFormErrorMsg(item);
         }, keyPress: (e: any, cfg: any) => {
-          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.supplierObj = [] : '';
+          (this.supplierObj && this.supplierObj.customerId && e.target.value != this.supplierObj.customerId && this.form) ? this.supplierObj = {} : '';
         }, keyUp: (e: any, cfg: any) => {
-          (this.supplierObj && this.supplierObj[0] && e.target.value != this.supplierObj[0].customerId && this.form) ? this.supplierObj = []: '';
+          (this.supplierObj && this.supplierObj.customerId && e.target.value != this.supplierObj.customerId && this.form) ? this.supplierObj = {} : '';
         }
       }),
       new FormFieldConfig({
@@ -74,19 +75,19 @@ export class SingleOrderFormComponent implements OnInit {
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
       new FormFieldConfig({
-        type: 'dropdown', validation: [Validators.required],defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg :any) => {
+        type: 'dropdown', validation: [Validators.required], defaultDisplayLabel: 'supplierId', defaultOptionsValue: 'supplierId', options: (cfg: any) => {
           //this.supplierObj && this.supplierObj.length > 0 ? this.form.get('supplierId').setValue(this.supplierObj[0].supplierId): '';
-          return this.supplierObj;
+          return this.supplierObj.suppliers;
         }, renderLabel: (item: any) => {
-          let result: boolean = this.supplierObj && this.supplierObj.length > 0;
+          let result: boolean = this.supplierObj && Object.keys(this.supplierObj).length > 0;
           return this.renderLabel(item, result);
-        },change: (e: any, item: any) => {
+        }, change: (e: any, item: any) => {
           this.onOrderTypeChange(e, item);
-        },errorMessages: true, isErrorMessageVisible: (item: any) => {
-          return this.supplierObj && this.supplierObj.length > 0 && this.basicFieldValidation(item);
+        }, errorMessages: true, isErrorMessageVisible: (item: any) => {
+          return this.supplierObj && Object.keys(this.supplierObj).length > 0 && this.basicFieldValidation(item);
         }, displayErrorMessage: (item: any) => {
-          return (this.supplierObj && this.supplierObj.length > 0 && this.form && this.form.get('supplierId').value == '' || this.form.get('supplierId').value == StaticText.selectSupplier) ?  this.msgService.fetchMessage(item.formName, 'required') : '';
-        },defaultValue: StaticText.selectSupplier, formName: 'supplierId', disabled: () => { return false; }, readOnly: () => {
+          return (this.supplierObj && Object.keys(this.supplierObj).length > 0 && this.form && this.form.get('supplierId').value == '' || this.form.get('supplierId').value == StaticText.selectSupplier) ? this.msgService.fetchMessage(item.formName, 'required') : '';
+        }, defaultValue: StaticText.selectSupplier, formName: 'supplierId', disabled: () => { return false; }, readOnly: () => {
           return true;
         }, label: StaticText.supplier, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldWidth: 'col-md-9', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
@@ -107,7 +108,7 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', minDate: () => { return new Date() }, maxDate: () => {
           return this.form && this.form.get('deliveryDate').value ? this.form.get('deliveryDate').value : null;
-        }, formName: 'releaseDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', datepickerCls:'form-control background-white', defaultValue: moment(new Date()), label: StaticText.processDate, renderLabel: (item) => {
+        }, formName: 'releaseDate', showDefaultDate: true, placeholder: 'mm/dd/yyyy', datepickerCls: 'form-control background-white', defaultValue: moment(new Date()), label: StaticText.processDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, change: (e: any, item: any) => {
           //this.onDateChange(e, item);
@@ -119,14 +120,44 @@ export class SingleOrderFormComponent implements OnInit {
       new FormFieldConfig({
         type: 'datefield', showDefaultDate: true, minDate: () => {
           return this.form && this.form.get('releaseDate').value ? this.form.get('releaseDate').value : new Date();
-        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', datepickerCls:'form-control background-white', formName: 'deliveryDate', defaultValue: moment(new Date()).add(1, 'days'), label: StaticText.deliveryDate, renderLabel: (item) => {
+        }, maxDate: () => { }, placeholder: 'mm/dd/yyyy', datepickerCls: 'form-control background-white', formName: 'deliveryDate', defaultValue: moment(new Date()).add(1, 'days'), label: StaticText.deliveryDate, renderLabel: (item) => {
           return this.renderLabel(item, false);
         }, readOnly: () => {
           return 'readonly';
         }, fieldWidthCls: 'col-md-6', fieldWidth: 'col-md-9', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm",
       }),
-      new FormFieldConfig({ type: 'input',  keyPress: (e) => {return e.target.value.length <= 60 },formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),
+      new FormFieldConfig({ type: 'input', keyPress: (e) => { return e.target.value.length <= 60 }, formName: 'comments', label: StaticText.comments, fieldWidthCls: 'col-md-6', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', fieldWidth: "col-md-9", inputClass: "form-control form-control-sm" }),
     ]
+  }
+  /**
+   * setNotFound
+   */
+  public notFound= () => {
+    this.form.get('customerId').setErrors({ required : true });
+    this.supplierObj = {};
+  }
+  public fetchSupplierInfo = (e: any, item: any) => {
+    let val: string = e.target.value;
+    this.ordersService.getSupplierInfo(val).subscribe((data: any[]) => {
+      this.loadingService.hide();
+      let filteredResult: any = {};
+      filteredResult = data.filter((customer) => { return customer.customerId == val; });
+      (filteredResult.length > 0) ? this.populateSupplierInfo(filteredResult[0], true) : this.populateSupplierInfo({}, false);
+
+    })
+    // let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];
+    // //this.form ? this.form.get('supplierId').setValue() : '';
+    // this.form.get('supplierId').setValue(mock[0].supplier[0].supplierId.split('/')[1]);
+    // this.form.get('supplierId').disable({ onlySelf: true });
+  }
+  /**
+   * populateSupplierInfo
+   */
+  public populateSupplierInfo = (res, displaySupplierDropDown) => {
+    this.supplierObj = res ? res : {};
+    //this.supplierObj = res && res.suppliers ? res.suppliers : [];
+    this.form.get('customerId').setErrors(null);
+    (!displaySupplierDropDown) ? this.form.get('customerId').setErrors({ validation: true }) : '';
   }
   /**
    * renderMandatoryLabel
@@ -164,11 +195,11 @@ export class SingleOrderFormComponent implements OnInit {
   /**
    * onBlur
    */
-  public fetchSupplierInfo = (e: any, item: any) => {
-    let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];
-    //this.form ? this.form.get('supplierId').setValue() : '';
-    (mock[0].supplier[0].customerId == e.target.value && this.form) ? this.supplierObj = mock[0].supplier : (e.target.value != '' && this.form) ? this.supplierObj = [] : this.supplierObj = [];
-  }
+  // public fetchSupplierInfo = (e: any, item: any) => {
+  //   let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];
+  //   //this.form ? this.form.get('supplierId').setValue() : '';
+  //   (mock[0].supplier[0].customerId == e.target.value && this.form) ? this.supplierObj = mock[0].supplier : (e.target.value != '' && this.form) ? this.supplierObj = [] : this.supplierObj = [];
+  // }
   /**
    * disableTransferType
    */
@@ -185,13 +216,13 @@ export class SingleOrderFormComponent implements OnInit {
    * fetchCreationTypes
    */
   public fetchCreationTypes = () => {
-  let result : any = [];
-  let createOrderType : any = OrdersConfig.createOrderTypes;
-  if(this.ordersService.orderTypeOptions.length >0){
-    this.ordersService.orderTypeOptions.forEach(element => {
+    let result: any = [];
+    let createOrderType: any = OrdersConfig.createOrderTypes;
+    if (this.ordersService.orderTypeOptions.length > 0) {
+      this.ordersService.orderTypeOptions.forEach(element => {
         createOrderType.indexOf(element.orderTypeCode.toLowerCase()) != -1 ? result.push(element) : '';
-    });
-  }
-  return result;  
+      });
+    }
+    return result;
   }
 }

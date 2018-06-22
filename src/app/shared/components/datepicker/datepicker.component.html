@@ -16,7 +16,7 @@
         bsDatepicker
         [disabled]="isDisabled">
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" [disabled]="isDisabled">
+            <button class="btn btn-outline-secondary" type="button" (blur)="(dp.isOpen) ? dp.toggle() : ''" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" [disabled]="isDisabled">
                 <i class="fa fa-calendar"></i>
             </button>
         </div>

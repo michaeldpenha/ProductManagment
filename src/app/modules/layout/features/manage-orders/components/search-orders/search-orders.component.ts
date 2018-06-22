@@ -152,15 +152,15 @@ export class SearchOrdersComponent implements OnInit {
         }, defaultDisplayLabel: 'orderStatusCode', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.ordersService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12"
       }),
       new FormFieldConfig({
-        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Reset", btnClick: (e) => {
-          this.reset(e);
-        }
-      }),
-      new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-success mr-3", btnText: "Search", btnClick: (e) => {
           this.search(e);
         }, disabled: (e) => {
           return this.customErrorVisible(e);
+        }
+      }),
+      new FormFieldConfig({
+        type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Reset", btnClick: (e) => {
+          this.reset(e);
         }
       })
     ]
@@ -202,7 +202,7 @@ export class SearchOrdersComponent implements OnInit {
       let filteredResult: any = {};
       this.populateSearchQuery(e.target.value, item);
       filteredResult = data.filter((customer) => { return customer.customerId == val; });
-      (Object.keys(filteredResult.length > 0)) ? this.populateSupplierInfo(filteredResult[0], true) : this.populateSupplierInfo({}, false);
+      (filteredResult.length > 0) ? this.populateSupplierInfo(filteredResult[0], true) : this.populateSupplierInfo({}, false);
 
     })
     // let mock = [{ "supplier": [{ "customerId": 273, "customerName": "Adela Bonciu", "supplierId": "WH/2527/GROC", "supplierName": "WalmartCanada" }] }];

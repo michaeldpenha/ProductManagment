@@ -36,6 +36,8 @@ export interface ActionGridItemsConfig {
     iconClass?: string;
     btnCls?: string;
     iconTooltip: string;
+    iconsTooltipMethod ? : Function;
+    iconClassMethod ? : Function;
 }
 
 export interface CellEditConfig {

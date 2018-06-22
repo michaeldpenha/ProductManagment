@@ -114,7 +114,7 @@ export class EditOrderComponent implements OnInit {
       let key: string = element.config.name;
       result[key] = '';
     });
-    //result['rowAction'] = 'new';
+    result['rowAction'] = 'new';
     return result;
   }
   /**
@@ -141,7 +141,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new GridColoumnConfig({
-        name: 'itemNumber', width: 130, title: 'Item Number', editable: (item: any) => { return false}, cellEdit: new CellEditConfiguration({
+        name: 'itemNumber', width: 130, title: 'Item Number', editable: (item: any) => { return item.rowAction === "new"}, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             ///this.data[index].cellAction = this.isDuplicateRec(index) ? 'error' : 'new';
@@ -165,7 +165,7 @@ export class EditOrderComponent implements OnInit {
       new GridColoumnConfig({ name: 'tixhi', width: 100, title: 'TixHi' }),
       new GridColoumnConfig({ name: 'boh', width: 100, title: 'BOH' }),
       new GridColoumnConfig({
-        name: 'qty', width: 50, title: 'Quantity', editable: (item: any) => { return false; },  cellEdit: new CellEditConfiguration({
+        name: 'qty', width: 50, title: 'Quantity', editable: (item: any) => { return item.rowAction == 'new' || (item.rowAction == "exist" && (item.cellAction.toLowerCase() == 'update' || item.cellAction.toLowerCase() === 'error')) },  cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             this.data[index][cfg.name] = e.target.value;
@@ -176,15 +176,17 @@ export class EditOrderComponent implements OnInit {
           printErrorMsg: (cfg, i, errEl) => {
             return this.msgService.fetchMessage('quantity', 'required');
           }, showErrorMsg: (cfg, i, errEl) => {
+            this.data[i].cellAction = (this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true") ? 'error' : 'update';
             return this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true";
 
-          }, subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemNumber'] == '' ? true : this.showItemNumberErrorMsg(index, true); }
+          }, subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemNumber'] == ''; }
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return false}, cellEdit: new CellEditConfiguration({
+        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return item.rowAction && item.rowAction.toLowerCase() === "exist" && item.cellAction && (item.cellAction.toLowerCase() === 'update' || item.cellAction.toLowerCase() === 'error')}, cellEdit: new CellEditConfiguration({
           type: 'dropdown',inputClass: 'form-control form-control-sm',change:(e,item,index)=>{
-            this.data['changeReason'] =  e != '' && e != StaticText.selectChangeReason ? e : '';
+            debugger;
+            this.data[index]['changeReason'] =  e != '' && e != StaticText.selectChangeReason ? e : '';
           },name:'changeReason',defaultOptionsValue : 'changeReasonCode',defaultDisplayLabel:'changeReasonCode', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons },blur: (e: any, item: any, cfg: any, index: number) => { }
         })
       }),
@@ -196,26 +198,27 @@ export class EditOrderComponent implements OnInit {
           new GridActionsConfig({
             btnCls: 'btn btn-outline-primary btn-sm',
             label: '',
-            iconClass: 'fa fa-edit', iconTooltip: 'Edit', click: (item) => {
+            iconClass: 'fa fa-edit', iconTooltip: 'Edit',
+            iconClassMethod : (cfg : any ,i : number) => {
+              return (this.data[i].cellAction == 'update') ? 'fa fa-check' : 'fa fa-edit';
+            },iconsTooltipMethod : (cfg : any , i : number)=>{
+              return (this.data[i].cellAction == 'update') ? 'Check' : 'Edit';
+            }, click: (item : any,cfg :any) => {
+              item.cellAction =  (item.cellAction == 'update') ? 'view' : 'update';
               //item.action = "update";
               //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
             }, disable: (item: any,i) => {
-              return 
-            }
-          }),
-          new GridActionsConfig({
-            label: '',
-            iconClass: 'fa fa-check', iconTooltip: 'Confirm', click: (item) => {
-              //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
-              //item.action = "active";
-            }, disable: (item: any,i) => {
-              return
+              return i.rowAction === 'new' || (i.cellAction == "error");
             }
           }),
           new GridActionsConfig({
             btnCls: 'btn btn-outline-danger btn-sm',
             label: '',
-            iconClass: 'fa fa-close', iconTooltip: 'Cancel', click: (item) => {
+            iconClass: 'fa fa-trash', iconTooltip: 'Cancel', iconClassMethod : (cfg : any ,i : number) => {
+              return 'fa fa-trash';
+            },iconsTooltipMethod : (cfg : any , i : number)=>{
+              return 'Cancel';
+            }, click: (item) => {
               //item.rowAction = "cancelled";
               //this.navigate(`/manage-order/view-order/${item['orderId']}`);
             }
@@ -233,7 +236,7 @@ export class EditOrderComponent implements OnInit {
       this.orderDetailsData = items['orders'] && items['orders'][0] ? items['orders'][0] : [];
       this.configInitialization();
       this.data = items['orders'] && items['orders'][0] ? items['orders'][0]['items'] : [];
-      //this.appendActionToItem('active');
+      this.appendActionToItem('exist');
       this.prepareSubmitData();
     });
   }
@@ -242,7 +245,8 @@ export class EditOrderComponent implements OnInit {
    */
   public appendActionToItem = (status) => {
     this.data.forEach(el => {
-      el.action = status;
+      el.rowAction = status;
+      el.cellAction = "view";
     });
   }
   /**
@@ -344,7 +348,7 @@ export class EditOrderComponent implements OnInit {
    */
   public showItemNumberErrorMsg = (i: number, dirty: boolean) => {
     let result = false;
-    result = !(this.data[i]['description'] && this.data[i]['description'] != '') && dirty;
+    result = !(this.data[i]['pack'] >= 0) && dirty;
     return result ? result : false;
   }
 

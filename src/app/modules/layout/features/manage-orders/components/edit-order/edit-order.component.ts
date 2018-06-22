@@ -183,7 +183,7 @@ export class EditOrderComponent implements OnInit {
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return item.rowAction && item.rowAction.toLowerCase() === "exist" && item.cellAction && (item.cellAction.toLowerCase() === 'update' || item.cellAction.toLowerCase() === 'error')}, cellEdit: new CellEditConfiguration({
+        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return false;}, cellEdit: new CellEditConfiguration({
           type: 'dropdown',inputClass: 'form-control form-control-sm',change:(e,item,index)=>{
             debugger;
             this.data[index]['changeReason'] =  e != '' && e != StaticText.selectChangeReason ? e : '';

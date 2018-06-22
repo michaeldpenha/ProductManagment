@@ -31,7 +31,7 @@ export class SearchOrdersComponent implements OnInit {
   public searchQueryData: any = {};
   public numberOfPagesOptionsToBeDispalyed: number = OrdersConfig.numberOfPagesOptionsToBeDispalyed;
   public pagesLimitArray: any = OrdersConfig.perPagesRecordsTobeDisplayed;
-  public allChecked : boolean = false;
+  public allChecked: boolean = false;
   public displayErrMessage: string;
   public displayErr: boolean = false;
   public supplierObj: any = [];
@@ -287,7 +287,7 @@ export class SearchOrdersComponent implements OnInit {
     this.form.reset();
     this.searchQueryData = {};
     this.total = 0;
-    this.formFields[3].config.defaultValue = StaticText.dateType;
+    this.initializeForm();
     this.displayErr = false;
     this.data = [];
     this.displayGridErrorMessage(StaticText.searchQuery);
@@ -375,6 +375,6 @@ export class SearchOrdersComponent implements OnInit {
     this.isAllChecked();
   }
   public isAllChecked = () => {
-    this.allChecked = this.ordersService.headerUpdate.length === this.data.length ;
+    this.allChecked = this.ordersService.headerUpdate.length === this.data.length;
   }
 }

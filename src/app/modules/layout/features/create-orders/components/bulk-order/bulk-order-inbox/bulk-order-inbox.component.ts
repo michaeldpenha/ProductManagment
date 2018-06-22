@@ -16,6 +16,10 @@ export class BulkOrderInboxComponent implements OnInit {
   public data: any = [];
   public coloumnConfig: any;
   public gridConfig: any;
+  public refreshBtnCls: string = "btn btn-primary btn-sm pull-right";
+  public refreshBtnTooltip: string = "Refresh";
+  public refreshBtnIconClass: string = "fa fa-refresh";
+
   constructor(private orderService: OrdersService, private loaderService: LoaderService, private dialogService: DialogService) { }
 
   ngOnInit() {

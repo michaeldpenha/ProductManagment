@@ -48,7 +48,7 @@ export class SearchOrdersGridComponent implements OnInit {
       new GridColoumnConfig({ name: 'divisionId', title: 'Division' }),
       new GridColoumnConfig({ name: 'customerId', title: 'Customer Id' }),
       new GridColoumnConfig({ name: 'supplierId', title: 'Supplier' }),
-      new GridColoumnConfig({ name: 'itemQty', title: 'Total Quantity' }),
+      new GridColoumnConfig({ name: 'itemQty', title: 'Quantity' }),
       new GridColoumnConfig({ name: 'orderType', title: 'Order Type' }),
       new GridColoumnConfig({
         name: 'status', title: 'Status', render: (item, dataIndex) => {

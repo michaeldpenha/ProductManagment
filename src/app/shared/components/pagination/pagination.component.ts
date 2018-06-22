@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -18,10 +19,13 @@ export class PaginationComponent implements OnInit {
   @Output() changeInPerPage = new EventEmitter<number>(); // Event emitted when change in no of records per page
 
   public currentPageCount: number;
-  constructor() { }
+  public selectedItem: any;
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.calculateCurrentPageCount();
+    this.managePagination();
   }
   /**
    * This method will trigger when any of the input arguments changes
@@ -114,5 +118,31 @@ export class PaginationComponent implements OnInit {
     }
     pages.sort((a, b) => a - b);
     return pages;
+  }
+
+  /**
+   * listClick
+   */
+  listClick(newValue) {
+      this.selectedItem = newValue;
+      sessionStorage.setItem('selected', newValue);
+  }
+  /**
+   * managePagination
+   */
+  public managePagination() {
+    if(sessionStorage.getItem('selected')) {
+      this.selectedItem = sessionStorage.getItem('selected');
+    } else {
+      this.selectedItem = 1;
+    }
+    // on Refresh clear seleted
+    window.onbeforeunload = (ev) => {
+      sessionStorage.setItem('selected', "");
+    };
+    // On url change clear seleted
+    this.router.events.subscribe((event) => {
+      sessionStorage.setItem('selected', "");
+    });
   }
 }

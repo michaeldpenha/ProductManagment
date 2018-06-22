@@ -12,6 +12,7 @@ export class ButtonComponent implements OnInit {
   @Input() previousIconClass : string = '';
   @Input() iconTooltip : string = '';
   @Input() disabled : boolean = false;
+  @Input() hidden : boolean =false;
   @Output() onButtonClick  = new EventEmitter<any>(); 
   constructor() { }
 

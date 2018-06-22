@@ -346,7 +346,7 @@ export class SearchOrdersComponent implements OnInit {
     this.selectedRecords = [];
     this.ordersService.headerUpdate = [];
     this.data.forEach(element => {
-      this.pushDataInHeaderUpdate(element, e.target.checked);
+      (element.status.toLowerCase() != 'cancelled') ? this.pushDataInHeaderUpdate(element, e.target.checked) : '';
     });
   }
   public pushDataInHeaderUpdate = (el: any, check: boolean) => {

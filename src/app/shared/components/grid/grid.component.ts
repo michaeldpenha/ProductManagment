@@ -45,7 +45,7 @@ export class GridComponent implements OnInit {
     this.enableRowEdit = cfg.rowEdit ? cfg.rowEdit : false;
    // this.noRecord = cfg.noRecord ? cfg.noRecord() : 'No data found';
     //this.allItemsSelected =cfg.allItemsSelected ? cfg.allItemsSelected : false;
-    this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
+    //this.checkBoxDisable = cfg.checkBoxDisable ? cfg.checkBoxDisable : (item: any) => { return false };
     this.columnDefs = this.coloumnConfig;
   }
   /**
@@ -105,7 +105,8 @@ export class GridComponent implements OnInit {
    * To DisableCheckBox
    */
   public disableCheckBox = (item: any,index : number): boolean => {
-    return this.checkBoxDisable(item);
+    let cfg : any = this.gridConfig.config;
+    return  cfg.checkBoxDisable ? cfg.checkBoxDisable(item) : (item: any) => { return false };;
   }
   /**
    * rowSelection
@@ -201,7 +202,9 @@ export class GridComponent implements OnInit {
   public isHidden = (item : any,data : any)  : string => {
     return (item && item.cellEdit.config.hidden) ? item.cellEdit.config.hidden(item,data) : false ;
   }
-  
+  public hideButton = (cfg : any,index : any)=> {
+    return cfg.config.hideBtn ? cfg.config.hideBtn(cfg,index) : false;
+  }
   /**
    * isReadOnly
    */

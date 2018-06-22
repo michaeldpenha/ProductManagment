@@ -9,7 +9,8 @@ export const EndPoints = {
         orderStatusPath: 'order/orderstatus',
         changeReasonPath: 'order/changereason',
         searchPath: 'order/search',
-        updatePath: 'order/update/bulk'
+        updatePath: 'order/update/bulk',
+        update : 'order/update'
     },
     batchProcessorUrl: `${environment.batchProcessorBaseUrl}`,
     batchChildUrlPath: {

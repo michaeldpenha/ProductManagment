@@ -36,6 +36,9 @@ export class SearchOrdersGridComponent implements OnInit {
       },
       noRecord: () => {
         return this.noDataFound
+      },
+      checkBoxDisable : (item:any) =>{
+        return item.status.toLowerCase() === "cancelled";
       }
     });
   }

@@ -5,7 +5,7 @@ export interface GridConfig {
     enableRowEdit?: boolean;
     noRecord?: Function;
     allItemsChecked?: Function;
-    checkBoxDisable?: boolean;
+    checkBoxDisable?: Function;
     allItemsSelected?: boolean;
     enableSecondHeader ? : boolean;
 }
@@ -38,6 +38,7 @@ export interface ActionGridItemsConfig {
     iconTooltip: string;
     iconsTooltipMethod ? : Function;
     iconClassMethod ? : Function;
+    hideBtn ? : Function;
 }
 
 export interface CellEditConfig {

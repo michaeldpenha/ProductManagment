@@ -103,7 +103,9 @@ export class OrdersService {
   public submitInboxBatch = (batchId: any) => {
     return this._http.get(this.submitInboxBatchUrl + batchId + '/process', batchId);
   }
-
+  public updateOrder = (params) =>{
+    return this._http.post(`${EndPoints.orderProcessorUrl}${EndPoints.orderChildUrlPath.update}`,params )
+  }
   /** Cancel Inbox batch */
   public cancelInboxBatch = (batchId: any) => {
     return this._http.get(this.cancelInboxBatchUrl + batchId + '/cancel', batchId);

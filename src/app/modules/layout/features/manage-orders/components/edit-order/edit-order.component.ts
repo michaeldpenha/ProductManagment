@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { OrdersService, RouterService, MessagesService } from '@app/shared/services';
 import { GridConfiguration, GridColoumnConfig, CellEditConfiguration, GridActionsConfig, FormFieldConfig } from "@app/shared/model";
 import { OrdersConfig } from "@app/shared/config";
+import { DialogService } from "@app/shared/components";
 
 @Component({
   selector: 'app-edit-order',
@@ -32,7 +33,7 @@ export class EditOrderComponent implements OnInit {
   public addLineText: string = 'Add Line';
   public previousIconClass: string = 'fa fa-plus';
   public previousBtnClass: string = 'btn btn-primary';
-  constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private msgService: MessagesService) {
+  constructor(private orderService: OrdersService, private route: ActivatedRoute, private routerService: RouterService, private loaderService: LoaderService, private dialogService: DialogService, private msgService: MessagesService) {
     this.id = this.route.snapshot.params.id;
   }
 
@@ -51,10 +52,10 @@ export class EditOrderComponent implements OnInit {
         type: 'dropdown', defaultDisplayLabel: 'orderStatusCode', name: 'status', defaultOptionsValue: 'orderStatusCode', formName: 'status', defaultValue: StaticText.orderStatusLabel, options: () => { return this.orderService.orderTypeStatus }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           //this.displayDatePickers(e, item);
           //this.populateSearchParams(e, item);
-          //this.searchParam['status'] = e;
+          e != '' ? this.searchParam['status'] = e : delete this.searchParam['status'];
         }, hidden: () => {
           //console.log(this.form.get('customerGroupId').value)
-         // document.getElementsByName('status')[0] ? document.getElementsByName('status')[0]['value'] = this.searchParam && this.searchParam['status'] ? this.searchParam['status'] : '' : '';
+          document.getElementsByName('status')[0] ? document.getElementsByName('status')[0]['value'] = this.searchParam && this.searchParam['status'] ? this.searchParam['status'] : '' : '';
           return false;
         }
       }),
@@ -62,9 +63,8 @@ export class EditOrderComponent implements OnInit {
         type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', name: 'changeReason', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           // this.populateSearchQuery(e, item);
           //this.populateSearchParams(e, item);
-          this.searchParam['changeReason'] = e;
+          e != '' ? this.searchParam['changeReason'] = e : delete this.searchParam['changeReason'];
         }, hidden: () => {
-          //console.log(this.form.get('customerGroupId').value)
           document.getElementsByName('changeReason')[0] ? document.getElementsByName('changeReason')[0]['value'] = this.searchParam && this.searchParam['changeReason'] ? this.searchParam['changeReason'] : '' : '';
           return false;
         }
@@ -72,20 +72,55 @@ export class EditOrderComponent implements OnInit {
       new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-success", btnText: "Update", btnClick: (e) => {
           //this.reset(e);
-          //this.submitBatch();
+          this.submitBatch();
         }, disabled: (e) => {
+          return !(!this.gridValidation() && this.searchParam && this.searchParam['changeReason']);
           //return this.searchQueryParams && Object.keys(this.searchQueryParams).length == 0;
         }
       }),
       new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: '', fieldWidth: "mr-3", btnCls: "btn btn-default mr-3", btnText: "Cancel", btnClick: (e) => {
           // this.search(e);
-
+          this.routerService.navigateTo('/');
         }, disabled: (e) => {
           //return this.customErrorVisible(e);
         }
       })
     ]
+  }
+  public submitBatch = ()=>{
+    let items : any =[];
+    this.data.forEach((el,i) => {
+      (el.action.toLowerCase() != "active") ? items.push({
+        action : el.action === 'Updated' ? 'Edit' : el.action,
+        description : el.description,
+        itemChangeReason : el.itemChangeReason,
+        itemNumber : el.itemNumber,
+        quantity  :el.qty
+      }) : '';
+    });
+    this.searchParam.orderId = this.orderDetailsData['orderId'];
+    this.searchParam.itemDetails = items;
+    //Object.assign(this.searchParam , items);
+    this.orderService.updateOrder(this.searchParam).subscribe(el => {
+      this.loaderService.hide();
+      this.dialogService.showDialog('Success', "fa fa-check circle-green", "", "", 'Updated Successfully',
+      "", () => {
+        
+      }, "OK", () => {
+        this.routerService.navigateTo('/');
+       });
+    });
+  }
+  /**
+   * checkGridValues
+   */
+  public gridValidation = () => {
+    let result = false;
+    this.data.forEach(el => {
+      result = result || el.itemNumber == '' && el.qty == '';
+    });
+    return result;
   }
   /**
   * initializeGrid
@@ -114,7 +149,7 @@ export class EditOrderComponent implements OnInit {
       let key: string = element.config.name;
       result[key] = '';
     });
-    result['rowAction'] = 'new';
+    result['action'] = 'new';
     return result;
   }
   /**
@@ -141,7 +176,7 @@ export class EditOrderComponent implements OnInit {
         }
       }),
       new GridColoumnConfig({
-        name: 'itemNumber', width: 130, title: 'Item Number', editable: (item: any) => { return item.rowAction === "new"}, cellEdit: new CellEditConfiguration({
+        name: 'itemNumber', width: 130, title: 'Item Number', editable: (item: any) => { return item.action.toLowerCase() === "new" }, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             ///this.data[index].cellAction = this.isDuplicateRec(index) ? 'error' : 'new';
@@ -165,28 +200,28 @@ export class EditOrderComponent implements OnInit {
       new GridColoumnConfig({ name: 'tixhi', width: 100, title: 'TixHi' }),
       new GridColoumnConfig({ name: 'boh', width: 100, title: 'BOH' }),
       new GridColoumnConfig({
-        name: 'qty', width: 50, title: 'Quantity', editable: (item: any) => { return item.rowAction == 'new' || (item.rowAction == "exist" && (item.cellAction.toLowerCase() == 'update' || item.cellAction.toLowerCase() === 'error')) },  cellEdit: new CellEditConfiguration({
+        name: 'qty', width: 50, title: 'Quantity', editable: (item: any) => { return item.action.toLowerCase() === "new" || (item.rowAction && item.rowAction.toLowerCase() === "edit" || item.rowAction.toLowerCase() === "error") }, cellEdit: new CellEditConfiguration({
           type: 'input', blur: (e: any, item: any, cfg: any, index: number) => {
             e.target && e.target.getAttribute('dirty') ? e.target.setAttribute('dirty', "true") : '';
             this.data[index][cfg.name] = e.target.value;
-           // this.data[index].cellAction = this.data[index][cfg.name] == "" ? 'invalid' : 'edit';
+            // this.data[index].cellAction = this.data[index][cfg.name] == "" ? 'invalid' : 'edit';
           },
           keyPress: (e) => { return e.charCode >= 48 },
           min: 1,
           printErrorMsg: (cfg, i, errEl) => {
             return this.msgService.fetchMessage('quantity', 'required');
           }, showErrorMsg: (cfg, i, errEl) => {
-            this.data[i].cellAction = (this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true") ? 'error' : 'update';
+            this.data[i].rowAction = (this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true") ? 'error' : 'edit';
             return this.data[i]['itemNumber'] != '' && !this.showItemNumberErrorMsg(i, true) && this.data[i][cfg.name] == '' && errEl && errEl.getAttribute('dirty') == "true";
 
           }, subType: 'number', displayCellEdit: true, disabled: (item: any, cfg: any, index: any) => { return this.data[index]['itemNumber'] == ''; }
         })
       }),
       new GridColoumnConfig({
-        name: 'changeReason', width: 130, title: 'Change Reason',editable: (item: any) => { return (item.rowAction == "exist" && (item.cellAction.toLowerCase() == 'update' || item.cellAction.toLowerCase() === 'error'));}, cellEdit: new CellEditConfiguration({
-          type: 'dropdown',inputClass: 'form-control form-control-sm',change:(e,item,index)=>{
-            this.data[index]['changeReason'] =  e != '' && e != StaticText.selectChangeReason ? e : '';
-          },name:'changeReason',defaultOptionsValue : 'changeReasonCode',defaultDisplayLabel:'changeReasonCode', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons },blur: (e: any, item: any, cfg: any, index: number) => { }
+        name: 'itemChangeReason', width: 130, title: 'Change Reason', editable: (item: any) => { return (item.action.toLowerCase() == "updated" && (item.rowAction && item.rowAction.toLowerCase() == 'edit' || item.rowAction.toLowerCase() === 'error')); }, cellEdit: new CellEditConfiguration({
+          type: 'dropdown', inputClass: 'form-control form-control-sm', change: (e, item, index) => {
+            this.data[index]['itemChangeReason'] = e != '' && e != StaticText.selectChangeReason ? e : '';
+          }, name: 'changeReason', defaultOptionsValue: 'changeReasonCode', defaultDisplayLabel: 'changeReasonCode', defaultValue: StaticText.selectChangeReason, options: () => { return this.orderService.changeReasons }, blur: (e: any, item: any, cfg: any, index: number) => { }
         })
       }),
       new GridColoumnConfig({
@@ -198,35 +233,56 @@ export class EditOrderComponent implements OnInit {
             btnCls: 'btn btn-outline-primary btn-sm',
             label: '',
             iconClass: 'fa fa-edit', iconTooltip: 'Edit',
-            iconClassMethod : (cfg : any ,i : number) => {
-              return (this.data[i].cellAction == 'update') ? 'fa fa-check' : 'fa fa-edit';
-            },iconsTooltipMethod : (cfg : any , i : number)=>{
-              return (this.data[i].cellAction == 'update') ? 'Check' : 'Edit';
-            }, click: (item : any,cfg :any) => {
-              item.cellAction =  (item.cellAction == 'update') ? 'view' : 'update';
+            iconClassMethod: (cfg: any, i: number) => {
+              return (this.data[i].rowAction && this.data[i].rowAction.toLowerCase() == 'active') ? 'fa fa-edit' : 'fa fa-check';
+            }, iconsTooltipMethod: (cfg: any, i: number) => {
+              return (this.data[i].rowAction && this.data[i].rowAction.toLowerCase() == 'active') ? 'Edit' : 'Check';
+            }, click: (item: any, cfg: any) => {
+              item.action = item.action.toLowerCase() != 'new' ? 'Updated' : item.action;
+              item.rowAction = (item.rowAction.toLowerCase() == 'active') ? 'Edit' : 'Active';
               //item.action = "update";
               //this.navigate(`/manage-order/edit-order/${item['orderId']}`);
-            }, disable: (item: any,i) => {
-              return i.rowAction === 'new' || (i.cellAction == "error");
+            }, disable: (item: any, i) => {
+              return i.action.toLowerCase() === 'cancelled' || i.action.toLowerCase() === 'new' || i.rowAction && i.rowAction.toLowerCase() == "error";
+            },hideBtn : (cfg,i)=>{
+              return this.data[i].action.toLowerCase() === 'cancelled' || this.data[i].action.toLowerCase() === 'new';
             }
           }),
           new GridActionsConfig({
             btnCls: 'btn btn-outline-danger btn-sm',
             label: '',
-            iconClass: 'fa fa-trash', iconTooltip: 'Cancel', iconClassMethod : (cfg : any ,i : number) => {
+            iconClass: 'fa fa-trash', iconTooltip: 'Cancel', iconClassMethod: (cfg: any, i: number) => {
               return 'fa fa-trash';
-            },iconsTooltipMethod : (cfg : any , i : number)=>{
-              return 'Cancel';
-            }, click: (item) => {
+            }, iconsTooltipMethod: (cfg: any, i: number) => {
+              return 'Delete';
+            }, click: (item, cfg, index) => {
+              item.action.toLowerCase() == "new" && item.itemNumber == '' ? this.data.splice(index, 1) : this.triggerConfirmation(item, index);
               //item.rowAction = "cancelled";
               //this.navigate(`/manage-order/view-order/${item['orderId']}`);
+            },hideBtn: (item: any, i) => {
+              return this.data[i].action.toLowerCase() === 'cancelled';
             }
           })
         ]
       })
     ];
   }
+  public triggerConfirmation = (item, index) => {
+    this.dialogService.showDialog('Warning', "fa fa-exclamation circle-red", "", "", 'Are you sure you want to delete the item?',
+      "Ok", () => {
+        item.action = item.action.toLowerCase() != "new" ? 'Cancelled' : item.action;
+        item.rowAction = "Active";
+        item.action.toLowerCase() == "new" ? this.data.splice(index, 1) : '';
+      }, "Cancel", () => { });
 
+  }
+  public findIndex = (item) => {
+    let index: any = '';
+    this.data.forEach((el, i) => {
+      index = el.itemNumber === item.itemNumber ? i : index
+    });
+    return index
+  }
   // view order details
   public fetchViewOrderDetails = (id: string) => {
     this.loaderService.show();
@@ -235,7 +291,7 @@ export class EditOrderComponent implements OnInit {
       this.orderDetailsData = items['orders'] && items['orders'][0] ? items['orders'][0] : [];
       this.configInitialization();
       this.data = items['orders'] && items['orders'][0] ? items['orders'][0]['items'] : [];
-      this.appendActionToItem('exist');
+      this.appendActionToItem('edit');
       this.prepareSubmitData();
     });
   }
@@ -244,8 +300,8 @@ export class EditOrderComponent implements OnInit {
    */
   public appendActionToItem = (status) => {
     this.data.forEach(el => {
-      el.rowAction = status;
-      el.cellAction = "view";
+      el.action = el.itemStatus ? el.itemStatus : 'Active';
+      el.rowAction = el.action;
     });
   }
   /**
@@ -256,8 +312,8 @@ export class EditOrderComponent implements OnInit {
     this.searchParam = {
       'status': this.orderDetailsData['status'] ? this.orderDetailsData['status'] : '',
       'changeReason': this.orderDetailsData['changeReason'] ? this.orderDetailsData['changeReason'] : '',
-      'releaseDate': this.orderDetailsData['releaseDate'] ? this.orderDetailsData['releaseDate'] : '',
-      'deliveryDate': this.orderDetailsData['deliveryDate'] ? this.orderDetailsData['deliveryDate'] : ''
+      'releaseDate': this.orderDetailsData['releaseDate'] ? this.orderDetailsData['releaseDate'] : moment(new Date()).format('MM/DD/YYYY'),
+      'deliveryDate': this.orderDetailsData['deliveryDate'] ? this.orderDetailsData['deliveryDate'] : moment(new Date()).add(1,'days').format('MM/DD/YYYY')
     }
   }
   /**
@@ -268,7 +324,7 @@ export class EditOrderComponent implements OnInit {
     { label: 'Status', key: 'status', value: '' }, { label: 'Customer Id', key: 'customerId', value: '' }, { label: 'Supplier Id', key: 'supplierId', value: '' },
     { label: 'Created By', key: 'created', value: '' }];
     this.editHeaderInfoToBeDisplayed = [{ label: 'Process Date', key: 'releaseDate', value: '', type: 'datepicker', readonly: true, showDefaultDate: true }, { readonly: true, type: 'datepicker', label: 'Delivery Date', key: 'deliveryDate', showDefaultDate: true, value: '' },
-    { label: 'Schedule cut-off time', key: '', value: '', type: 'input', subTYpe: 'text', inputClass:'form-control form-control-sm', disabled: true }];
+    { label: 'Schedule cut-off time', key: '', value: '', type: 'input', subTYpe: 'text', inputClass: 'form-control form-control-sm', disabled: true }];
   }
   /**
    * navigate
@@ -311,7 +367,7 @@ export class EditOrderComponent implements OnInit {
   public isDuplicateRec = (i: number): boolean => {
     let result: boolean = false;
     this.data.forEach((element, index) => {
-      result = result || (element && element['itemNumber'] &&this.data[i]['itemNumber'] &&  element['itemNumber'] == this.data[i]['itemNumber'].trim() && i != index)
+      result = result || (element && element['itemNumber'] && this.data[i]['itemNumber'] && element['itemNumber'] == this.data[i]['itemNumber'].trim() && i != index)
     });
     return result;
   }
@@ -324,6 +380,7 @@ export class EditOrderComponent implements OnInit {
       let itemObj: any = this.data[index];
       (element['config']['name'] != 'actions' || element['config']['name'] != '' || element['config']['name'] != 'itemNumber') ? itemObj[element['config']['name']] = obj[element['config']['name']] : '';
     });
+    this.data[index].action = "new";
   }
   /**
  * fetchItemsInfo

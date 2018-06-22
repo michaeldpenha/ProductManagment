@@ -185,4 +185,7 @@ export class SingleOrderComponent implements OnInit {
   public clearCreatedOrderNumber = () => {
     this.createdOrderNumber = '';
   }
+  public onCancel = () =>{
+    this.routerService.navigateTo('/');
+  }
 }

@@ -5,6 +5,7 @@ import { FormFieldConfig } from "@app/shared/model";
 import { DialogService } from "@app/shared/components";
 import { LoaderService } from "@app/core/services";
 import * as moment from 'moment';
+import { Validators } from "@angular/forms";
 @Component({
   selector: 'app-header-update',
   templateUrl: './header-update.component.html',
@@ -28,7 +29,7 @@ export class HeaderUpdateComponent implements OnInit {
   public processDatePlaceHolder: string = "Process Date";
   public deliveryDatePlaceHolder: string = "Delivery Date";
 
-  constructor(private orderService: OrdersService,private routerService : RouterService, private loaderService: LoaderService, private ordersService: OrdersService, private dialogService: DialogService) { }
+  constructor(private orderService: OrdersService, private routerService: RouterService, private loaderService: LoaderService, private ordersService: OrdersService, private dialogService: DialogService) { }
 
   ngOnInit() {
     this.ordersService.fetchStaticValues();
@@ -40,7 +41,7 @@ export class HeaderUpdateComponent implements OnInit {
    */
   public onDateChange = (e, dataIndex, limit) => {
     this[limit] = e;
-    let dupData : any = JSON.parse(JSON.stringify(this.data));
+    let dupData: any = JSON.parse(JSON.stringify(this.data));
     dupData.forEach(el => {
       el[dataIndex] = moment(e).format('MM/DD/YYYY');
     });
@@ -49,7 +50,7 @@ export class HeaderUpdateComponent implements OnInit {
   /**
    * resetGridData= 
   =>  */
-  public resetGridData= (newData) => {
+  public resetGridData = (newData) => {
     this.data = [];
     this.data = newData;
   }
@@ -71,7 +72,7 @@ export class HeaderUpdateComponent implements OnInit {
         }
       }),
       new FormFieldConfig({
-        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, options: () => { return this.ordersService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
+        type: 'dropdown', defaultDisplayLabel: 'changeReasonCode', defaultOptionsValue: 'changeReasonCode', formName: 'changeReason', defaultValue: StaticText.selectChangeReason, validation: [Validators.required], options: () => { return this.ordersService.changeReasons }, fieldWidthCls: 'col-lg-2 col-md-4', displayLabelCls: 'form-group required row', fieldLabelClass: 'col-md-3 col-form-label', inputClass: "form-control form-control-sm", fieldWidth: "col-md-12", change: (e: any, item: any) => {
           // this.populateSearchQuery(e, item);
           this.populateSearchParams(e, item);
         }, hidden: () => {
@@ -81,8 +82,9 @@ export class HeaderUpdateComponent implements OnInit {
       }),
       new FormFieldConfig({
         type: 'button', formName: '', fieldWidthCls: 'ml-auto', fieldWidth: "ml-3", btnCls: "btn btn-default", btnText: "Cancel", btnClick: (e) => {
-         // this.search(e);
-         this.routerService.navigateTo('/');
+          // this.search(e);
+          this.routerService.navigateTo('/');
+          this.orderService.headerUpdate = [];
         }, disabled: (e) => {
           //return this.customErrorVisible(e);
         }
@@ -92,7 +94,7 @@ export class HeaderUpdateComponent implements OnInit {
           //this.reset(e);
           this.submitBatch();
         }, disabled: (e) => {
-          return this.searchQueryParams && Object.keys(this.searchQueryParams).length == 0;
+          return !(this.searchQueryParams && this.searchQueryParams['changeReason']);
         }
       })
     ]
@@ -105,7 +107,8 @@ export class HeaderUpdateComponent implements OnInit {
     this.orderService.updateOrders(paramData).subscribe(data => {
       this.loaderService.hide();
       this.dialogService.showDialog('Success', 'fa fa-check circle-green', '', '', 'Order updated successfuly', 'OK', () => {
-
+        this.routerService.navigateTo('/');
+        this.orderService.headerUpdate = [];
       }, '', () => { })
     });
   }
@@ -114,11 +117,10 @@ export class HeaderUpdateComponent implements OnInit {
     this.data.forEach(element => {
       let itemObj: any = {};
       itemObj['orderId'] = element['orderId'];
-      (element['releaseDate']) ? itemObj['releaseDate'] = element['releaseDate'] : '';
-      (element['deliveryDate']) ? itemObj['deliveryDate'] = element['deliveryDate'] : '';
-      Object.keys(this.searchQueryParams).forEach(el => {
-        itemObj[el] = this.searchQueryParams[el];
-      });
+      itemObj['releaseDate'] = (element['releaseDate']) ? element['releaseDate'] : '';
+      itemObj['deliveryDate'] = (element['deliveryDate']) ? element['deliveryDate'] : '';
+      itemObj['status'] = (this.searchQueryParams['status']) ? this.searchQueryParams['status'] : element['status'];
+      itemObj['changeReason'] = (this.searchQueryParams['changeReason']) ? this.searchQueryParams['changeReason'] : element['changeReason'];
       filteredData.push(itemObj);
     });
     return filteredData;

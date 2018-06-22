@@ -10,7 +10,7 @@
 <app-single-order-grid [data]="data" (deleteActionTrigger)="deleteAction($event)"></app-single-order-grid>
 <div class="float-right">
     <app-button [text]="submitText" (onButtonClick)="onSubmit($event)" [cls]="submitBtnClass" [disabled]="isDisabled()"></app-button>&nbsp;
-    <app-button [text]="cancelBtnText" [cls]="cancelBtnClass"></app-button> 
+    <app-button [text]="cancelBtnText" [cls]="cancelBtnClass" (click)="onCancel()"></app-button> 
 </div>
 <ng-template #orderSuccessfullyCreated>
     <div>

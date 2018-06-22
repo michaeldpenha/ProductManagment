@@ -257,8 +257,11 @@ export class SearchOrdersComponent implements OnInit {
   public fetchOrders = () => {
     this.defaultGridData();
     this.prepareParams();
+    this.displayErr = false;
     this.ordersService.fetchOrder(this.searchParams).subscribe(data => {
       this.loadingService.hide();
+      this.selectedRecords = [];
+      this.ordersService.headerUpdate = [];
       this.data = data['orders'];
       this.total = data['total'];
       this.displayGridErrorMessage((this.data.length === 0) ? Messages.noDataFound : '');
